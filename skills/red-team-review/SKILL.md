@@ -65,7 +65,7 @@ Tell the user which missions are running. Do not predict results.
 
 ## Cross-check
 
-Before anything reaches the report, launch one verifier subagent for all the 🔴 and 🟠 findings together, plus every "it does not break" claim that a fix will rely on. It must not be one of the mission subagents. A finding that two missions reached independently with a demonstrated probe can skip it; say so in the report. For each claim the verifier opens the cited lines, runs the test or the one-off probe that settles it, against the base as well when the oracle is the base, and returns one of three:
+Before anything reaches the report, launch one verifier subagent for all the 🔴 and 🟠 findings together, plus every "it does not break" claim that a fix will rely on. It must not be one of the mission subagents. For each claim the verifier opens the cited lines, runs the test or the one-off probe that settles it, against the base as well when the oracle is the base, and returns one of three:
 
 | Result | Where it goes |
 | --- | --- |

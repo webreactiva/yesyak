@@ -38,7 +38,7 @@ A fourth mission, chosen for what the change needs, with one line that says why:
 | --- | --- |
 | `redteam-architecture` | The change moves module boundaries, the data layer, migrations or deployment assumptions; check that global error and not-found handling reaches every module or route group |
 | `redteam-devils-advocate` | The change rests on decisions a reviewer could refuse: the strongest honest case against each one, alternatives, and whether it survives |
-| another kind | Performance, concurrency, accessibility, data migration, or what else the change calls for. A browser pass only when the user asked for one: follow `browser-acceptance-testing`. When the change touches a UI and nobody asked, say under "Not covered" that no browser was used |
+| another kind | Performance, concurrency, accessibility, data migration, or what else the change calls for. A browser pass when the user asked for one or an unattended run decided the UI needs it: follow `browser-acceptance-testing`. When the change touches a UI and no browser was used, say so under "Not covered" |
 
 For a spec or a plan, `redteam-devils-advocate` alone is the right tool.
 

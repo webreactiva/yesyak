@@ -39,7 +39,7 @@ Give every entry a stable id (`Q-01`, `Q-02`…). Decisions that a reviewer coul
 
 ## Optional steps
 
-The pipeline marks some steps as optional (devil's advocate, work items, browser testing). An unattended run has no one to offer them to. Run an optional step when the request says "the full process" or when the feature needs it (for example, browser testing for a UI). Record the choice as a `Q-` entry either way.
+The pipeline marks some steps as optional (devil's advocate, work items, browser testing). An unattended run has no one to offer them to. Run an optional step when the request says "the full process" or when the feature needs it. Browser testing is needed when the change has a user interface that the acceptance criteria describe: run `browser-acceptance-testing`, which accepts this decision in place of the user's request. Record the choice as a `Q-` entry either way.
 
 ## Checkpoints become progress entries
 

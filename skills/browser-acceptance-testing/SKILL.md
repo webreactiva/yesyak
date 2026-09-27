@@ -1,11 +1,11 @@
 ---
 name: browser-acceptance-testing
-description: Tests acceptance criteria and edge cases as an end user in a real browser (Chrome DevTools MCP, Playwright or the browser tool of the environment), then writes a report with findings. Use it only when the user explicitly asks for browser testing, end-user testing, manual QA, "test it like a user", UI validation, or testing with Chrome DevTools. Do not open a browser on your own initiative for other tasks.
+description: Tests acceptance criteria and edge cases as an end user in a real browser (Chrome DevTools MCP, Playwright or the browser tool of the environment), then writes a report with findings. Use it when the user explicitly asks for browser testing, end-user testing, manual QA, "test it like a user", UI validation, or testing with Chrome DevTools, and in an unattended run (unattended-run) when the agent decides that a change with a user interface needs it. Do not open a browser on your own initiative for other tasks.
 ---
 
 # Browser acceptance testing
 
-The user decides when a browser opens. If they asked for this skill, go ahead. If a browser tool fails, do not switch to another browser tool without asking.
+The user decides when a browser opens. If they asked for this skill, go ahead. In an unattended run the agent decides in their place: open it when the change has a user interface that the acceptance criteria describe, and log the choice as a `Q-` entry. If a browser tool fails, do not switch to another browser tool without asking; in an unattended run, log the switch as a `Q-` entry instead.
 
 ## Setup
 

@@ -150,7 +150,7 @@ Each card says when to use the skill, what it makes, what comes next, the sectio
 - Off: not allowed
 
 ### browser-acceptance-testing
-- When: the user asks for tests in a browser
+- When: the user asks for tests in a browser, or an unattended run decides that a change with a user interface needs them
 - Makes: `.scratchpad/<slug>/browser-test-report.md`
 - Next: `red-team-review`
 - Replaceable: Edge cases to try, Report

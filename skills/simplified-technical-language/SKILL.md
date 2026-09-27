@@ -1,6 +1,6 @@
 ---
 name: simplified-technical-language
-description: Entry convention for language and writing style. Load it at the start of any task that produces documents, specs, plans, reports, ADRs, pull requests, issue text or code comments, and whenever you are unsure which language to answer in. Deliverables go in English written in ASD-STE100 Simplified Technical English (STE); the conversation stays in the user's language, in Simplified Technical Spanish (ETS) when the user writes in Spanish. Other skills in this workflow depend on it, so apply it even when the user does not mention language or style.
+description: Entry convention for language and writing style. Load it at the start of any task that produces documents, specs, plans, reports, ADRs, pull requests, issue text or code comments, and whenever you are unsure which language to answer in. Deliverables go in English written in ASD-STE100 Simplified Technical English (STE), unless the project names another language; the conversation stays in the user's language, in Simplified Technical Spanish (ETS) when the user writes in Spanish. Other skills in this workflow depend on it, so apply it even when the user does not mention language or style.
 ---
 
 # Simplified technical language
@@ -9,10 +9,12 @@ description: Entry convention for language and writing style. Load it at the sta
 
 | Output | Language | Style |
 | --- | --- | --- |
-| Files in the repository: specs, plans, ADRs, README, AGENTS.md, code, commit messages | English | STE |
-| Pull request descriptions, PR comments, issues, work items | English | STE |
+| Files in the repository: specs, plans, ADRs, README, AGENTS.md, code, commit messages | The document language | STE |
+| Pull request descriptions, PR comments, issues, work items | The document language | STE |
 | Messages to the user in the conversation | The user's language | STE in English, ETS in Spanish, the same principles in other languages |
 | Working notes in `.scratchpad/` | The user's language | Same as the conversation |
+
+The document language is English, unless the project names another one (in AGENTS.md, its YesYak block or the user's instructions). Other skills say "the document language" and do not repeat this rule.
 
 Identifiers, commands, file paths, error messages and quoted UI text stay exactly as they are. Do not translate them.
 

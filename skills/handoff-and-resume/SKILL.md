@@ -24,7 +24,7 @@ Run the commands; do not write from memory.
 
 ### 2. Write the note
 
-Save `docs/handoffs/handoff-YYYY-MM-DD-<slug>.md`, with the date of today and the slug of the work (`git-commit-organizer`). If the file exists, add `-2`, `-3`. Write it in English with `simplified-technical-language`, unless the project says otherwise. Keep it short: a reader must find the next step in one minute.
+Save `docs/handoffs/handoff-YYYY-MM-DD-<slug>.md`, with the date of today and the slug of the work (`git-commit-organizer`). If the file exists, add `-2`, `-3`. Write it in the document language of `simplified-technical-language`. Keep it short: a reader must find the next step in one minute.
 
 ```markdown
 # Handoff: <work in one line>

@@ -14,7 +14,7 @@ Collect these before you delegate. They go into the brief.
 - **Commit**: the exact hash under review. The writer reads files at that commit, so every citation stays valid.
 - **Diff range**: the commits of the feature only. If the branch contains a merge of other work, name the merge commit and exclude it, or the tour drifts into unrelated code.
 - **Spec and decisions**: `docs/<slug>-spec.md` and the ADRs the feature added. If the spec has a "Domain language" section (`domain-language`), the walkthrough uses only those terms.
-- **Reader and language**: the user's language, or English STE for a pull request (`simplified-technical-language`).
+- **Reader and language**: the user's language, or the document language for a pull request (`simplified-technical-language`).
 
 ## 2. Write it, or delegate it
 
@@ -73,4 +73,4 @@ Fix the walkthrough when a check fails, or send the list to the subagent that wr
 ## 4. Deliver
 
 - In the chat: the path, what each section covers in one line, and the results of step 3.
-- Offer to post it as a pull request comment, in English STE. Do not commit it unless the user asks.
+- Offer to post it as a pull request comment, in the document language (`simplified-technical-language`). Do not commit it unless the user asks.

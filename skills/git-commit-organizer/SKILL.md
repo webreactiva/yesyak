@@ -31,7 +31,7 @@ Sometimes the environment or the user fixes a branch name that says nothing abou
 
 ## Message format
 
-Conventional Commits with gitmoji, in English:
+Conventional Commits with gitmoji, in the document language of `simplified-technical-language`:
 
 ```text
 <type>(<scope>): <gitmoji> <summary in the imperative, lowercase, no period>

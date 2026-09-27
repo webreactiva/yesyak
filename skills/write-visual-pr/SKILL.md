@@ -23,7 +23,7 @@ git diff --shortstat <base>...HEAD       # size
 
 ## 2. Write the body
 
-Save it to `.scratchpad/<slug>/pr-body.md`. Write it in English with `simplified-technical-language` and `plain-visual-docs`.
+Save it to `.scratchpad/<slug>/pr-body.md`. Write it in the document language of `simplified-technical-language`, with `plain-visual-docs`.
 
 ```markdown
 ## In plain words          one paragraph, no jargon

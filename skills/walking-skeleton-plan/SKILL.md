@@ -25,7 +25,7 @@ State the ordering decisions in the plan so the user can challenge them.
 
 ## Output
 
-`docs/<slug>-plan.md`, in English with `simplified-technical-language`:
+`docs/<slug>-plan.md`, in the document language of `simplified-technical-language`:
 
 ```markdown
 # <Feature> Implementation Plan

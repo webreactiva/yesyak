@@ -42,7 +42,7 @@ One or two sentences. Link to docs/<slug>-spec.md and docs/<slug>-plan.md.
 - <item titles or ids>
 ```
 
-- Write items in English with `simplified-technical-language`.
+- Write items in the document language of `simplified-technical-language`.
 - Add a label or tag with the feature slug.
 - In an external tracker, copy the criteria text, not only the ids: people read it outside the repository.
 

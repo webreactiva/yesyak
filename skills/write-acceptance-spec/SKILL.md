@@ -15,7 +15,7 @@ description: Writes or refines a feature spec in docs/SLUG-spec.md with a plain-
 
 ## Output
 
-`docs/<slug>-spec.md`, in English with `simplified-technical-language`, commit it with `git-commit-organizer`.
+`docs/<slug>-spec.md`, in the document language of `simplified-technical-language`. Commit it with `git-commit-organizer`.
 
 ## Template
 

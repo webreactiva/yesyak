@@ -52,7 +52,7 @@ What was chosen, in the imperative or the present tense. Name the files or setti
 - What becomes harder, and the cost to undo it.
 ```
 
-Keep each ADR short. Write it in English with `simplified-technical-language`.
+Keep each ADR short. Write it in the document language of `simplified-technical-language`.
 
 ## README index
 

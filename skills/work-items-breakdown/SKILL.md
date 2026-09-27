@@ -31,7 +31,7 @@ Title: <feature slug>: <step or capability in the imperative>
 One or two sentences. Link to docs/<slug>-spec.md and docs/<slug>-plan.md.
 
 ## Acceptance criteria
-- AC-15 Successful login: Given … When … Then …
+- AC-15 Order cancelled before shipping: Given … When … Then …
 
 ## Definition of done
 - Tests for the criteria pass in the full suite.

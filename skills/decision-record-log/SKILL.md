@@ -11,8 +11,8 @@ description: Convention for recording implementation decisions as ADRs (Architec
 docs/decisions/
 ├── README.md                          simplified list per type
 ├── 0001-users-table-schema.md
-├── 0002-scrypt-hash-format.md
-└── 0003-session-key-derived-with-hkdf.md
+├── 0002-money-stored-in-cents.md
+└── 0003-payment-client-behind-an-interface.md
 ```
 
 - One file per decision: `NNNN-short-title.md`, with a four-digit number that never repeats.
@@ -26,7 +26,7 @@ docs/decisions/
 | **Irreversible** | Undoing it needs a data migration, breaks stored data, or breaks a contract with users, clients or operators. | Table schema, stored hash format, public API ids, an environment variable format, a marker in persisted data |
 | **Reversible** | It lives only in code. Undoing it is a normal refactor, even if it has a one-time side effect. | Module layout, a library choice behind an interface, a hook order, a log format |
 
-If undoing it logs everyone out once, it is still reversible. Say so in the consequences.
+Write the one-time side effect in the consequences.
 
 ## ADR format
 
@@ -66,11 +66,11 @@ Decisions taken while building <feature>. Numbers are unique across both lists.
 ## Irreversible
 
 - [0001 Users table schema](0001-users-table-schema.md)
-- [0012 `seeded_at` marker in a `meta` table](0012-seeded-at-marker.md)
+- [0002 Money stored as integer cents](0002-money-stored-in-cents.md)
 
 ## Reversible
 
-- [0003 Session key derived with HKDF](0003-session-key-derived-with-hkdf.md)
+- [0003 Payment client behind an interface](0003-payment-client-behind-an-interface.md)
 ```
 
 Update the index in the same commit as the ADR.

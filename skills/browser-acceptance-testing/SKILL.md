@@ -29,7 +29,7 @@ Walk through the acceptance criteria in the order a user meets them (for example
 | Input | Only spaces, maximum length and one over, emoji at the limit, a very long word without spaces, HTML and script in every field, quotes in attribute values |
 | Navigation | Back button after delete and after sign-out, reload after a failed form, direct URLs to unknown or odd ids (`9999`, `1.5`, `abc`) |
 | Timing | Double click on submit, a form left open in one tab while the session changes in another |
-| Session | Cookie flags visible to scripts, server restart with the same and a different secret |
+| Session | Cookie flags visible to scripts, an expired session, a server restart during a session |
 | Layout | Desktop and a 375 px mobile viewport; horizontal overflow; hidden actions; dark color scheme if the CSS has one; keyboard focus order |
 | Console | CSP violations and script errors after every page |
 

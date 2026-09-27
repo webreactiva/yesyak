@@ -19,13 +19,15 @@ SHORT_CITATION = re.compile(r"`:\d+(?:-\d+)?`")
 
 
 def line_count(path: str, commit: str) -> int | None:
-    if path.startswith("node_modules/"):
-        file = Path(path)
-        return len(file.read_text().splitlines()) if file.exists() else None
     shown = subprocess.run(
         ["git", "show", f"{commit}:{path}"], capture_output=True, text=True
     )
-    return len(shown.stdout.splitlines()) if shown.returncode == 0 else None
+    if shown.returncode == 0:
+        return len(shown.stdout.splitlines())
+    # Installed dependencies (node_modules/, vendor/, .venv/) are ignored by git: read them from disk.
+    ignored = subprocess.run(["git", "check-ignore", "-q", path]).returncode == 0
+    file = Path(path)
+    return len(file.read_text().splitlines()) if ignored and file.exists() else None
 
 
 def main() -> int:

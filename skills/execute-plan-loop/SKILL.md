@@ -28,7 +28,7 @@ Keep the output of each step short in the chat: what was added, test count, manu
 
 - If a library does not work as the plan assumed, choose the smallest change that keeps the spec true, record it in an ADR and say it in the step summary.
 - If the spec itself looks wrong or a step cannot stay integrated, stop and ask. Do not silently change the behavior the user approved.
-- Do not open a browser for checks unless the user asked for browser testing. Use HTTP requests, test injection or static checks, and say what stays unverified.
+- Do not open a browser for checks unless the user asked for browser testing. Use HTTP requests, the test client or static checks, and say what stays unverified.
 
 ## Change-list mode
 

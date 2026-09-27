@@ -9,7 +9,7 @@ description: Convention for branches and commits - a feature branch named at the
 
 The work starts on a named branch. Ask the user for the branch name if they did not give one. Suggest `feat/<slug>` for a feature and `fix/<slug>` for a bug (`bug-intake`), with a short kebab-case slug.
 
-The **slug** is the part after the prefix: `feat/admin-panel` → `admin-panel`. Reuse it everywhere so all artifacts of one piece of work are easy to find:
+The **slug** is the part after the prefix: `feat/order-cancel` → `order-cancel`. Reuse it everywhere so all artifacts of one piece of work are easy to find:
 
 | Artifact | Path |
 | --- | --- |

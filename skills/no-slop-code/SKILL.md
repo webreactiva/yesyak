@@ -29,7 +29,7 @@ description: Anti-slop convention for code, tests, docs and user-facing text - n
 
 ## Text
 
-- User-facing messages must be true. Do not write "the error has been logged" unless a logger is enabled and the error reaches it. Messages with a count must read well with 0, 1 and many ("1 jokes" is a bug). Use a singular and a plural form, or a label such as `Deleted: 1`.
+- User-facing messages must be true. Do not write "the error has been logged" unless a logger is enabled and the error reaches it. Messages with a count must read well with 0, 1 and many ("1 orders" is a bug). Use a singular and a plural form, or a label such as `Deleted: 1`.
 - Keep docs in sync in the same commit: README, AGENTS.md, spec, plan, environment variable tables.
 - A spec or a plan that is longer than the code it describes is suspect. Cut repeated tables, restated decisions and text that a reader can get from the code or another document.
 

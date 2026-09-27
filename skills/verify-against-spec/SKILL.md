@@ -10,7 +10,7 @@ The question is not "do the tests pass" but "is every promise in the spec kept, 
 ## 1. Collect evidence
 
 1. Run the full check and record the result.
-2. List every test name with a verbose reporter, for example `npx vitest run --reporter=verbose`.
+2. List every test name with a verbose reporter, for example `npx vitest run --reporter=verbose` or `pytest -v`.
 3. For each acceptance criterion, find the tests that cover it and the code that implements it.
 
 ## 2. Classify each criterion
@@ -23,11 +23,11 @@ The question is not "do the tests pass" but "is every promise in the spec kept, 
 | Manual only | The spec says it is manual, or no automated check is possible |
 | ❌ Not met | The behavior differs from the criterion |
 
-Be strict. A test that checks the ids in a list does not cover "shows id, type, content and category".
+Be strict. A test that checks the ids in a list does not cover "shows id, customer, total and state".
 
 ## 3. Close the gaps now
 
-For every partial criterion, write a small script in `.scratchpad/<slug>/scripts/verify-gaps.*` that exercises the missing part (for example through the app factory and request injection). Build the app the way the test setup does (seed data, test secrets) so the script sees the same state. Run it and record the result. Keep the script: it is the starting point for new tests.
+For every partial criterion, write a small script in `.scratchpad/<slug>/scripts/verify-gaps.*` that exercises the missing part (for example through the test client of the framework). Build the app the way the test setup does (seed data, test secrets) so the script sees the same state. Run it and record the result. Keep the script: it is the starting point for new tests.
 
 Check command-line and startup criteria with real commands against a scratch database.
 

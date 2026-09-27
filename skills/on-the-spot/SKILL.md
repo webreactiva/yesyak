@@ -10,7 +10,7 @@ Turn a vague request into a set of explicit decisions. Ask; do not implement, an
 ## Before the first question
 
 1. Read the code that the feature touches: entry points, data model, config, tests, docs such as AGENTS.md. Questions grounded in real code are faster to answer.
-2. Note facts the user may not know, and put them in the question text. Example: "`db:init` currently wipes the database; what should be the source of truth?"
+2. Note facts the user may not know, and put them in the question text. Example: "the import script deletes every order before it loads the file; should it keep them?"
 
 ## How to ask
 
@@ -25,7 +25,7 @@ Order the rounds from foundations to details. Skip topics that do not apply.
 | Round | Topics |
 | --- | --- |
 | 1 Foundations | Form of the solution, scope, source of truth for data, users and roles |
-| 2 Security and sessions | Authentication, session lifetime, hashing, CSRF, rate limits, cookies |
+| 2 Security and access | Who can do what, authentication, sessions, secrets, abuse limits |
 | 3 Interface and structure | Rendering, styling, routes, module layout |
 | 4 Behavior details | Ids, deletes, validation rules, lists, filters, messages |
 | 5 Operations | CLI, setup scripts, configuration, languages of UI and docs, feedback messages |

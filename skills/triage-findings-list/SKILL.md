@@ -12,7 +12,7 @@ Read every report the user names, and by default every `*-report.md` in `.scratc
 ## Build the list
 
 1. **Deduplicate.** One change can fix findings from several reports. Merge them and keep all source tags and ids: `(RT O2, U H1)`.
-2. **Write each change as an action**, not as a problem: "Wrap long words in the jokes list", not "Long words break the layout".
+2. **Write each change as an action**, not as a problem: "Wrap long words in the order list", not "Long words break the layout".
 3. **Give it a light** with `traffic-light-findings`. Keep the highest light that the evidence supports.
 4. **Group by timing:** 🔴 before merge (mandatory); 🟠 before merge (recommended, little code); 🟠 before production; 🟠 technical debt; 🟡 minor improvements; accepted (no change), with the reason.
 5. **Number the changes 1..N** in that order. These numbers are what the user will use to approve work, so do not change them after you share the list.

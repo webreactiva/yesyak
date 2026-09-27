@@ -47,8 +47,8 @@ Structure, in <language>:
 Rules:
 - Verify every claim against the code at <hash>. Cite with the full path every time
   (`src/app.ts:42`, never `:42` alone). Mark "not run" any
-  claim you only inferred. Use the project's test harness (for example request
-  injection with an in-memory database), or no server at all.
+  claim you only inferred. Use the project's test harness (for example its test
+  client with a scratch database), or no server at all.
 - Validate every Mermaid block with the plain-visual-docs validator.
 - Keep it shorter than the code it explains, about 150-300 lines. Do not repeat
   spec tables; link to the spec instead.

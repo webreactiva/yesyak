@@ -50,7 +50,7 @@ Keep `progress.md` current during any loop:
 | Step | Status | Commits | Notes |
 | --- | --- | --- | --- |
 | 1 Walking skeleton | done | 0c31ee8, 84ae35f | |
-| 2 Logout | in progress | | |
+| 2 Cancel an order | in progress | | |
 ```
 
 If the session stops (usage limit, crash, new day), the next session reads this file and continues.

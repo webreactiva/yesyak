@@ -11,7 +11,7 @@ Scope: only the terms of the current feature, plus the existing terms it touches
 
 - `.scratchpad/<slug>/interview-decisions.md`
 - The code, tests and UI text that the feature touches. Existing names win unless they are wrong.
-- The UI languages of the project (for example: public site in Spanish, admin panel in English).
+- The UI languages of the project (for example: the shop in Spanish and English, the back office in English only).
 
 ## Steps
 
@@ -33,5 +33,5 @@ From then on, specs, plans, code, tests, commit messages and UI text use only th
 ```markdown
 | Term | Definition | Code | UI (es) | UI (en) | Avoid |
 | --- | --- | --- | --- | --- | --- |
-| submission | A joke that a visitor sent and an admin did not review yet or reviewed | `submissions`, `Submission` | propuesta | submission | proposal, suggestion, entry |
+| order | What a customer bought in one checkout, from payment to delivery or cancellation | `orders`, `Order` | pedido | order | purchase, sale, cart |
 ```

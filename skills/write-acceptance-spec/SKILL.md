@@ -55,13 +55,13 @@ description: Writes or refines a feature spec in docs/SLUG-spec.md with a plain-
 - Use this exact shape:
 
   ```markdown
-  **AC-15 Successful login**
-  - **Given** a user `lucas` with a known password
-  - **When** they submit correct credentials with a valid CSRF token
-  - **Then** they are redirected to the jokes list, a session cookie is set, and `last_login_at` is updated
+  **AC-15 Order cancelled before shipping**
+  - **Given** an order `1042` in state `paid`
+  - **When** its customer cancels it
+  - **Then** the answer is `200`, the order is in state `cancelled`, and a refund for the full amount is created
   ```
 - One observable behavior per criterion. Include status codes, messages and data changes that a test can check.
-- Cover the unhappy paths: invalid input, missing session, expired session, limits, unknown ids.
+- Cover the unhappy paths: invalid input, missing or expired session, missing permission, limits, unknown ids.
 - Every criterion must map to a test layer in the Testing section, or be marked as manual with a reason.
 
 ## Accepted risks

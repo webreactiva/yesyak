@@ -26,10 +26,10 @@ Every time a skill says "ask the user", "wait for the user" or "checkpoint":
 3. Append one entry to `unattended-decisions.md`:
 
    ```markdown
-   ### Q-07 Phase 1 · write-acceptance-spec · Which rendering?
-   - Options: server-rendered templates (recommended) / static page with client script / SPA
-   - Chosen: server-rendered templates
-   - Why: works without script; strict CSP; same engine as the admin branch
+   ### Q-07 Phase 1 · write-acceptance-spec · What happens when a paid order is cancelled?
+   - Options: refund at once (recommended) / refund after a review / store credit
+   - Chosen: refund at once
+   - Why: the payment provider supports it; the spec has no reviewer role
    - Reversible: yes
    ```
 

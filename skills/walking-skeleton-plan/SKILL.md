@@ -7,9 +7,9 @@ description: Turns an approved spec into docs/SLUG-plan.md - step 1 is a walking
 
 ## Principles
 
-- **Step 1 is a walking skeleton.** It runs the main path of the spec end to end: for example "a customer places an order → it is stored → the order list shows it". Each layer has the minimum: data, logic, routes, views, CLI, tests. It stays in the codebase as the base.
+- **Step 1 is a walking skeleton.** It runs the main path of the spec end to end: for example "a customer places an order → it is stored → the order list shows it". Each layer that the main path crosses has the minimum (for example data, logic, interface, tests). It stays in the codebase as the base.
 - **One capability per step.** A step adds one thing: cancel an order, validation, edit, delete, a config option.
-- **Always integrated.** At the end of every step the app starts, the main path works and the full test suite passes.
+- **Always integrated.** At the end of every step the project builds, the main path works and the full test suite passes.
 - **No orphan code.** Every function, table, dependency and template added in a step has a caller in that same step.
 - **Testable.** Every step says what can be tested when it is done: automated tests and one manual check.
 
@@ -18,7 +18,7 @@ description: Turns an approved spec into docs/SLUG-plan.md - step 1 is a walking
 1. Walking skeleton first.
 2. Next, anything that changes the shape of every later step. Example: the error format of the API before the first endpoints that return errors, so every later endpoint uses it from the start and tests are adapted once.
 3. Then features, one per step.
-4. Then hardening that does not change routes or forms: rate limits, cookie attributes, headers, configuration.
+4. Then hardening that does not change the public interface (for example limits, security settings, configuration).
 5. Styles and final documentation review last.
 
 State the ordering decisions in the plan so the user can challenge them.
@@ -33,7 +33,7 @@ State the ordering decisions in the plan so the user can challenge them.
 | | |
 | --- | --- |
 | Spec | [<slug>-spec.md](<slug>-spec.md) |
-| Branch | `feat/<slug>` |
+| Branch | `<branch>` |
 
 ## Overview           table: step | name | acceptance criteria covered
 ## Steps

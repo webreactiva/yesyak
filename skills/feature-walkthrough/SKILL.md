@@ -5,7 +5,7 @@ description: Writes a walkthrough of a feature branch for a reader who did not b
 
 # Feature walkthrough
 
-A walkthrough answers one question: "if I follow a request through this feature, what runs, in which order, and why?" It is not a spec summary and not a PR description. It follows the code.
+A walkthrough answers one question: "if I follow one run of this feature (a request, a command, a job), what runs, in which order, and why?" It is not a spec summary and not a PR description. It follows the code.
 
 ## 1. Fix the target
 
@@ -33,12 +33,12 @@ files of the diff, and the tests of the diff.
 Structure, in <language>:
 1. What it does: one paragraph, no jargon (plain-visual-docs §1).
 2. File tree of the feature: ASCII, + new, ~ changed, one short comment per entry.
-3. The main path, stop by stop in the real execution order (hooks, middleware,
-   handler), with file:line at each stop. One ASCII or Mermaid flowchart of the order.
+3. The main path, stop by stop in the real execution order (for example middleware and
+   handler, or command and service), with file:line at each stop. One ASCII or Mermaid flowchart of the order.
 4. If there is a second actor or path (for example review, admin, background job):
    a Mermaid sequenceDiagram.
 5. If data changes: a Mermaid erDiagram of new or changed tables, a stateDiagram-v2
-   for records with a lifecycle, and what existing data and destructive commands do now.
+   for records with a lifecycle, and what happens to existing data.
 6. How it is tested: which test file covers which part, and one test that fails
    if a protection is removed.
 7. How to try it locally: exact commands and URLs.

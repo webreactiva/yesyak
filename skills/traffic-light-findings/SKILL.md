@@ -5,6 +5,8 @@ description: Convention for reporting findings with a traffic-light severity (ðŸ
 
 # Traffic-light findings
 
+If AGENTS.md sets a different convention for this topic, follow AGENTS.md.
+
 ## Severity
 
 | Light | Meaning | What happens next |
@@ -17,7 +19,7 @@ Choose the light by impact and likelihood together. If a finding is blocking onl
 
 ## Finding format
 
-Give every finding a stable ID. Use a prefix that shows its source and a number: `R1` (red team), `O3` (orange item), `H2` (browser test), `AC-17` (acceptance criterion), `Y5` (yellow item). Do not renumber IDs after you share them. If you must renumber, show the old and new IDs.
+Give every finding a stable ID. Use a prefix that shows its source and a number: `RT1` (red team), `B2` (browser test), `V3` (verification), `P4` (production readiness), `AC-17` (acceptance criterion). Do not renumber IDs after you share them. If you must renumber, show the old and new IDs.
 
 Each finding has an ID and a one-line title, where (`file:line`, route, document section or command), evidence (a short quote, a reproduction or test output), impact (what goes wrong, for whom) and a concrete recommendation.
 

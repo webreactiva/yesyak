@@ -11,14 +11,14 @@ Load and follow these conventions during the whole loop: `git-commit-organizer`,
 
 1. Read the plan and the spec. Read `.scratchpad/<slug>/progress.md` if it exists and continue from the first step that is not done.
 2. Run the full test suite and record the baseline (number of tests, all passing).
-3. Prepare a manual test environment in `.scratchpad/<slug>/manual-env.sh`: scratch database, dedicated port, start and stop helpers.
+3. Prepare the smallest way to run the change by hand, isolated from real data (for example a server on its own port with a scratch database, or a CLI call on a scratch folder). Put its start and stop commands in `.scratchpad/<slug>/manual-env.sh`.
 
 ## For each step
 
 1. **Implement the minimum** that the step describes. Nothing from later steps.
 2. **Test.** Add or update tests for the criteria of the step. For fixes, check that the new test fails without the fix, then passes with it.
-3. **Run the full check** (types, lint, all tests).
-4. **Manual check.** Do the check that the plan lists, against a real server with the scratch database. Stop the server afterwards.
+3. **Run the full check** of the project (for example types, lint and all tests).
+4. **Manual check.** Do the check that the plan lists, in the manual environment. Stop everything you started.
 5. **Record and commit.** Write the ADRs that `decision-record-log` asks for, sync the docs the change affects, and commit as `git-commit-organizer` says.
 6. **Update `progress.md`** with the status and the commit hashes. Do not start the next step before `progress.md` shows the commit of this one.
 
@@ -28,7 +28,7 @@ Keep the output of each step short in the chat: what was added, test count, manu
 
 - If a library does not work as the plan assumed, choose the smallest change that keeps the spec true, record it in an ADR and say it in the step summary.
 - If the spec itself looks wrong or a step cannot stay integrated, stop and ask. Do not silently change the behavior the user approved.
-- Do not open a browser for checks unless the user asked for browser testing. Use HTTP requests, the test client or static checks, and say what stays unverified.
+- Do not open a browser for checks unless the user asked for browser testing. Use the test client, direct calls or static checks, and say what stays unverified.
 
 ## Change-list mode
 

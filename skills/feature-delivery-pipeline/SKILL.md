@@ -1,6 +1,6 @@
 ---
 name: feature-delivery-pipeline
-description: Orchestrates the full feature workflow from a vague request to a reviewed pull request - interview, acceptance spec, walking-skeleton plan, optional work items, step-by-step implementation, verification, optional browser testing, red team, triage and fixes, visual PR, reviewer guide and retrospective - with a checkpoint for the user after every phase. Use it whenever the user wants to build a feature "end to end", "from spec to PR", "the full process", "like last time", or starts a non-trivial feature and wants the complete disciplined workflow rather than one isolated step.
+description: Orchestrates the full feature workflow from a vague request to a reviewed pull request - interview, acceptance spec, walking-skeleton plan, optional work items, step-by-step implementation, verification, optional browser testing, red team, triage and fixes, visual PR, reviewer guide and retrospective - with a checkpoint for the user after every phase. Use it whenever the user wants to build a feature "end to end", "from spec to PR", "the full process", or starts a non-trivial feature and wants the complete disciplined workflow rather than one isolated step.
 ---
 
 # Feature delivery pipeline

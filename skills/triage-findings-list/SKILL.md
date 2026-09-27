@@ -7,11 +7,11 @@ description: Merges findings from several reports (verification, browser testing
 
 ## Inputs
 
-Read every report the user names, and by default every `*-report.md` in `.scratchpad/<slug>/`. Give each report a short source tag, for example V (verification against the spec), U (browser testing), RT (red team), P (production readiness).
+Read every report the user names, and by default every `*-report.md` in `.scratchpad/<slug>/`. Give each report a short source tag, for example V (verification against the spec), B (browser testing), RT (red team), P (production readiness).
 
 ## Build the list
 
-1. **Deduplicate.** One change can fix findings from several reports. Merge them and keep all source tags and ids: `(RT O2, U H1)`.
+1. **Deduplicate.** One change can fix findings from several reports. Merge them and keep all source tags and ids: `(RT2, B1)`.
 2. **Write each change as an action**, not as a problem: "Wrap long words in the order list", not "Long words break the layout".
 3. **Give it a light** with `traffic-light-findings`. Keep the highest light that the evidence supports.
 4. **Group by timing:** 🔴 before merge (mandatory); 🟠 before merge (recommended, little code); 🟠 before production; 🟠 technical debt; 🟡 minor improvements; accepted (no change), with the reason.

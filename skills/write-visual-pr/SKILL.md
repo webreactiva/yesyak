@@ -42,7 +42,7 @@ Rules:
 
 - Aim for a body that a reviewer reads in five minutes, about 120 lines.
 - Do not link to files that are not in the repository (for example, `.scratchpad/` reports). Summarize them instead.
-- If the run was unattended (`unattended-run`), add "Decisions taken without the user" before "Known follow-ups". If skills changed during the run, add a table of the skill changes.
+- If the run was unattended (`unattended-run`), add "Decisions taken without the user" before "Known follow-ups". If the run left skill feedback, add a short table of the proposed skill changes.
 
 ## 3. Validate
 

@@ -49,7 +49,7 @@ Save `docs/handoffs/handoff-YYYY-MM-DD-<slug>.md`, with the date of today and th
 ```
 
 - **Decisions** says who decided. A default the agent chose is not a decision the user approved.
-- **Standing instructions** are the rules the user gave during the session, for example "only project skills" or "do not trim the spec". They are lost first when context is compacted.
+- **Standing instructions** are the rules the user gave during the session, for example "do not push" or "keep the spec short". They are lost first when context is compacted.
 - Do not copy secrets, tokens or personal data into the note.
 
 ### 3. Commit and report

@@ -5,6 +5,8 @@ description: Convention for recording implementation decisions as ADRs (Architec
 
 # Decision record log
 
+If AGENTS.md sets a different convention for this topic, follow AGENTS.md.
+
 ## Where
 
 ```text
@@ -17,14 +19,15 @@ docs/decisions/
 
 - One file per decision: `NNNN-short-title.md`, with a four-digit number that never repeats.
 - All decisions live in the same folder. The type is a field, not a folder.
+- If the repository already keeps decision records in another folder or format, use that one.
 - When a merge brings clashing numbers, the older branch keeps its numbers. Renumber the other after the highest one and update every reference (`ADR NNNN`, `Superseded by NNNN`, links).
 
 ## Reversible or irreversible
 
 | Type | Definition | Examples |
 | --- | --- | --- |
-| **Irreversible** | Undoing it needs a data migration, breaks stored data, or breaks a contract with users, clients or operators. | Table schema, stored hash format, public API ids, an environment variable format, a marker in persisted data |
-| **Reversible** | It lives only in code. Undoing it is a normal refactor, even if it has a one-time side effect. | Module layout, a library choice behind an interface, a hook order, a log format |
+| **Irreversible** | Undoing it needs a data migration, breaks stored data, or breaks a contract with users, clients or operators. | Table schema, stored data format, public API ids, an environment variable format, a marker in persisted data |
+| **Reversible** | It lives only in code. Undoing it is a normal refactor, even if it has a one-time side effect. | Module layout, a library choice behind an interface, a middleware order, a log format |
 
 Write the one-time side effect in the consequences.
 
@@ -61,7 +64,7 @@ Keep `docs/decisions/README.md` in this shape:
 ```markdown
 # Decisions
 
-Decisions taken while building <feature>. Numbers are unique across both lists.
+Decisions of this repository. Numbers are unique across both lists.
 
 ## Irreversible
 
@@ -81,7 +84,7 @@ Update the index in the same commit as the ADR.
 - A reversible choice only when a reviewer would really question it. Otherwise write one line in the spec or in the commit body.
 - A deviation from the spec or the plan.
 - A fix that changes a previous decision. Write a new ADR and keep both. If the new ADR replaces the whole decision, mark the old one `Superseded by NNNN`. If it changes only a part, mark it `Accepted (amended by NNNN: what changed)` and put `> Amended by NNNN.` under each paragraph that no longer holds.
-- Implicit decisions that reviews uncover: no migrations, reused ids, a disabled logger. Record them even if the answer is "accepted for now".
+- Implicit decisions that reviews uncover (for example no migration path, an id scheme, a default that someone turned off). Record them even if the answer is "accepted for now".
 
 ## Before you commit an ADR
 

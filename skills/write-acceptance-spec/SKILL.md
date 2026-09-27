@@ -27,7 +27,7 @@ description: Writes or refines a feature spec in docs/SLUG-spec.md with a plain-
 | | |
 | --- | --- |
 | Status | Draft / Approved / Implemented |
-| Branch | `feat/<slug>` |
+| Branch | `<branch>` |
 | Date | YYYY-MM-DD |
 | Revision | n - what changed |
 
@@ -39,7 +39,7 @@ description: Writes or refines a feature spec in docs/SLUG-spec.md with a plain-
 ### Stack additions
 ### Scripts
 ### Environment variables  (name, default, notes)
-### Routes                 (table and ASCII route tree)
+### Interface              (routes, commands or public API; table and ASCII tree)
 ## Data model              (SQL or schema, erDiagram)
 ## Business rules          (one subsection per area, with diagrams)
 ## Accepted risks          (known risks that the user accepted, with the reason)
@@ -48,6 +48,8 @@ description: Writes or refines a feature spec in docs/SLUG-spec.md with a plain-
 ## Documentation           (docs to update)
 ## Out of scope
 ```
+
+Leave out the sections that do not apply.
 
 ## Acceptance criteria
 
@@ -61,12 +63,12 @@ description: Writes or refines a feature spec in docs/SLUG-spec.md with a plain-
   - **Then** the answer is `200`, the order is in state `cancelled`, and a refund for the full amount is created
   ```
 - One observable behavior per criterion. Include status codes, messages and data changes that a test can check.
-- Cover the unhappy paths: invalid input, missing or expired session, missing permission, limits, unknown ids.
+- Cover the unhappy paths: invalid input, missing or expired credentials when the feature has them, missing permission, limits, unknown ids.
 - Every criterion must map to a test layer in the Testing section, or be marked as manual with a reason.
 
 ## Accepted risks
 
-For every destructive command the feature touches (reset, delete, re-seed), say what it now deletes and whether the operator sees it. Check every accepted risk with a command before you accept it (for example, build and start the app when the risk is about the build output). Write the command and its result next to the risk. A risk that nobody ran is an assumption, not an accepted risk.
+For every operation the feature touches that deletes or overwrites data, say what it now removes and whether the person who runs it is warned. Check every accepted risk with a command before you accept it (for example, build and start the app when the risk is about the build output). Write the command and its result next to the risk. A risk that nobody ran is an assumption, not an accepted risk.
 
 ## Out of scope
 

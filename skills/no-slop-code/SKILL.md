@@ -5,6 +5,8 @@ description: Anti-slop convention for code, tests, docs and user-facing text - n
 
 # No slop code
 
+If AGENTS.md sets a different convention for this topic, follow AGENTS.md.
+
 ## Code
 
 | Slop | Do instead |
@@ -15,21 +17,21 @@ description: Anti-slop convention for code, tests, docs and user-facing text - n
 | A missing check at a real boundary (form body, query string, route params, env vars) | Add a schema or a parser at the boundary, with a test for bad input. |
 | A function, dependency, export, template or table that nothing uses | Delete it, or add it in the same step as its first caller. |
 | An abstraction for one caller "in case we need it later" | Inline it. Extract when the second caller appears. |
-| `as SomeType` to silence the compiler | Narrow with a type guard, or fix the type at its source. |
+| A cast or a suppression (`as T`, `(T)x`, `@ts-ignore`, `# type: ignore`) to silence the checker | Narrow with a type guard, or fix the type at its source. |
 | The same lookup copied into several handlers | Extract one helper when you add the second copy. |
 | Catch-all error handling that hides the cause | Handle the errors you expect. Let the rest reach the error handler and the log. |
 
 ## Tests
 
 - A test must fail when the behavior breaks. For each fix, check that the new test fails without the fix.
-- Test helpers must behave like the real client. A helper that keeps a stale cookie or skips a step can make tests pass for the wrong reason.
+- Test helpers must behave like the real client. A helper that keeps stale state or skips a step can make tests pass for the wrong reason.
 - Do not assert on incidental details (a hard-coded id that depends on seed size) when you can compute them.
 - Security controls need at least one test that plays the attacker, not only the expected path.
 - Check untrusted values (headers, form fields) against an allow-list. A deny-list lets every unexpected value through: casing, repeated headers, unknown values.
 
 ## Text
 
-- User-facing messages must be true. Do not write "the error has been logged" unless a logger is enabled and the error reaches it. Messages with a count must read well with 0, 1 and many ("1 orders" is a bug). Use a singular and a plural form, or a label such as `Deleted: 1`.
+- User-facing messages must be true. Do not promise an effect (logged, sent, saved) that the code does not produce. Messages with a count must read well with 0, 1 and many ("1 orders" is a bug). Use a singular and a plural form, or a label such as `Deleted: 1`.
 - Keep docs in sync in the same commit: README, AGENTS.md, spec, plan, environment variable tables.
 - A spec or a plan that is longer than the code it describes is suspect. Cut repeated tables, restated decisions and text that a reader can get from the code or another document.
 

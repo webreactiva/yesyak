@@ -63,9 +63,9 @@ AGENTS.md: write only between the markers. Every byte outside them stays the sam
 - At the start of a session and after a compaction, run `python3` with the `scripts/check_yesyak.py` of the `ask-yak` skill, from the project root. If it exits with 0, apply each `active:` line it prints when you use that skill: `add` adds the instruction, `replace` uses the instruction in place of the named section, `off` skips the skill unless the user asks for it by name. If it fails or cannot run, tell the user and use the skills as written. When you brief a subagent, include the `active:` lines of the skills it uses.
 - Adjusted skills: verify-against-spec (add), work-items-breakdown (off)
 - One branch per piece of work: `feat/<slug>` for a feature, `fix/<slug>` for a bug.
-- Temporary files, reports and scratch databases go in `.scratchpad/<slug>/` (gitignored).
+- Temporary files, reports and scratch data go in `.scratchpad/<slug>/` (gitignored).
 - Documentation in <detected language>, written in simplified technical language.
-- Record decisions in `docs/decisions/`, one folder, with the type as a field.
+- Record decisions in `<detected decisions folder>` (`decision-record-log`).
 - Run `<detected test command>` before every commit.
 <!-- yesyak:end -->
 ```

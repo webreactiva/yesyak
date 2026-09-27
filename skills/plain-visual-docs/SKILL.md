@@ -5,6 +5,8 @@ description: Convention for explaining technical work to mixed audiences with a 
 
 # Plain visual docs
 
+If AGENTS.md sets a different convention for this topic, follow AGENTS.md.
+
 A reader must understand the purpose in 30 seconds and the structure in 2 minutes. Text alone does not do that for most technical changes.
 
 ## 1. Plain-language opening
@@ -39,11 +41,11 @@ Use Mermaid for things that move:
 
 Draw one diagram per question the reader has. Do not add a diagram only because a type exists.
 
-Syntax rules that prevent broken renders on GitHub:
+Syntax rules that prevent broken renders on GitHub, GitLab and other hosts:
 
 - Quote every label that contains `/`, `:`, `(`, `)`, `{`, `?` or `,`: `A["POST /login"]`.
 - Use `<br/>` for line breaks. Do not use other HTML.
-- Keep `erDiagram` attribute types simple (`INTEGER`, `TEXT`).
+- Keep `erDiagram` attribute types simple (one word, for example `int`, `string`).
 
 ## 4. Validate every Mermaid block
 
@@ -72,6 +74,8 @@ echo '{"executablePath":"<path to chrome>","args":["--no-sandbox"]}' > .scratchp
 If the error is `Cannot find package 'puppeteer'`, the CLI needs `puppeteer` next to it. Install both once in `.scratchpad/tools` with `PUPPETEER_SKIP_DOWNLOAD=1 npm i --prefix .scratchpad/tools @mermaid-js/mermaid-cli puppeteer`, point `executablePath` to the installed Chrome, and run `.scratchpad/tools/node_modules/.bin/mmdc`.
 
 Check the validator once with a broken block. It must print `FAIL`.
+
+Without Node.js, say that the diagrams were not rendered, and check them in the preview of the code host (for example the GitHub or GitLab file view) before you publish.
 
 Do not read the generated SVG files into the context. They are large. The exit status is enough.
 

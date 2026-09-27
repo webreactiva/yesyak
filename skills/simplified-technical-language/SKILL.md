@@ -5,6 +5,8 @@ description: Entry convention for language and writing style. Load it at the sta
 
 # Simplified technical language
 
+If AGENTS.md sets a different convention for this topic, follow AGENTS.md.
+
 ## Which language goes where
 
 | Output | Language | Style |

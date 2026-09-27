@@ -12,7 +12,7 @@ Answer these, in this order:
 1. **What was the intent?** The problem, the goal and the principles you followed (for example, "do not break the public API", "secure by default", "small verifiable steps").
 2. **Which decisions were taken?**
    - Irreversible: from the decision log, with why each one is irreversible.
-   - Also list decisions that are irreversible in practice but have no record (implicit ones such as "no migrations"). Say that they have no record.
+   - Also list decisions that are irreversible in practice but have no record (implicit ones, for example no migration path). Say that they have no record.
    - Reversible: from the decision log, one line each.
    - Product decisions from the spec.
 3. **What keeps the mental map?** A numbered list: the main parts of the system, where the data lives, the order of checks, sessions, users, configuration, how it starts, how tests are built, where the docs are. Include one small ASCII block for the most important flow.

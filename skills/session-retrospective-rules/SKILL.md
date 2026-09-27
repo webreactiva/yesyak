@@ -30,7 +30,7 @@ For each moment give:
 | 2 | ⌨️ A command or script | A check before a commit can catch it |
 | 3 | 📏 AGENTS.md | It matters even when no skill is loaded, and it fits in one or two lines |
 | 4 | An adjustment in `.agents/yesyak.json` | It changes how one skill works in this project only (`customize-yak`) |
-| 5 | The skill | It improves the skill in every project |
+| 5 | The skill | It improves the skill in every project. Propose it for the skills repository; do not edit an installed skill, which can be a symlink |
 
 Tests and commands come first because they do not depend on memory. A rule for AGENTS.md goes in the section where it belongs (for example "Git"), not in the YesYak block. An adjustment is written by `customize-yak`: propose the entry and let it write the file. Skills stay complete, because other projects may load them without this AGENTS.md.
 
@@ -40,7 +40,7 @@ Skills must not only grow. For every new rule in a skill, remove or merge one th
 
 End with a short plan: which files change and in how many commits. Then stop and ask. The user decides what to apply.
 
-In an unattended run (`unattended-run`), apply only the guards that the user allowed (for example, skill edits) and log the choice as a `Q-` entry. List the other guards in the pull request as proposals.
+In an unattended run (`unattended-run`), apply only the guards that the user allowed (for example, a test or an AGENTS.md rule) and log the choice as a `Q-` entry. List the other guards in the pull request as proposals.
 
 Save the answer to `.scratchpad/<slug>/retrospective.md` when the user asks, or at the end of the session.
 

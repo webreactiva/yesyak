@@ -12,8 +12,8 @@ Read the request once and write down, in the first lines of `.scratchpad/<slug>/
 - **Start point**: the base branch and the branch you must work on.
 - **End point**: for example "open the PR, do not approve, do not merge".
 - **Outward actions allowed**: push, PR, issues, comments. Only what the request names or clearly implies.
-- **Skills allowed**: for example "only the project skills".
-- **Skill edits allowed**: can you change the skills while you use them?
+- **Skills allowed**: for example "only the YesYak skills".
+- **Skill feedback wanted**: should you note problems in the skills while you use them?
 
 Anything that is not on this list stays forbidden: merge, approve, force-push, delete branches, deploy, post in other repositories, write files outside the repository.
 
@@ -43,7 +43,7 @@ The pipeline marks some steps as optional (devil's advocate, work items, browser
 
 ## Checkpoints become progress entries
 
-At each phase end, do not send a question to the user. Update `progress.md` with the phase, the artifacts and the commits, and send one short status line in the chat, so the user can follow and interrupt. Name the skill that runs next and any skill edit you just committed; the user cannot see skill calls otherwise.
+At each phase end, do not send a question to the user. Update `progress.md` with the phase, the artifacts and the commits, and send one short status line in the chat, so the user can follow and interrupt. Name the skill that runs next; the user cannot see skill calls otherwise.
 
 ## When to stop anyway
 
@@ -56,7 +56,7 @@ Stop and wait only when:
 
 ## Skill feedback
 
-When the user allows skill edits, keep `.scratchpad/<slug>/skill-feedback.md`: the skill, the problem you met, the change you made. Commit skill changes separately from feature changes, with scope `skills`.
+When the user wants skill feedback, keep `.scratchpad/<slug>/skill-feedback.md`: the skill, the problem you met, the change you propose. Do not edit an installed skill: it can be a symlink to the shared skills repository. A change for this project only goes to `customize-yak`.
 
 ## At the end
 

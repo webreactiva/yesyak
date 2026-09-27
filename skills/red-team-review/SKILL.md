@@ -19,7 +19,7 @@ Default set for code. Use the user's list if they give one.
 | Name | Mission |
 | --- | --- |
 | `redteam-quality` | Code against the project's standards (AGENTS.md): naming, duplication, orphan code, casts, test quality |
-| `redteam-security` | Authentication, sessions, CSRF, rate limits, injection, headers, configuration, dependencies |
+| `redteam-security` | Trust boundaries and input handling, authentication and authorization, secrets and configuration, injection, dependencies; for a web app also sessions, CSRF, headers and rate limits |
 | `redteam-architecture` | Module boundaries, encapsulation, data layer and migrations, deployment assumptions, other branches that the change breaks without a text conflict; check that global error and not-found handling reaches every module or route group, not only the first one registered |
 | `redteam-premortem` | "It is six months later and it failed": concrete failure stories, root cause in today's code, early signal, cheapest mitigation |
 | `redteam-proof` | Do the tests prove the change? Break the changed lines one at a time in a scratch copy and report which ones no test kills. A characterization test counts only if it passes on the base and fails when the behavior changes. Mandatory where money, security or stored data are touched |

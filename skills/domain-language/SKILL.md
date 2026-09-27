@@ -24,7 +24,7 @@ Scope: only the terms of the current feature, plus the existing terms it touches
 
 ## Output
 
-Save `.scratchpad/<slug>/domain-language.md` in the conversation language, with the table in English identifiers. `write-acceptance-spec` copies the table and the state diagram into a `## Domain language` section of the spec, so the language stays in the repository.
+Save `.scratchpad/<slug>/domain-language.md` in the conversation language, with code identifiers as the code spells them. `write-acceptance-spec` copies the table and the state diagram into a `## Domain language` section of the spec, so the language stays in the repository.
 
 From then on, specs, plans, code, tests, commit messages and UI text use only the chosen terms. A review that finds a word from the "avoid" column reports it as a 🟡 finding.
 
@@ -35,3 +35,5 @@ From then on, specs, plans, code, tests, commit messages and UI text use only th
 | --- | --- | --- | --- | --- | --- |
 | order | What a customer bought in one checkout, from payment to delivery or cancellation | `orders`, `Order` | pedido | order | purchase, sale, cart |
 ```
+
+Use one UI column per UI language of the project.

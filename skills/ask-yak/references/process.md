@@ -157,7 +157,7 @@ Each card says when to use the skill, what it makes, what comes next, the sectio
 - Off: allowed
 
 ### red-team-review
-- When: challenge a spec, or review the code before the fixes
+- When: challenge a spec, review the code before the fixes, and again on the commits added after the reviewed hash
 - Makes: `.scratchpad/<slug>/redteam-report.md` (code), `redteam-spec-report.md` (spec)
 - Next: `triage-findings-list` (code), `write-acceptance-spec` refine (spec)
 - Replaceable: none

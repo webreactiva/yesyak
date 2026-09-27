@@ -15,7 +15,7 @@ If the user asks you to run without them ("do not ask me", "take the decisions y
 
 ## Phases
 
-Invoke every phase skill with the skill tool, not by reading its file. If a project skill is not listed, or the base directory that the tool prints is not this repository's `.claude/skills/` (a user skill with the same name shadows it), read the project `SKILL.md` directly and tell the user.
+Invoke every phase skill with the skill tool, not by reading its file. If a project skill is not listed, or the base directory that the tool prints is neither in this repository's skills folder (for example `.claude/skills/` or `.agents/skills/`) nor the target of a symlink there (a user skill with the same name shadows it), read the project `SKILL.md` directly and tell the user.
 
 ```text
 0 Prepare    branch → slug → .scratchpad/<slug>/ → progress.md

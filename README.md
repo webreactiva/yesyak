@@ -11,9 +11,9 @@ Not sure where you are? Ask "what now?" and `ask-yak` shows the position, the ne
 3. Start a new session, so the agent lists the new skills.
 4. Run `customize-yak`. It writes the YesYak block in AGENTS.md and, if you want, your first adjustments.
 
-To update the skills later, pull this repository (symlinks follow it) or copy the new folders, and run `python3 .claude/skills/ask-yak/scripts/check_yesyak.py`. It reports adjustments that the new version breaks, for example a section that was renamed. If a project has `.agents/yesyak.json` and no YesYak block in AGENTS.md, run `customize-yak`.
+To update the skills later, pull this repository (symlinks follow it) or copy the new folders, and run `python3 <skills folder>/ask-yak/scripts/check_yesyak.py`. It reports adjustments that the new version breaks, for example a section that was renamed. If a project has `.agents/yesyak.json` and no YesYak block in AGENTS.md, run `customize-yak`.
 
-A user skill with the same name as a project skill can shadow it. If the skill tool prints a base directory outside the project's `.claude/skills/`, read the project `SKILL.md` directly (`feature-delivery-pipeline` checks this). If it happens often, rename your own skill, not the YesYak one: settings files use the YesYak names.
+A user skill with the same name as a project skill can shadow it. If the skill tool prints a base directory that is neither in the project's skills folder nor the target of a symlink there, read the project `SKILL.md` directly (`feature-delivery-pipeline` checks this). If it happens often, rename your own skill, not the YesYak one: settings files use the YesYak names.
 
 ## Entry points
 

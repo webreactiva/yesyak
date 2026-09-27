@@ -60,5 +60,5 @@ Commit the note with `git-commit-organizer`. Push only if the user asked for it.
 
 1. Read the newest file in `docs/handoffs/` for this work, or the one the user names.
 2. Check it against the repository: the branch exists, the last commit matches or is a descendant, the pull requests have the state the note says, and the working tree is clean.
-3. Check the skills: every skill the note relies on is listed, and its base directory is this project's `.claude/skills/` (a user skill with the same name can shadow it).
+3. Check the skills: every skill the note relies on is listed, and its base directory is in this project's skills folder or is the target of a symlink there (a user skill with the same name can shadow it).
 4. Tell the user what matches, what changed since the note, and the next step. Wait for a yes before you act on anything the note left open.

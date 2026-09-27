@@ -22,9 +22,9 @@ The writing reads many files. When the environment has subagents, brief one read
 
 ```text
 Write a walkthrough of <feature> for <reader>. Repository <path>, branch <branch>,
-commit <hash>. Feature diff: <range> (exclude <merge commit, .claude/skills/>).
+commit <hash>. Feature diff: <range> (exclude <merge commit, skills folder>).
 
-Load and follow these project skills (read .claude/skills/<name>/SKILL.md):
+Load and follow these project skills (read <skills folder>/<name>/SKILL.md):
 plain-visual-docs, no-slop-code, scratchpad-working-files, simplified-technical-language.
 
 Read first: <spec> (use only the terms of its "Domain language" table), <ADRs>, the
@@ -63,7 +63,7 @@ Fill every `<…>` and drop the sections that do not apply.
 
 The writer can be wrong about the code it cites. Check these after the writing:
 
-1. Run `python3 .claude/skills/feature-walkthrough/scripts/check_walkthrough.py .scratchpad/<slug>/walkthrough.md <hash>`. It reports citations that point past the end of a file, to files that do not exist at the commit, or have no file path, plus the Mermaid block count by type and the length.
+1. Run `python3 <base directory of this skill>/scripts/check_walkthrough.py .scratchpad/<slug>/walkthrough.md <hash>`. It reports citations that point past the end of a file, to files that do not exist at the commit, or have no file path, plus the Mermaid block count by type and the length.
 2. Render every Mermaid block with the `plain-visual-docs` validator.
 3. Run every claim that the writer marked "not run" (for example with a mutation that should make a named test fail). Restore the file after each mutation.
 4. Grep the walkthrough for the words in the "Avoid" column of the domain language.

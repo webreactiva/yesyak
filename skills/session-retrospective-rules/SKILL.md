@@ -34,7 +34,7 @@ For each moment give:
 
 Tests and commands come first because they do not depend on memory. A rule for AGENTS.md goes in the section where it belongs (for example "Git"), not in the YesYak block. An adjustment is written by `customize-yak`: propose the entry and let it write the file. Skills stay complete, because other projects may load them without this AGENTS.md.
 
-Skills must not only grow. For every new rule in a skill, remove or merge one that is obsolete, duplicated or never used. Record the total size of the skills before and after (`wc -l .claude/skills/*/SKILL.md | tail -1`) in the retrospective.
+Skills must not only grow. For every new rule in a skill, remove or merge one that is obsolete, duplicated or never used. Record the total size of the skills before and after (`wc -l <skills folder>/*/SKILL.md | tail -1`) in the retrospective.
 
 ## 3. Propose the plan, do not apply it
 
@@ -46,10 +46,12 @@ Save the answer to `.scratchpad/<slug>/retrospective.md` when the user asks, or 
 
 ## 4. Archive transcripts (on request)
 
-Session transcripts are JSONL files under `~/.claude/projects/<project-folder>/`:
+In Claude Code, session transcripts are JSONL files under `~/.claude/projects/<project-folder>/`:
 
 - The main session: `<session-id>.jsonl`.
 - Its subagents: `<session-id>/subagents/agent-*.jsonl` with a `.meta.json` each.
+
+Other agents keep them elsewhere (Codex: `~/.codex/sessions/`). Say where you looked.
 
 A session can span more than one main file (for example after a clear or a resume). Identify the files that belong to this session by the first user prompt, the timestamps and the subagent team name. Exclude other sessions that ran in parallel on the same project, and tell the user about them.
 

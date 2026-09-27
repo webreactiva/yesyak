@@ -16,7 +16,8 @@ git log --oneline <base>..HEAD | wc -l   # commit count
 git diff --shortstat <base>...HEAD       # size
 ```
 
-- If `gh` is not installed or not signed in (common in cloud sessions), use the GitHub tools that the environment gives (for example an MCP server) for the same checks and for the creation. Do not stop only because `gh` is missing.
+- If the remote is on GitLab, use `glab` for the same checks: `glab auth status`, `glab mr list --source-branch <branch>`.
+- If neither tool is installed or signed in (common in cloud sessions), use the tools that the environment gives (for example an MCP server) for the same checks and for the creation. Do not stop only because `gh` or `glab` is missing.
 - If the branch is not on the remote, ask before you push.
 - If a PR already exists, update it instead of creating another one.
 - Collect real numbers for the description: tests on the base branch and on the branch, commits, files, decisions. Verify each number; do not estimate.
@@ -54,10 +55,14 @@ Push and create the PR only when the user asked for it:
 
 ```bash
 gh pr create --base <base> --head <branch> \
-  --title "<type>(<scope>): <gitmoji> <summary>" \
+  --title "<title in the commit format of git-commit-organizer>" \
   --body-file .scratchpad/<slug>/pr-body.md
+
+# GitLab
+glab mr create --target-branch <base> --source-branch <branch> \
+  --title "<title>" --description "$(cat .scratchpad/<slug>/pr-body.md)"
 ```
 
-To change the body later, use `gh pr edit <n> --body-file …`. If it fails with a GraphQL error about Projects (classic), use `gh api repos/<owner>/<repo>/pulls/<n> -X PATCH -F body=@.scratchpad/<slug>/pr-body.md`.
+To change the body later, use `gh pr edit <n> --body-file …`. If it fails with a GraphQL error about Projects (classic), use `gh api repos/<owner>/<repo>/pulls/<n> -X PATCH -F body=@.scratchpad/<slug>/pr-body.md`. On GitLab, use `glab mr update <n> --description "$(cat .scratchpad/<slug>/pr-body.md)"`.
 
 Report the URL. Offer `pr-reviewer-guide` as a follow-up comment.

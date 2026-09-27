@@ -30,6 +30,6 @@ Read the spec, the plan, the decision log, the reports in `.scratchpad/<slug>/`,
 
 1. Answer in the chat first, in the user's language.
 2. Save the text to `.scratchpad/<slug>/pr-guide.md`.
-3. If the user wants it on the PR, translate it to the document language of `simplified-technical-language`, save it to `.scratchpad/<slug>/pr-guide-comment.md`, and post it with `gh pr comment <number> --body-file .scratchpad/<slug>/pr-guide-comment.md`. Without `gh`, use the GitHub tools of the environment.
+3. If the user wants it on the PR, translate it to the document language of `simplified-technical-language`, save it to `.scratchpad/<slug>/pr-guide-comment.md`, and post it with `gh pr comment <number> --body-file .scratchpad/<slug>/pr-guide-comment.md`, or on GitLab `glab mr note <number> --message "$(cat .scratchpad/<slug>/pr-guide-comment.md)"`. Without these tools, use the tools of the environment.
 
 4. Report the comment URL.

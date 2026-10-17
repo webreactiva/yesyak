@@ -22,7 +22,7 @@ Read before you ask. Show what you detected in one table and do not ask for it a
 | The YesYak block | AGENTS.md, between `<!-- yesyak:start -->` and `<!-- yesyak:end -->` |
 | Which file the agent reads | AGENTS.md, or the agent's own file (CLAUDE.md, GEMINI.md, `.github/copilot-instructions.md`) and whether it imports AGENTS.md |
 
-Use commands that only check. A script that fixes files in place is not a check. Run the full check once on the default branch and write down the failures that are already there, so later steps compare against them. If a command chains several steps (for example `a && b`) and one step already fails, the steps after it never run: run each step on its own, and name the steps in the block.
+Use commands that only check. A script that fixes files in place is not a check. Run the full check once on the default branch and write down the failures that are already there, so later steps compare against them. If a command chains several steps (for example `a && b`) and one step already fails, the steps after it never run: run each step on its own.
 
 Stop and ask if the markers are broken: a start without an end, two blocks, or a marker inside a code fence. Change no file until the user says how to fix it.
 
@@ -66,11 +66,12 @@ AGENTS.md: write only between the markers. Every byte outside them stays the sam
 
 - At the start of a session and after a compaction, run `python3` with the `scripts/check_yesyak.py` of the `ask-yak` skill, from the project root. If it exits with 0, apply each `active:` line it prints when you use that skill: `add` adds the instruction, `replace` uses the instruction in place of the named section, `off` skips the skill unless the user asks for it by name. If it fails or cannot run, tell the user and use the skills as written. When you brief a subagent, include the `active:` lines of the skills it uses.
 - Adjusted skills: verify-against-spec (add), work-items-breakdown (off)
+- A feature request starts `feature-delivery-pipeline` and a bug report starts `bug-intake`, whatever the size. Ask the user before you skip a phase.
 - One branch per piece of work: `feat/<slug>` for a feature, `fix/<slug>` for a bug.
 - Temporary files, reports and scratch data go in `.scratchpad/<slug>/` (gitignored).
 - Documentation in <detected language>, written in simplified technical language.
 - Record decisions in `<detected decisions folder>` (`decision-record-log`). Leave this line out when it is `off`.
-- Run `<detected check commands>` before every commit and add no new failures. <if the default branch already fails: where the known failures are recorded>
+- Run `<detected check commands, one per step, never a chain that stops at a known failure>` before every commit and add no new failures. <if the default branch already fails: where the known failures are recorded>
 - Commit messages: <detected commit convention>.
 <!-- yesyak:end -->
 ```

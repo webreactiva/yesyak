@@ -33,7 +33,7 @@ Every time a skill says "ask the user", "wait for the user" or "checkpoint":
    - Reversible: yes
    ```
 
-4. Continue in the same message. Do not stop at the checkpoint.
+4. Continue in the same message. Do not stop at the checkpoint, and never end your turn to wait for a test run, a build or a subagent: nobody sends the next message. Wait for it in the same turn.
 
 Give every entry a stable id (`Q-01`, `Q-02`…). Decisions that a reviewer could question also get an ADR (`decision-record-log`). The ADR source field names the `Q-` id.
 

@@ -1,13 +1,13 @@
 ---
 name: session-retrospective-rules
-description: Reviews the current session. It finds what the user asked and whether it was done, the instructions the user repeated, what worked, and the moments where the user had to correct the assistant or where it did something unexpected. For each moment it proposes a guard in the first place that fits, which is a test, a command, an agent hook, a rule in AGENTS.md, a YesYak adjustment for this project, or the skill. It applies nothing until the user approves. It can also archive the session transcripts. Use it whenever the user asks for a retrospective, lessons learned, "where did I have to correct you", "how do we avoid this next time", "what should change for the next session", session insights, or to capture the session's transcripts.
+description: Reviews the current piece of work, also when it spans several sessions. It finds what the user asked and whether it was done, the instructions the user repeated, what worked, and the moments where the user had to correct the assistant or where it did something unexpected. For each moment it proposes a guard in the first place that fits, which is a test, a command, an agent hook, a rule in AGENTS.md, a YesYak adjustment for this project, or the skill. It applies nothing until the user approves. It can also archive the session transcripts. Use it whenever the user asks for a retrospective, lessons learned, "where did I have to correct you", "how do we avoid this next time", "what should change for the next session", session insights, or to capture the session's transcripts.
 ---
 
 # Session retrospective rules
 
 ## 1. Find the moments
 
-First list every message of the user in this session, in order, from the first one. If your context does not hold them all (a long or compacted session), read the transcript (section 4 says where agents keep it). Mark each message: request, answer, approval, nudge or correction. The moments come from this list and from `.scratchpad/<slug>/loop-log.md` if it exists, not from the last turns alone. Do not list every tool call.
+First list every message of the user in this piece of work, in order, from the first one. If the work started in an earlier session (a handoff note or `progress.md` shows earlier steps), or your context does not hold every message, read the transcripts (section 4 says where agents keep them). Mark each message: request, answer, approval, nudge or correction. The moments come from this list and from `.scratchpad/<slug>/loop-log.md` if it exists, not from the last turns alone. Do not list every tool call.
 
 Start with what the user asked, not what you chose to do alone. Give each request a light: 🟢 done, 🟠 partly done, 🔴 not done.
 

@@ -8,6 +8,7 @@ report.py metrics <bench-dir> [claude-transcript.jsonl]
                                       with a transcript, also the driver's (Claude Code) usage in each run's time window
 """
 import json
+import shutil
 import subprocess
 import sys
 from datetime import datetime
@@ -25,7 +26,37 @@ def events(path):
             yield json.loads(line)
 
 
+def summarize_claude(path):
+    """The same facts from Claude Code's stream JSON. Its result event carries the whole turn's usage."""
+    text, calls, skills, errors = [], [], [], []
+    tokens = dict.fromkeys(TOKEN_KEYS, 0)
+    for e in events(path):
+        content = (e.get("message") or {}).get("content")
+        if e["type"] == "assistant" and isinstance(content, list):
+            for c in content:
+                if c.get("type") == "text":
+                    text.append(c["text"])
+                elif c.get("type") == "tool_use":
+                    args = c.get("input", {})
+                    if c["name"] == "Skill":
+                        skills.append(args.get("skill") or "?")
+                    short = args.get("command") or args.get("file_path") or args.get("skill") or args.get("pattern") or args.get("description") or ""
+                    calls.append(f"{c['name']}: {str(short)[:120]}")
+        elif e["type"] == "user" and isinstance(content, list):
+            errors += [str(c.get("content"))[:200] for c in content if c.get("type") == "tool_result" and c.get("is_error")]
+        elif e["type"] == "result":
+            u = e.get("usage", {})
+            tokens = {"input": u.get("input_tokens", 0), "output": u.get("output_tokens", 0),
+                      "cache_read": u.get("cache_read_input_tokens", 0), "cache_write": u.get("cache_creation_input_tokens", 0)}
+            if e.get("is_error"):
+                errors.append(str(e.get("result"))[:300])
+    return text, calls, skills, errors, tokens
+
+
 def summarize(path):
+    first = next(events(path), {})
+    if "session_id" in first:
+        return summarize_claude(path)
     text, calls, skills, errors = [], [], [], []
     tokens = dict.fromkeys(TOKEN_KEYS, 0)
     for e in events(path):
@@ -83,6 +114,25 @@ def session_metrics(exported, model, data):
     }
 
 
+def claude_transcript(repo, session_id):
+    """Where Claude Code keeps a session: ~/.claude/projects/<working dir with every other character as ->/<id>.jsonl."""
+    import re
+    return Path.home() / ".claude" / "projects" / re.sub(r"[^A-Za-z0-9]", "-", str(Path(repo).resolve())) / f"{session_id}.jsonl"
+
+
+def claude_session_metrics(transcript, run_dir, data):
+    """session_metrics for a Claude Code transcript; the agent time comes from the turns' result events."""
+    steps, tokens, cost = driver_usage(transcript, 0, float("inf"), data)
+    entries = [json.loads(l) for l in Path(transcript).read_text().splitlines() if l.startswith("{")]
+    times = [datetime.fromisoformat(e["timestamp"].replace("Z", "+00:00")).timestamp() * 1000 for e in entries if "timestamp" in e]
+    turns = sum(e.get("type") == "user" and isinstance((e.get("message") or {}).get("content"), str) for e in entries)
+    sid = Path(transcript).stem.removeprefix("session-")
+    agent = sum(e.get("duration_ms", 0) for p in Path(run_dir, "turns").glob("*.jsonl") for e in events(p)
+                if e.get("type") == "result" and e.get("session_id") == sid)
+    return {"start": min(times), "end": max(times), "wall_s": (max(times) - min(times)) / 1000, "agent_s": agent / 1000,
+            "turns": turns, "steps": steps, "tokens": tokens, "cost": cost}
+
+
 def driver_usage(transcript, start_ms, end_ms, data):
     """Steps, tokens and cost of the Claude Code session that drove the run, and its subagents, between two times.
     Each API message counts once, priced with its own model."""
@@ -124,6 +174,11 @@ def metrics(bench_dir, transcript=None):
         meta = json.loads(meta_path.read_text())
         rows = []
         for session in meta["sessions"]:
+            if session.get("harness") == "claude":
+                path = run_dir / f"session-{session['id']}.jsonl"
+                if path.exists():
+                    rows.append(claude_session_metrics(path, run_dir, data))
+                continue
             path = run_dir / f"session-{session['id']}.json"
             if path.exists() and path.stat().st_size:
                 rows.append(session_metrics(json.loads(path.read_text()), session["model"], data))
@@ -157,6 +212,21 @@ def run(run_dir):
     # The JSON stream drops the token count of a turn's last step; the session export has all of them.
     total, cost, wall, agent, steps = dict.fromkeys(TOKEN_KEYS, 0), 0.0, 0.0, 0.0, 0
     for session in meta["sessions"]:
+        if session.get("harness") == "claude":
+            source = claude_transcript(repo, session["id"])
+            target = run_dir / f"session-{session['id']}.jsonl"
+            target.write_text(source.read_text() if source.exists() else "")
+            if source.with_suffix("").is_dir():  # the puppet's subagents
+                shutil.copytree(source.with_suffix(""), target.with_suffix(""), dirs_exist_ok=True)
+            m = claude_session_metrics(target, run_dir, data) if target.stat().st_size else None
+            if m:
+                for k in TOKEN_KEYS:
+                    total[k] += m["tokens"][k]
+                cost += m["cost"]
+                wall += m["wall_s"]
+                agent += m["agent_s"]
+                steps += m["steps"]
+            continue
         # A pipe cuts the export of a long session; a file keeps it whole, and it stays as the transcript of the run.
         target = run_dir / f"session-{session['id']}.json"
         with target.open("w") as out:

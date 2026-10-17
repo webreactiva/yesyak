@@ -12,7 +12,7 @@ This skill belongs to this repository only. It is not in `skills/`, so `install.
 ## Roles
 
 - **You are the human.** You choose the project and the task, answer the agent's questions, approve or reject, and correct it when a real user would. You never do its work, never edit its files, and never name a skill or a step that a real user would not name.
-- **The puppet** is OpenCode with a cheaper model. It sees only the project and a frozen copy of `skills/`: no global skills, plugins, MCP servers or CLAUDE.md (`turn.sh` isolates it). A weaker model shows where the skills are not clear enough.
+- **The puppet** is OpenCode with a cheaper model, or Claude Code (`turn-claude.sh`) when the user asks for it. It sees only the project and a frozen copy of `skills/`: no global skills, plugins, MCP servers or CLAUDE.md (`turn.sh` isolates it). A weaker model shows where the skills are not clear enough.
 
 ## Tools
 
@@ -24,6 +24,7 @@ All in `scripts/`. Runs live in `.scratchpad/bench/<run-id>/` of this repository
 | `models.py check <model>` | Fails for a banned model (any `kimi k-3`, any `astra`) or one over the price cap (`YAKBENCH_MAX_OUTPUT`, 5 $/M output by default). Old models can be expensive: always check |
 | `prepare.sh <run-id> <git-url> [ref]` | Clones the project without its remote, copies the skills, writes `run.json` with the YesYak version |
 | `turn.sh <run-id> <message-file> [--model m] [--new-session]` | Sends one human message in tmux session `yak-bench`, waits, prints the answer, keeps every session id in `run.json`. Starts one isolated, password-protected `opencode serve` per run, so background subagents survive between turns |
+| `turn-claude.sh <run-id> <message-file> [--model m] [--new-session]` | The same for Claude Code: `--setting-sources project` and `--strict-mcp-config` hide the user's skills, hooks, plugins, MCP servers and CLAUDE.md; HOME stays real for the sign-in. Its models are over the price cap: run it with `YAKBENCH_ALLOW_EXPENSIVE=1` only when the user asks |
 | `report.py run <run-dir>` | Facts of the run: sessions, time, model steps, tokens, equivalent cost, skills loaded, commits, artifacts, tool errors. Saves each session export (the full transcript) in the run folder |
 | `report.py metrics <bench-dir> [transcript]` | One row per run: turns, steps, wall and agent time, tokens, cost. With your own session transcript (`~/.claude/projects/<project>/<session>.jsonl`), also what you spent as the driver in each run's window |
 

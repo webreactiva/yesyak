@@ -20,8 +20,9 @@ Steps in parentheses are optional.
 Fix route, for a bug report:
 
 ```text
-bug-intake → branch fix/<slug> → execute-plan-loop (change-list mode) → verify the fix
-→ (red-team-review, one or two missions) → write-visual-pr (short) → session-retrospective-rules
+bug-intake (triage, then contract and reproduction) → branch fix/<slug> → execute-plan-loop (change-list mode)
+→ checks by the light of the bug: (verify-against-spec) → (red-team-review) → (browser-acceptance-testing)
+→ write-visual-pr (short) → session-retrospective-rules
 ```
 
 Conventions that every phase loads: `simplified-technical-language`, `scratchpad-working-files`, `git-commit-organizer`, `no-slop-code`, `decision-record-log`, `traffic-light-findings`, `plain-visual-docs`. Modes: `unattended-run` (no questions), `ask-yak` (where am I), `customize-yak` (change the process).

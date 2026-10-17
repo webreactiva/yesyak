@@ -1,11 +1,11 @@
 ---
 name: bug-intake
-description: Entry point for one bug report - capture it, find the expected behavior even when there is no spec, reproduce it with a failing automated test, trace the root cause across every caller, give it a traffic light and choose the route (fix against an existing contract, write the missing contract first, treat it as a feature, or stop because it does not reproduce), then run the short fix route of the feature-delivery-pipeline. Use it whenever the user reports a bug or a regression, pastes an error, a stack trace, a log line or an issue, says "no funciona", "da 500", "falla", "se ha roto", "hotfix", or asks to fix unexpected behavior. It is not triage-findings-list, which merges review reports into a change list later in a pipeline.
+description: Entry point for one bug report - capture it, triage it without changing anything (severity, owning area, layers crossed with file and line, kind), find the expected behavior even when there is no spec, reproduce it with a failing automated test, trace the root cause across every caller, give it a traffic light and choose the route (fix against an existing contract, write the missing contract first, treat it as a feature, or stop because it does not reproduce), then run the short fix route of the feature-delivery-pipeline. Use it whenever the user reports a bug or a regression, pastes an error, a stack trace, a log line or an issue, says "no funciona", "da 500", "falla", "se ha roto", "hotfix", or asks to triage an issue or to fix unexpected behavior. It is not triage-findings-list, which merges review reports into a change list later in a pipeline.
 ---
 
 # Bug intake
 
-A bug report names a symptom. This skill turns it into a failing test, a root cause and a route. The pipeline's spec phase does not apply: there is no interview and no plan, and there may be no spec at all.
+A bug report names a symptom. This skill turns it into a triage, a failing test, a root cause and a route. The pipeline's spec phase does not apply: there is no interview and no plan, and there may be no spec at all.
 
 ## 1. Capture
 
@@ -17,7 +17,18 @@ Write down, in the user's words where possible:
 
 Ask only for what is missing and needed to reproduce. In an unattended run, record the assumption as a `Q-` entry (`unattended-run`).
 
-## 2. Find the contract
+## 2. Triage
+
+Read the report and the code it needs. Change nothing yet: no file, no test, no branch. Give:
+
+1. **Severity**: a light with `traffic-light-findings`, impact and likelihood together, and why in one sentence.
+2. **Owner**: which area of the project takes care of it, if the project has areas or teams (for example data, backend, frontend, product).
+3. **Layers**: which layers of the architecture it crosses (for example source data, import, storage, API, interface), each with `file:line`.
+4. **Kind**: for example a code bug, a data bug, a missing requirement, an interface problem, legacy code or performance.
+
+A report can be partly wrong, whoever wrote it: a user, a teammate or an agent. Say which parts of it the code confirms, which parts it contradicts, and which parts you cannot check yet. Show the triage and ask before you go on. In an unattended run, log it as a `Q-` entry and go on.
+
+## 3. Find the contract
 
 The expected behavior must come from somewhere. Look in this order and write down which source you used:
 
@@ -31,7 +42,7 @@ Sources often cover only part of the case. An OpenAPI parameter can say `minimum
 
 When no source decides the behavior, the expected behavior is a decision. Choose the option that matches the sibling code and the published contract. Write it in the bug report as **assumed contract**. Ask the user, or log a `Q-` entry in an unattended run. The regression test then becomes the contract. Record an ADR only when the choice is irreversible (for example, a status code of a public API) or a reviewer would really question it (`decision-record-log`).
 
-## 3. Reproduce
+## 4. Reproduce
 
 Write the smallest automated test that fails for the reported reason, at the layer where the user meets the bug (an HTTP test for an API answer, a unit test for a query), in the test file of that route or module. Run it and read the failure. It must fail for the reason in the report, not for a setup mistake.
 
@@ -39,16 +50,16 @@ A script is acceptable only while you explore. The fix starts from a test.
 
 If it does not reproduce after two honest tries, stop: route D.
 
-## 4. Find the root cause
+## 5. Find the root cause
 
 - Follow the code path from the entry point to the line that goes wrong.
 - Grep every caller of the function you are going to change, and every sibling with the same pattern (the same parser, the same unchecked body, the same query).
 - Fix at the shared point when the siblings share the cause: one guard in the shared function is a smaller change than one guard in each caller.
 - Siblings with the same cause are in scope. Other bugs you find on the way are not: write each one as a separate report line.
 
-## 5. Classify and route
+## 6. Route
 
-Give the bug a light with `traffic-light-findings`: impact and likelihood together. A 🔴 in production is a hotfix: fix, test and pull request first; verification, review and retrospective right after.
+Update the light of the triage with what the reproduction and the root cause showed. A 🔴 in production is a hotfix: fix, test and pull request first; verification, review and retrospective right after.
 
 | Route | When | Next |
 | --- | --- | --- |
@@ -57,7 +68,7 @@ Give the bug a light with `traffic-light-findings`: impact and likelihood togeth
 | C | The report asks for behavior that nobody promised | `feature-delivery-pipeline` from `on-the-spot` |
 | D | It does not reproduce, or the cause is the environment or the configuration | Stop. Report what you tried and ask |
 
-## 6. Write the bug report
+## 7. Write the bug report
 
 Save `.scratchpad/<slug>/bug-report.md` in the conversation language:
 
@@ -67,23 +78,31 @@ Save `.scratchpad/<slug>/bug-report.md` in the conversation language:
 | | |
 | --- | --- |
 | Light | 🔴 / 🟠 / 🟡 and why |
+| Owner, kind | area of the project, kind of bug |
 | Route | A / B / C / D |
 | Found at | branch or commit |
 
 ## Report          what happened, what was expected, where (quote the reporter)
+## Triage          layers with file:line; what the code confirms or contradicts
 ## Contract        sources checked, what each says, the gap, the assumed contract if any
 ## Reproduction    test file and name, and the failure output
 ## Root cause      file:line, callers and siblings checked, which share the cause
 ## Scope           what this fix covers; other bugs found, one line each
 ```
 
-## 7. The fix route
+## 8. The fix route
 
 The fix route reuses the pipeline's skills in a shorter order:
 
 1. Branch `fix/<slug>` (`git-commit-organizer`).
 2. `execute-plan-loop` in change-list mode. Item 1 is the failing test with the fix. Each sibling with the same cause is its own item: write its reproduction test when you start that item, so each commit keeps the suite green.
-3. Verify only what the fix touches: the affected criteria or contract, plus the full test suite. Use `verify-against-spec` only when a spec exists.
-4. `red-team-review` with one or two missions, only when the fix touches security, data or a public contract.
+3. Check in proportion to the risk. The checks that are not deterministic (`red-team-review`, `browser-acceptance-testing`) cost the most; run them when the risk asks for them. Say which ones you skip and why.
+
+   | Light of the bug | Checks |
+   | --- | --- |
+   | 🟡 For example a typo in a message | The regression test and the full test suite |
+   | 🟠 Something does not work, or visible data is wrong | Also the affected criteria or contract (`verify-against-spec` when a spec exists) |
+   | 🔴 Data lost, a service down, or security | Also `red-team-review` with one or two missions, and `browser-acceptance-testing` when the user meets the bug in an interface |
+4. Never skip the regression test: the route is flexible, the proof is not.
 5. `write-visual-pr`, short: In plain words, Reproduction, Root cause, Fix, Contract (source or assumed), Tests.
 6. `session-retrospective-rules`, always, with one question first: why did no test, verification or review catch this bug? The guard goes where it should have been caught.

@@ -1,6 +1,8 @@
 ---
 name: yak-bench
 description: Internal benchmark of this repository. It takes a small real project, drives a weaker agent (OpenCode in tmux, as a puppet) through the YesYak process to build a feature or fix a bug, acting as the human user, then scores the run, records it in bench/LOG.md, turns the confirmed findings into skill changes and cuts a release. Use it whenever the user asks to run the benchmark, repeat it, "otra vuelta", test YesYak on a project, measure the process, or apply what the last runs found.
+metadata:
+  internal: true
 ---
 
 # Yak bench

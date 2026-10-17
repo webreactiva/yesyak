@@ -14,11 +14,11 @@ If AGENTS.md sets a different convention for this topic, follow AGENTS.md.
 | A comment that repeats what the next line does | Delete it. Rename the variable or extract a function so the code says it. |
 | A comment that explains *why*, when the project forbids comments | Put the reason in the name, in a test name or in an ADR. |
 | A check for a case that cannot happen here (`if (!db) throw` right after creating `db`) | Delete it. Trust types and invariants. Validate only at boundaries: user input, files, network, environment. |
-| A missing check at a real boundary (form body, query string, route params, env vars) | Add a schema or a parser at the boundary, with a test for bad input. |
+| A missing check at a real boundary (form body, query string, route params, env vars, a file or database that must exist) | Add a schema or a parser at the boundary, with a test for bad input. Fail fast when a required resource is missing; do not create an empty one in silence. |
 | A function, dependency, export, template or table that nothing uses | Delete it, or add it in the same step as its first caller. |
 | An abstraction for one caller "in case we need it later" | Inline it. Extract when the second caller appears. |
 | A cast or a suppression (`as T`, `(T)x`, `@ts-ignore`, `# type: ignore`) to silence the checker | Narrow with a type guard, or fix the type at its source. |
-| The same lookup copied into several handlers | Extract one helper when you add the second copy. |
+| The same lookup or business rule copied into several handlers or layers | Extract one helper when you add the second copy. If two layers must both apply a rule, test it in both. |
 | Catch-all error handling that hides the cause | Handle the errors you expect. Let the rest reach the error handler and the log. |
 
 ## Tests

@@ -10,7 +10,8 @@ Turn a vague request into a set of explicit decisions. Ask; do not implement, an
 ## Before the first question
 
 1. Read the code that the feature touches: entry points, data model, config, tests, docs such as AGENTS.md. Questions grounded in real code are faster to answer.
-2. Note facts the user may not know, and put them in the question text. Example: "the import script deletes every order before it loads the file; should it keep them?"
+2. Search whether the feature, or a part of it, already exists. Tell the user what you found before the first question.
+3. Note facts the user may not know, and put them in the question text. Example: "the import script deletes every order before it loads the file; should it keep them?"
 
 ## How to ask
 

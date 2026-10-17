@@ -65,6 +65,8 @@ Leave out the sections that do not apply.
 - One observable behavior per criterion. Include status codes, messages and data changes that a test can check.
 - Cover the unhappy paths: invalid input, missing or expired credentials when the feature has them, missing permission, limits, unknown ids.
 - Every criterion must map to a test layer in the Testing section, or be marked as manual with a reason.
+- When a rule defines how a value is computed, add one criterion that every place that shows the value or something taken from it uses the same rule: for example the order total in the list, in the detail, in a badge color and in the export.
+- If the feature reads data, every odd case seen in it (empty, duplicated, out of range, mixed units) becomes a business rule or a line in Out of scope.
 
 ## Accepted risks
 

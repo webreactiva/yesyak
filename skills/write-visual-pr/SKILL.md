@@ -29,8 +29,8 @@ Save it to `.scratchpad/<slug>/pr-body.md`. Write it in the document language of
 ```markdown
 ## In plain words          one paragraph, no jargon
 ## New and changed files   ASCII tree with + and ~
-## How it works            one Mermaid diagram of the main flow; a sequence diagram
-                           only when a second actor matters (for example, a review)
+## How it works            the diagrams of the spec, updated to what was built (say what
+                           changed); a sequence diagram only when a second actor matters
 ## Data and configuration  only if they change: erDiagram, data behavior, variables,
                            and a short "try it" block
 ## How it was checked      tests before and after, criteria met, reviews done

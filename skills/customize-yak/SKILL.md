@@ -80,6 +80,7 @@ AGENTS.md: write only between the markers. Every byte outside them stays the sam
 - "Adjusted skills" lists every key of the project settings file as `skill (mode, mode)`. Leave it out when the project file has no entries. User entries do not go in it.
 - Leave out every other line that AGENTS.md already says outside the block, in any words.
 - When a block exists, change only the lines that this request needs. The other template lines go in on the first write only.
+- A block with the line "YesYak is installed but not set up" comes from `install.sh`. Treat it as a first write: write every template line and remove that line.
 
 The user scope applies only where an instructions file has the first line. For a user entry, propose that line for the agent's personal instructions file (for example `~/.claude/CLAUDE.md` or `~/.codex/AGENTS.md`), so it applies in every project. The check ignores a project settings file when the project's AGENTS.md has no YesYak block. A user entry alone does not change the project's AGENTS.md.
 

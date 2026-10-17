@@ -6,10 +6,11 @@ Not sure where you are? Ask "what now?" and `ask-yak` shows the position, the ne
 
 ## Install in another project
 
-1. Run `./install.sh -t /path/to/project` from this repository. It symlinks each folder of `skills/` into the project's `.claude/skills/` (`-a` for `.agents/skills/`, `-b` for both, `-u` to remove, `-h` for help). Or copy the folders of `skills/` there by hand; keep one folder per skill with its `SKILL.md`.
-2. Add `.scratchpad/` to `.gitignore`. Most skills keep working files there.
-3. Start a new session, so the agent lists the new skills.
-4. Run `customize-yak`. It writes the YesYak block in AGENTS.md and, if you want, your first adjustments.
+1. Run `./install.sh -t /path/to/project` from this repository. It symlinks each folder of `skills/` into the project's `.claude/skills/` (`-a` for `.agents/skills/`, `-b` for both, `-u` to remove, `-h` for help). When they are missing, it also writes a minimal YesYak block in AGENTS.md, `@AGENTS.md` in CLAUDE.md (for `.claude/skills/`), and `.scratchpad/` in `.gitignore`, and prints each file it wrote. Commit them, or review them first.
+2. Start a new session, so the agent lists the new skills and reads the block.
+3. Ask for your first task. The minimal block tells the agent that YesYak is not set up yet, so it offers `customize-yak` first: it detects the project's checks and conventions and replaces the minimal block with the full one.
+
+If you copy the folders of `skills/` by hand instead, keep one folder per skill with its `SKILL.md`, and say "set up YesYak" in the first session. Without the YesYak block, agents often skip the skills for small changes.
 
 To update the skills later, pull this repository (symlinks follow it) or copy the new folders, and run `python3 <skills folder>/ask-yak/scripts/check_yesyak.py`. It reports adjustments that the new version breaks, for example a section that was renamed. If a project has `.agents/yesyak.json` and no YesYak block in AGENTS.md, run `customize-yak`.
 

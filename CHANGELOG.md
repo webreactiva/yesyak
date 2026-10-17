@@ -2,6 +2,12 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.3.2 · 2026-10-17
+
+From benchmark run 0004 (a TypeScript library, a feature, a stronger model).
+
+- `git-commit-organizer`: read the full check's own exit code before a commit; a pipe to another command returns the exit code of the last one.
+
 ## 0.3.1 · 2026-10-17
 
 From benchmark run 0003 (a PHP library, a feature, a second weak model).

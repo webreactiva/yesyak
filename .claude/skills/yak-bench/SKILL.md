@@ -32,6 +32,16 @@ Run `turn.sh` in the background and wait for it to finish; one turn can take man
 
 Read `bench/LOG.md`: the last version, the models used, and the findings with status `watch` or `fixed`. A `fixed` finding must be checked again in this run; choose a project and task that can show it.
 
+A finding that the last run did not exercise must be forced in this one. Write its trigger in `notes.md` before you start, then create it the way a real user or project would:
+
+| The finding needs | Force it with |
+| --- | --- |
+| A project state (for example a check that already fails on the default branch) | A project that has that state. Search until one does; never break the project yourself |
+| A step that the agent skips (for example the commit skill) | A plain user request that leads there, for example "commit it" |
+| A user habit (for example a rule said in the chat) | Say it, the way a user would |
+
+If you could not force it, say so in the run file.
+
 ## 2. Choose the project, the task and the model
 
 - **Project.** A public repository from GitHub (`gh api 'search/repositories?q=...'`), small (a few thousand lines at most), with tests that pass on this machine, in a stack that this machine runs (check with `command -v`). Change the stack and the kind of project from run to run. The user can name one.

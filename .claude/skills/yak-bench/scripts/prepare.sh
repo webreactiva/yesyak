@@ -27,9 +27,8 @@ git remote remove origin  # the agent must never reach the original repository
 # Frozen copy, not symlinks: an edit to YesYak during the run must not change the run.
 mkdir -p .agents/skills
 cp -R "$yesyak"/skills/* .agents/skills/
-printf '\n.scratchpad/\n.agents/skills/\n' >> .gitignore
-git add .gitignore
-git -c user.name=yak-bench -c user.email=yak-bench@localhost commit -q -m "chore: ignore yesyak working folders"
+# No commit: a bench commit in the history misleads the detection of the project's commit convention.
+printf '.scratchpad/\n.agents/skills/\n' >> .git/info/exclude
 
 # Isolated OpenCode config: no global skills, plugins or MCP servers. Auth lives in the data dir and stays shared.
 mkdir -p "$bench/opencode-config"

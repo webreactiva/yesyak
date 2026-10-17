@@ -2,7 +2,7 @@
 
 How each run went through the YesYak process, and which skills the puppet used, in order. Regenerate the skills column with `python3 .claude/skills/yak-bench/scripts/report.py flows .scratchpad/bench`. It reads the turns of the work session (not the isolation probe). A skill counts when the puppet loads it with the skill tool, or reads its `SKILL.md` by hand (marked `*`). The number is the turn of first use.
 
-Last update: run 0014, YesYak v0.3.9.
+Last update: run 0015, YesYak v0.3.9.
 
 ## The runs
 
@@ -23,6 +23,7 @@ Last update: run 0014, YesYak v0.3.9.
 | 0012 | OpenCode, deepseek-v4.1-flash | bug, unattended | fix | complete | `unattended-run` held: decisions logged, no user needed |
 | 0013 | Claude Code, Sonnet | bug with a design choice | fix | complete | Optional steps answered in the chat, not through their skills |
 | 0014 | Claude Code, Sonnet | feature, no setup | none | feature built, no process | The novice with a strong model: same result as 0008 |
+| 0015 | Claude Code, Sonnet | feature, no setup | none | code on main, no process | The v0.3.9 trigger did not start the pipeline for a strong model |
 
 ## Skills used, in order
 
@@ -43,6 +44,7 @@ Last update: run 0014, YesYak v0.3.9.
 | 0012-tabulate-unattended | customize-yak (2) → on-the-spot (2) → git-commit-organizer* (3) → bug-intake (5) → unattended-run (5) → scratchpad-working-files (5) → traffic-light-findings (5) → decision-record-log (5) → simplified-technical-language (5) → write-visual-pr (5) → plain-visual-docs (5) → session-retrospective-rules (5) |
 | 0013-humanize-sign-claude | customize-yak (2) → bug-intake (4) → session-retrospective-rules (7) |
 | 0014-inflect-novice-claude | customize-yak (4) |
+| 0015-gomodifytags-lowercase-claude | none |
 
 ## The usual order
 
@@ -64,8 +66,8 @@ The convention skills (`simplified-technical-language`, `scratchpad-working-file
 
 ## What the flows show
 
-- **Setup is the only step every run took.** `customize-yak` ran in all 14 runs, also in 0014, where the user asked to switch a skill off.
-- **Without the YesYak block, nothing starts the process (0008, 0014).** Both models, weak and strong, wrote the feature directly. v0.3.9 makes the pipeline trigger on any feature request and offer the setup first; no run has used that text yet.
+- **Setup is the only step every run took.** `customize-yak` ran in 14 of 15 runs, also in 0014, where the user asked to switch a skill off.
+- **Without the YesYak block, nothing starts the process (0008, 0014).** Both models, weak and strong, wrote the feature directly. v0.3.9 made the pipeline trigger on any feature request; run 0015 showed that a strong model still skips it for a small change. The block is the switch.
 - **A strong model loads fewer skills.** For the same task, deepseek loaded 19 skills (0007) and Sonnet 12 (0010). Sonnet left out most convention skills and `triage-findings-list`, and in 0013 wrote the PR text without `write-visual-pr`. Its results were good, but the files that `ask-yak` reads to find the position (for example `pr-body.md`) can then be missing.
 - **`ask-yak` is rarely loaded (3 of 14 runs).** Agents go from skill to skill through the "Next" of each card. `ask-yak` came in only for "what now?" or a resume (0011). In 0009 "what now?" got an answer without it.
 - **Optional steps run when the user or the size asks.** `red-team-review` ran in 3 runs, each time with real findings. `pr-reviewer-guide` ran in 4. `agent-hook-guard` ran once (0004), when the retrospective chose a hook.

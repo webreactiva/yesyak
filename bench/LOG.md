@@ -21,6 +21,7 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0012](runs/0012-tabulate-unattended.md) | 2026-10-17 | v0.3.7 + unslop | astanin/python-tabulate · bug #354, unattended | ollama-cloud/deepseek-v4.1-flash | `ses_eb54ef691ffeJoM0nsMQxjbOqU` (work), 1 probe session | fix route complete, unattended | 0/0/0 | 0.08 $ |
 | [0013](runs/0013-humanize-sign-claude.md) | 2026-10-17 | v0.3.8 | python-humanize/humanize · #379 (sign of a negative delta), optional steps | anthropic/claude-sonnet-5-5 (Claude Code) | `7b95bd89-0d37-4c1f-92dd-6b3c5d088f72` (work), 1 probe session | fix route complete | 0/0/0 | 0.63 $ |
 | [0014](runs/0014-inflect-novice-claude.md) | 2026-10-17 | v0.3.8 | jaraco/inflect · #266 (user acronyms), devil's advocate user | anthropic/claude-sonnet-5-5 (Claude Code) | `f65d1a58-7ebf-4a16-b4f6-a3270a1cf096` (work), 1 probe session | feature built; process never started | 6 user mistakes: 🟢2 🟠2 🔴1, 1 not reached | 0.29 $ |
+| [0015](runs/0015-gomodifytags-lowercase-claude.md) | 2026-10-17 | v0.3.9 | fatih/gomodifytags · #95 (lowercase transform), no setup | anthropic/claude-sonnet-5-5 (Claude Code) | `db73a511-7101-4b6b-96d8-4ad27e9fda93` (work), 1 probe session | code on main; process never started | 0/0/0 | 0.12 $ |
 
 ## Metrics
 
@@ -43,6 +44,7 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0012-tabulate-unattended | ollama-cloud/deepseek-v4.1-flash | 5 | 73 | 5 min | 5 min | 147063 | 60638 | 5919060 | 0.08 | 2 | 826630 (1318) | 0.21 |
 | 0013-humanize-sign-claude | anthropic/claude-sonnet-5-5 | 8 | 37 | 6 min | 4 min | 74 | 27132 | 1808861 | 0.63 | 10 | 4568475 (7217) | 1.12 |
 | 0014-inflect-novice-claude | anthropic/claude-sonnet-5-5 | 6 | 25 | 3 min | 2 min | 46 | 10149 | 772857 | 0.29 | 8 | 3784872 (5591) | 0.92 |
+| 0015-gomodifytags-lowercase-claude | anthropic/claude-sonnet-5-5 | 3 | 7 | 1 min | 1 min | 14 | 3706 | 167110 | 0.12 | 1 | 518555 (1083) | 0.13 |
 
 ## Findings
 
@@ -94,7 +96,7 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-042 | Skill | fixed in v0.3.4 | The coverage check of walking-skeleton-plan used `seq -w 1 NN`, which does not pad below 10 on macOS, so it printed every criterion as missing | 0007 retrospective; reproduced |
 | F-043 | Skill | watch | A red-team probe subagent left a symlink loop in the working tree that broke the suite; the orchestrator did not check the tree after the missions | 0007 turn 11; not repeated in 0010 |
 | F-044 | Bench | fixed in bench tools | With no bench commit, `prepare.sh` recorded `HEAD~1` as the base ref | 0007 setup |
-| F-045 | Skill | fixed in v0.3.9 | Skills installed but no YesYak block: a plain feature request never engaged the process (no ask-yak, no phase 0, no PR body, no retrospective). The pipeline description triggers on "end to end", and no skill checks for a missing block. `install.sh` now prints the next step | 0008 turns 2-5; same gap as F-049, seen with the block in place in 0009; 0014 (Sonnet): the same. The pipeline description now triggers on any feature request, and phase 0 offers customize-yak when the block is missing |
+| F-045 | Skill | open: design question | Skills installed but no YesYak block: a plain feature request never engaged the process (no ask-yak, no phase 0, no PR body, no retrospective). The pipeline description triggers on "end to end", and no skill checks for a missing block. `install.sh` now prints the next step | 0008 turns 2-5; same gap as F-049, seen with the block in place in 0009; 0014 (Sonnet): the same. The pipeline description now triggers on any feature request, and phase 0 offers customize-yak when the block is missing; 0015 (Sonnet, v0.3.9): the broader trigger did not help; the YesYak block is the switch. Decide between a minimal block written at install and a clear 'set up first' |
 | F-046 | Skill | watch | The user's uncommitted changes went into the new branch without a question (phase 0 did not run) | 0008 turn 3 |
 | F-047 | Skill | watch | "Just code it, no spec" followed without one line on the risk or a short safe route | 0008 turn 3 |
 | F-048 | Skill | watch | The user left early; the agent did not say which steps were left | 0008 turn 5 |

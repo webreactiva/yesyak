@@ -60,6 +60,7 @@ A conflict exists only when the strongest signal lacks the file that its phase n
 | Strongest signal | Missing | Conflict |
 | --- | --- | --- |
 | `progress.md` at phase 3 or later | `docs/<slug>-plan.md` | yes |
+| `progress.md` marks a phase done | a file that a card of that phase lists under Makes (for example `pr-body.md` for 5 Sign your work) | yes: the phase is not done |
 | An open pull request | `docs/<slug>-spec.md`, on a branch that is not `fix/` | yes |
 | `docs/<slug>-plan.md` without `progress.md` | nothing, but commits after the plan change code | yes: ask how far the build got (`.scratchpad/` may be on another machine) |
 | A merged or closed pull request | nothing, but the branch has commits after the merge | yes: ask whether this is new work on the same branch |

@@ -10,6 +10,7 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0001](runs/0001-candlestick-lines.md) | 2026-10-17 | v0.1.0 | BoboTiG/py-candlestick-chart · feature #44 (chart lines) | openai/gpt-6-luna | `ses_eb6f88379ffedZji6QZ14HqhQj` (work), 3 probe sessions | 6 Retrospective (all phases) | 3/5/1 | 0.73 $ |
 | [0002](runs/0002-sjson-empty-key.md) | 2026-10-17 | v0.2.0 | tidwall/sjson · bug #77 (delete an empty key) | openai/gpt-6-luna | `ses_eb6c7d954ffef4eMk69SYt66i5` (work), 1 probe session | fix route complete | 2/0/1 | 0.05 $ |
 | [0003](runs/0003-markdown-nbsp.md) | 2026-10-17 | v0.3.0 | thephpleague/html-to-markdown · feature #258 (keep non-breaking spaces) | ollama-cloud/deepseek-v4.1-flash | `ses_eb6aef4efffessgcw9rHdUKN8n` (work), 2 probe sessions | 6 Retrospective (all phases) | 0/3/0 | 0.22 $ |
+| [0004](runs/0004-pmemoize-while-pending.md) | 2026-10-17 | v0.3.1 | sindresorhus/p-memoize · feature #53 (`cache: 'while-pending'`) | ollama-cloud/glm-5.3 | `ses_eb6488a4effeCMZNyqQMzguBzN` (work), 1 probe session | 6 Retrospective + agent hook | 0/0/0 | 5.63 $ |
 
 ## Findings
 
@@ -17,7 +18,7 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 
 | Id | Class | Status | Finding | Evidence |
 | --- | --- | --- | --- | --- |
-| F-001 | Skill | fixed in v0.3.1 (second fix) | A spec of 146 lines for one CLI flag: write-acceptance-spec does not scale the spec to the size of the change (no-slop-code says a spec longer than the code is suspect) | 0000: `docs/json-output-spec.md`; 0001: 207-line spec for about 60 lines of code; 0003: 230-line spec for 37 lines of `src`, after the v0.2.0 rule (second model). The rule became a count reported at the checkpoint |
+| F-001 | Skill | verified in run 0004 | A spec of 146 lines for one CLI flag: write-acceptance-spec does not scale the spec to the size of the change (no-slop-code says a spec longer than the code is suspect) | 0000: `docs/json-output-spec.md`; 0001: 207-line spec for about 60 lines of code; 0003: 230-line spec for 37 lines of `src`, after the v0.2.0 rule (second model). The rule became a count reported at the checkpoint; 0004 reported 160 vs about 110 and cut |
 | F-002 | Bench | fixed in bench tools | The pilot ran with the user's global OpenCode config (other skills, a browser MCP server) and symlinked skills | 0000: `opencode.json` of the user; now `turn.sh` isolates the config and `prepare.sh` copies the skills |
 | F-003 | Bench | fixed in bench tools | The clone kept `origin` pointing to the original repository | 0000; now `prepare.sh` removes the remote |
 | F-004 | Skill | verified in runs 0002 and 0003 (baseline held at every commit) | customize-yak detected only the test command, so AGENTS.md named pytest alone; the loop, verify-against-spec and red-team-review never ran lint or types, and the branch added 13 ruff errors that only the human found. The command it later wrote fixed files in place | 0001 turns 16, 24, 28, 30, 31 |
@@ -43,8 +44,12 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-024 | Skill | watch | customize-yak showed only the settings diff, not the AGENTS.md diff, until asked | 0002 turn 3 |
 | F-025 | Model | watch | Bug fix covered by one test case; siblings (`DeleteBytes`, JSON without the key) not tested | 0002 turn 7 |
 | F-026 | Bench | fixed in bench tools | The puppet blocked on publishing a PR; the bench now tells it in the first request that PRs stay local (user rule: never publish) | 0002 turn 10 |
-| F-027 | Skill | fixed in v0.3.1 | The AGENTS.md line "run the check before every commit" cannot hold when the default branch already fails; it now says "add no new failures" and where the known failures are | 0003 turns 4-5 |
+| F-027 | Skill | verified in run 0004 | The AGENTS.md line "run the check before every commit" cannot hold when the default branch already fails; it now says "add no new failures" and where the known failures are | 0003 turns 4-5 |
 | F-028 | Harness | fixed in bench tools | OpenCode's question-cancel message tells the agent to assume and go on, so it wrote files without the yes customize-yak asks for; the bench now disables the question tool, so questions go to the chat | 0003 turn 2 |
-| F-029 | Skill | watch | on-the-spot put the recommended option first but did not mark it "(Recommended)" | 0003 turn 7 |
+| F-029 | Model | watch | on-the-spot put the recommended option first but did not mark it "(Recommended)" | 0003 turn 7; marked in 0004 |
 | F-030 | Skill | watch | An ADR for a routine fix (keep a converter usable without configuration); decision-record-log says no ADR for routine fixes, but it fixes a public contract | 0003 turn 16 |
 | F-031 | Bench | noted | OpenCode Zen had no funds; composer could not authenticate with the user's stale global GitHub token. Runs use ollama-cloud models and an empty COMPOSER_HOME | 0003 setup |
+| F-032 | Skill | fixed in v0.3.2 | `npm test 2>&1 | tail -5 && git commit` passed a failing check: the pipe returns the exit code of `tail`. git-commit-organizer now says to read the check's own exit code | 0004 turns 10, 13 |
+| F-033 | Skill | watch | The phase 0 proposal to write chat rules to AGENTS.md put the rule inside the YesYak block; project rules belong outside it | 0004 turn 5 |
+| F-034 | Skill | watch | A known failure that stops an `&&` check chain hides the later steps; "add no new failures" then checks nothing after it. The agent ran the tests apart, but no skill says to | 0004 turns 3-4, 10 |
+| F-035 | Skill | verified in run 0004 | agent-hook-guard, first use: diagram and yes first, script plus OpenCode plugin, forced error, false positives, real run blocked | 0004 turns 14-15 |

@@ -8,7 +8,7 @@
 2 Write the contract  write-acceptance-spec → (red-team-review: devil's advocate on the spec)
                       → write-acceptance-spec (refine) → walking-skeleton-plan → (work-items-breakdown)
 3 Make it work        execute-plan-loop
-4 Break it            verify-against-spec → (browser-acceptance-testing) → red-team-review
+4 Break it            verify-against-spec → (browser-acceptance-testing) → red-team-review → (agent-hook-guard)
 5 Sign your work      triage-findings-list → execute-plan-loop (change-list mode)
                       → write-visual-pr → pr-reviewer-guide → (feature-walkthrough)
 6 Retrospective       session-retrospective-rules → (handoff-and-resume, when the work pauses)
@@ -43,7 +43,7 @@ A `progress.md` written before the phases got their names can use the old ones: 
 | `.scratchpad/<slug>/pr-guide.md` | 5 Sign your work done | `session-retrospective-rules` |
 | An open pull request for the branch | 5 Sign your work | `pr-reviewer-guide` |
 | `.scratchpad/<slug>/change-list.md` | 5 Sign your work | `execute-plan-loop` (change-list mode) |
-| `verification-report.md`, `browser-test-report.md` or `redteam-report.md` in `.scratchpad/<slug>/` | 4 Break it | the next Break it step, or `triage-findings-list` |
+| `verification-report.md`, `browser-test-report.md`, `redteam-report.md` or `hook-report.md` in `.scratchpad/<slug>/` | 4 Break it | the next Break it step, or `triage-findings-list` |
 | `docs/<slug>-plan.md` | 3 Make it work | `execute-plan-loop` |
 | `docs/<slug>-spec.md` | 2 Write the contract | `walking-skeleton-plan` |
 | `.scratchpad/<slug>/interview-decisions.md` | 1 Grill & sketch | `domain-language` |
@@ -171,6 +171,13 @@ Each card says when to use the skill, what it makes, what comes next, the sectio
 - Next: `triage-findings-list` (code), `write-acceptance-spec` refine (spec)
 - Replaceable: none
 - Off: not allowed
+
+### agent-hook-guard
+- When: a review found a problem that a check of the agent's harness could stop
+- Makes: an agent hook and its script, `.scratchpad/<slug>/hook-report.md`
+- Next: `triage-findings-list`
+- Replaceable: none
+- Off: allowed
 
 ### triage-findings-list
 - When: there are reports to merge

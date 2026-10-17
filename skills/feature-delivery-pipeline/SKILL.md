@@ -23,7 +23,7 @@ Invoke every phase skill with the skill tool, not by reading its file. If a proj
 2 Write the contract  write-acceptance-spec → (red-team-review: devil's advocate on the spec)
                       → write-acceptance-spec (refine) → walking-skeleton-plan → (work-items-breakdown)
 3 Make it work        execute-plan-loop
-4 Break it            verify-against-spec → (browser-acceptance-testing) → red-team-review
+4 Break it            verify-against-spec → (browser-acceptance-testing) → red-team-review → (agent-hook-guard)
 5 Sign your work      triage-findings-list → execute-plan-loop (change-list mode)
                       → write-visual-pr → pr-reviewer-guide → (feature-walkthrough)
 6 Retrospective       session-retrospective-rules → (handoff-and-resume, when the work pauses or changes hands)

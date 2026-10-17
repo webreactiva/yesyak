@@ -13,8 +13,14 @@ run="$bench/$run_id"
 [ -e "$run" ] && { echo "exists: $run" >&2; exit 1; }
 mkdir -p "$run/turns"
 
-git clone -q "$source" "$run/repo"
-cd "$run/repo"
+# OpenCode looks for skills in every parent folder, so a clone inside the user's home would see ~/.agents/skills.
+# The clone lives outside home; the run folder links to it, so everything stays reachable from this repository.
+work=${YAKBENCH_WORK:-/Users/Shared/yak-bench}/$run_id
+[ -e "$work" ] && { echo "exists: $work" >&2; exit 1; }
+mkdir -p "$(dirname "$work")"
+git clone -q "$source" "$work"
+ln -s "$work" "$run/repo"
+cd "$work"
 [ -n "$ref" ] && git checkout -q "$ref"
 git remote remove origin  # the agent must never reach the original repository
 

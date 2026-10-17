@@ -57,7 +57,7 @@ def turn(path, model):
     out.append(f"Tool calls: {len(calls)}")
     out += [f"  {c}" for c in calls[-15:]]
     out += [f"ERROR {e}" for e in errors]
-    out.append("Tokens: " + ", ".join(f"{k} {v}" for k, v in tokens.items()) + (f" · ≈ {cost:.4f} $" if cost is not None else ""))
+    out.append("Tokens (approximate, the last step is missing): " + ", ".join(f"{k} {v}" for k, v in tokens.items()) + (f" · ≈ {cost:.4f} $" if cost is not None else ""))
     print("\n".join(out))
 
 
@@ -69,17 +69,23 @@ def run(run_dir):
     run_dir = Path(run_dir)
     meta = json.loads((run_dir / "run.json").read_text())
     data = models.catalog()
-    total = dict.fromkeys(TOKEN_KEYS, 0)
-    cost, skills, calls, errors = 0.0, [], 0, []
+    skills, calls, errors = [], 0, []
     for path in sorted((run_dir / "turns").glob("*.jsonl")):
-        _, c, s, e, t = summarize(path)
+        _, c, s, e, _ = summarize(path)
         calls += len(c)
         skills += s
         errors += [f"{path.stem}: {x}" for x in e]
-        for k in TOKEN_KEYS:
-            total[k] += t[k]
-        cost += models.cost_of(meta["model"], t, data) or 0
     repo = run_dir / "repo"
+    # The JSON stream drops the token count of a turn's last step; the session export has all of them.
+    total, cost = dict.fromkeys(TOKEN_KEYS, 0), 0.0
+    for session in meta["sessions"]:
+        exported = json.loads(subprocess.run(["opencode", "session", "export", session["id"]], cwd=repo, capture_output=True, text=True).stdout or "{}")
+        t = exported.get("info", {}).get("tokens") or {}
+        tokens = {"input": t.get("input", 0), "output": t.get("output", 0) + t.get("reasoning", 0),
+                  "cache_read": t.get("cache", {}).get("read", 0), "cache_write": t.get("cache", {}).get("write", 0)}
+        for k in TOKEN_KEYS:
+            total[k] += tokens[k]
+        cost += models.cost_of(session["model"], tokens, data) or 0
     artifacts = sorted(str(p.relative_to(repo)) for pattern in (".scratchpad/*/*", "docs/**/*.md", "AGENTS.md", ".agents/yesyak.json") for p in repo.glob(pattern))
     print(f"# Run {meta['run_id']}\n")
     print(f"- Source: {meta['source']} @ {meta['ref'][:9]}")

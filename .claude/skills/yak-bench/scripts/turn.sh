@@ -33,16 +33,22 @@ session=""
 n=$(printf '%02d' $(( $(read_meta "d['turns']") + 1 )))
 cp "$message" "$run/turns/$n-human.md"
 
-args=(run -m "$model" --auto --format json)
+args=(run --standalone -m "$model" --auto --format json)
 [ -n "$session" ] && args+=(-s "$session") || args+=(--title "yak-bench $run_id")
 
 tmux has-session -t yak-bench 2>/dev/null || tmux new-session -d -s yak-bench -x 200 -y 50
 window="$run_id-$n"
 done_file="$run/turns/$n.done"
+# Isolation: --standalone skips the shared background service (it runs with the user's config), and a fake HOME
+# hides the user's skills (~/.claude, ~/.agents, ~/.config/opencode). Auth and sessions stay in the real data dir.
+mkdir -p "$bench/home"
+env_vars="HOME='$bench/home' XDG_CONFIG_HOME='$bench/home/.config' XDG_DATA_HOME='$HOME/.local/share' \
+  XDG_CACHE_HOME='$HOME/.cache' XDG_STATE_HOME='$HOME/.local/state' OPENCODE_CONFIG_DIR='$bench/opencode-config' \
+  OPENCODE_DISABLE_CLAUDE_CODE=1 OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=1 OPENCODE_DISABLE_AUTOUPDATE=1 \
+  GIT_AUTHOR_NAME=yak-puppet GIT_AUTHOR_EMAIL=puppet@yak-bench GIT_COMMITTER_NAME=yak-puppet GIT_COMMITTER_EMAIL=puppet@yak-bench"
 # The message goes through a file, so quotes in it never reach the shell.
 tmux new-window -d -t yak-bench -n "$window" -c "$run/repo" \
-  "OPENCODE_CONFIG_DIR='$bench/opencode-config' OPENCODE_DISABLE_CLAUDE_CODE=1 OPENCODE_DISABLE_AUTOUPDATE=1 \
-   opencode $(printf '%q ' "${args[@]}") \"\$(cat '$run/turns/$n-human.md')\" > '$run/turns/$n.jsonl' 2> '$run/turns/$n.stderr'; \
+  "$env_vars opencode $(printf '%q ' "${args[@]}") \"\$(cat '$run/turns/$n-human.md')\" > '$run/turns/$n.jsonl' 2> '$run/turns/$n.stderr'; \
    echo \$? > '$done_file'"
 
 while [ ! -f "$done_file" ]; do sleep 5; done

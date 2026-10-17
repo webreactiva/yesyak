@@ -16,6 +16,7 @@ Read before you ask. Show what you detected in one table and do not ask for it a
 | The test command | `package.json` scripts, `Makefile` targets, `pyproject.toml`, `Cargo.toml`, `go.mod`, `composer.json` |
 | Working files ignored | `.scratchpad/` in `.gitignore` |
 | Docs folders and their language | `docs/`, `docs/decisions/`, README; without docs, the language of AGENTS.md |
+| Whether the project keeps decision records | a decisions folder or ADR files; if there is none, ask once whether to keep them (`decision-record-log` can be `off`) |
 | Current adjustments | `.agents/yesyak.json` and `~/.agents/yesyak.json` |
 | The YesYak block | AGENTS.md, between `<!-- yesyak:start -->` and `<!-- yesyak:end -->` |
 | Which file the agent reads | AGENTS.md, or the agent's own file (CLAUDE.md, GEMINI.md, `.github/copilot-instructions.md`) and whether it imports AGENTS.md |
@@ -65,7 +66,7 @@ AGENTS.md: write only between the markers. Every byte outside them stays the sam
 - One branch per piece of work: `feat/<slug>` for a feature, `fix/<slug>` for a bug.
 - Temporary files, reports and scratch data go in `.scratchpad/<slug>/` (gitignored).
 - Documentation in <detected language>, written in simplified technical language.
-- Record decisions in `<detected decisions folder>` (`decision-record-log`).
+- Record decisions in `<detected decisions folder>` (`decision-record-log`). Leave this line out when it is `off`.
 - Run `<detected test command>` before every commit.
 <!-- yesyak:end -->
 ```

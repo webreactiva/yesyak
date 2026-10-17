@@ -19,7 +19,7 @@ Load and follow these conventions during the whole loop: `git-commit-organizer`,
 2. **Test.** Add or update tests for the criteria of the step. For fixes, check that the new test fails without the fix, then passes with it.
 3. **Run the full check** of the project (for example types, lint and all tests).
 4. **Manual check.** Do the check that the plan lists, in the manual environment. Stop everything you started.
-5. **Record and commit.** Write the ADRs that `decision-record-log` asks for, sync the docs the change affects, and commit as `git-commit-organizer` says.
+5. **Record and commit.** Write the ADRs that `decision-record-log` asks for (if the project switched it off, the reason goes in the commit body), sync the docs the change affects, and commit as `git-commit-organizer` says.
 6. **Update `progress.md`** with the status and the commit hashes. Do not start the next step before `progress.md` shows the commit of this one.
 
 Keep the output of each step short in the chat: what was added, test count, manual check result, commit hash.

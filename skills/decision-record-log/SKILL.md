@@ -55,7 +55,7 @@ What was chosen, in the imperative or the present tense. Name the files or setti
 - What becomes harder, and the cost to undo it.
 ```
 
-Keep each ADR short. Write it in the document language of `simplified-technical-language`.
+Write it in the document language of `simplified-technical-language`.
 
 ## README index
 
@@ -80,11 +80,24 @@ Update the index in the same commit as the ADR.
 
 ## When to write one
 
-- An irreversible decision (see the table above).
-- A reversible choice only when a reviewer would really question it. Otherwise write one line in the spec or in the commit body.
+Write an ADR when the change introduces a dependency, an architectural pattern or a decision that is hard to revert. To decide, ask four questions. One yes is enough:
+
+1. Was there more than one reasonable way?
+2. Would it cost much to undo later?
+3. Do other parts depend on it?
+4. Will someone ask "why was this done"?
+
+Also write one for:
+
 - A deviation from the spec or the plan.
 - A fix that changes a previous decision. Write a new ADR and keep both. If the new ADR replaces the whole decision, mark the old one `Superseded by NNNN`. If it changes only a part, mark it `Accepted (amended by NNNN: what changed)` and put `> Amended by NNNN.` under each paragraph that no longer holds.
 - Implicit decisions that reviews uncover (for example no migration path, an id scheme, a default that someone turned off). Record them even if the answer is "accepted for now".
+
+Do not write one for a routine fix, or for a preference that a linter or a formatter already checks. Put a small choice in the commit body.
+
+An ADR is not a story that tells only the good part: the consequences say what is lost. It fits on one page.
+
+If the project switched this skill off, write the reason for each decision in the commit body instead.
 
 ## Before you commit an ADR
 

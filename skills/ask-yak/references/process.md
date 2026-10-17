@@ -275,7 +275,7 @@ Each card says when to use the skill, what it makes, what comes next, the sectio
 - Makes: `docs/decisions/NNNN-*.md`
 - Next: none
 - Replaceable: ADR format
-- Off: not allowed
+- Off: allowed
 
 ### traffic-light-findings
 - When: always loaded; owns findings and severities

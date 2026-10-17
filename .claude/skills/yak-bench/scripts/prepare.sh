@@ -41,7 +41,7 @@ json.dump({
   "run_id": "$run_id",
   "date": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
   "source": "$source",
-  "ref": "$(git rev-parse HEAD~1)",
+  "ref": "$(git rev-parse HEAD)",
   "yesyak": "$(git -C "$yesyak" describe --tags --always --dirty)",
   "model": None,
   "sessions": [],

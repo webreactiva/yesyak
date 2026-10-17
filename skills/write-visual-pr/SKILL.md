@@ -19,6 +19,7 @@ git diff --shortstat <base>...HEAD       # size
 - If the remote is on GitLab, use `glab` for the same checks: `glab auth status`, `glab mr list --source-branch <branch>`.
 - If neither tool is installed or signed in (common in cloud sessions), use the tools that the environment gives (for example an MCP server) for the same checks and for the creation. Do not stop only because `gh` or `glab` is missing.
 - If the branch is not on the remote, ask before you push.
+- If there is no remote, or the user wants no hosted PR, stop at the body: report its path and go on with the next step.
 - If a PR already exists, update it instead of creating another one.
 - Collect real numbers for the description: tests on the base branch and on the branch, commits, files, decisions. Verify each number; do not estimate.
 
@@ -37,6 +38,8 @@ Save it to `.scratchpad/<slug>/pr-body.md`. Write it in the document language of
 ## Known follow-ups        what is intentionally left out
 <attribution line required by the environment>
 ```
+
+For a bug fix (`bug-intake`), use a short body instead: In plain words, Reproduction, Root cause, Fix, Contract (source or assumed), Tests.
 
 Rules:
 

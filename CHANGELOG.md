@@ -2,6 +2,14 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.3.4 · 2026-10-17
+
+From benchmark run 0007 (a JavaScript library, a feature), which also verified the 0.3.3 fixes.
+
+- `write-acceptance-spec`: when the spec is longer than the change, keep only the TL;DR, the interface, the criteria and what is out of scope, and say why if it is still longer. Cutting "what repeats" let four runs keep specs several times longer than the code.
+- `walking-skeleton-plan`: the coverage check builds zero-padded ids with `printf`; `seq -w` does not pad on macOS below 10.
+- Benchmark: metrics per run (time, model steps, tokens, cost, and the driver's cost), and a plan for the next runs.
+
 ## 0.3.3 · 2026-10-17
 
 From benchmark runs 0005 (a Rust tool, a bug) and 0006 (a JavaScript library, a feature, a project whose check already fails), with the findings forced on purpose.

@@ -1,13 +1,17 @@
 ---
 name: session-retrospective-rules
-description: Reviews the current session for moments where the user had to correct the assistant or where it did something unexpected, and proposes for each one a guard in the first place that fits - a test, a command, a rule in AGENTS.md, a YesYak adjustment for this project, or the skill - without applying anything until the user approves; can also archive the session transcripts. Use it whenever the user asks for a retrospective, lessons learned, "where did I have to correct you", "how do we avoid this next time", or to capture the session's transcripts.
+description: Reviews the current session - what the user asked and whether it was done, the instructions the user repeated, what worked - and the moments where the user had to correct the assistant or where it did something unexpected, and proposes for each one a guard in the first place that fits - a test, a command, an agent hook, a rule in AGENTS.md, a YesYak adjustment for this project, or the skill - without applying anything until the user approves; can also archive the session transcripts. Use it whenever the user asks for a retrospective, lessons learned, "where did I have to correct you", "how do we avoid this next time", "what should change for the next session", session insights, or to capture the session's transcripts.
 ---
 
 # Session retrospective rules
 
 ## 1. Find the moments
 
-Read the whole session, not only the end. Look for three kinds of moments:
+Read the whole session, not only the end, and `.scratchpad/<slug>/loop-log.md` if it exists. If the session is long or was compacted, read its transcript (section 4 says where agents keep it). Focus on the user's messages and on failures, not on every tool call.
+
+Start with what the user asked, not what you chose to do alone. Give each request a light: 🟢 done, 🟠 partly done, 🔴 not done.
+
+Then look for three kinds of moments:
 
 | Kind | Signals |
 | --- | --- |
@@ -15,7 +19,12 @@ Read the whole session, not only the end. Look for three kinds of moments:
 | You did something unexpected | An action the user did not ask for, a lost or damaged file, a wrong number or id in a question, a tool you opened without being asked |
 | Others found your mistake | Findings from reviews, verification or tests that trace back to your own design or code |
 
-Be honest. Include your own mistakes even if the user did not notice them.
+Quote the user's exact words for each correction, and say what caused it. Be honest. Include your own mistakes even if the user did not notice them.
+
+Also list:
+
+- Instructions the user gave more than once. If the user repeats it, it must be written somewhere.
+- What worked and the user wants to repeat, so that no guard removes it.
 
 ## 2. Propose a guard for each moment
 
@@ -28,11 +37,12 @@ For each moment give:
 | --- | --- | --- |
 | 1 | 🧪 A test | The mistake shows in behavior that a test can check |
 | 2 | ⌨️ A command or script | A check before a commit can catch it |
-| 3 | 📏 AGENTS.md | It matters even when no skill is loaded, and it fits in one or two lines |
-| 4 | An adjustment in `.agents/yesyak.json` | It changes how one skill works in this project only (`customize-yak`) |
-| 5 | The skill | It improves the skill in every project. Propose it for the skills repository; do not edit an installed skill, which can be a symlink |
+| 3 | 🪝 An agent hook | The agent's harness can check it while the agent works, and the project's agent has hooks (`agent-hook-guard`) |
+| 4 | 📏 AGENTS.md | It matters even when no skill is loaded, and it fits in one or two lines |
+| 5 | An adjustment in `.agents/yesyak.json` | It changes how one skill works in this project only (`customize-yak`) |
+| 6 | The skill, or a saved prompt | It improves the skill in every project, or the user pasted the same long prompt more than once. Propose the change, or a new skill for the prompt, for the skills repository; do not edit an installed skill, which can be a symlink |
 
-Tests and commands come first because they do not depend on memory. A rule for AGENTS.md goes in the section where it belongs (for example "Git"), not in the YesYak block. An adjustment is written by `customize-yak`: propose the entry and let it write the file. Skills stay complete, because other projects may load them without this AGENTS.md.
+Tests, commands and hooks come first because a machine runs them: they do not depend on memory. For each guard, say whether a machine can check it alone. A rule for AGENTS.md goes in the section where it belongs (for example "Git"), not in the YesYak block. An adjustment is written by `customize-yak`: propose the entry and let it write the file. Skills stay complete, because other projects may load them without this AGENTS.md.
 
 Skills must not only grow. For every new rule in a skill, remove or merge one that is obsolete, duplicated or never used. Record the total size of the skills before and after (`wc -l <skills folder>/*/SKILL.md | tail -1`) in the retrospective.
 

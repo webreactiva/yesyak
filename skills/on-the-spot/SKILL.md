@@ -38,4 +38,4 @@ Keep asking until you could write the spec without guessing. Two signals that yo
 1. Write a summary of every decision, grouped by topic, in the user's language.
 2. List the details that you decided by default and still need confirmation.
 3. Save the summary to `.scratchpad/<slug>/interview-decisions.md`.
-4. Ask whether to continue with the spec (`write-acceptance-spec`).
+4. Ask whether to see prototypes first (`prototype-options`, when the result has a form a user can look at) or to continue with the spec (`write-acceptance-spec`).

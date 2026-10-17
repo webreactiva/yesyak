@@ -4,7 +4,7 @@
 
 ```text
 0 Starter kit         branch → slug → .scratchpad/<slug>/ → progress.md → does it fit in one iteration?
-1 Grill & sketch      on-the-spot → domain-language
+1 Grill & sketch      on-the-spot → (prototype-options) → domain-language
 2 Write the contract  write-acceptance-spec → (red-team-review: devil's advocate on the spec)
                       → write-acceptance-spec (refine) → walking-skeleton-plan → (work-items-breakdown)
 3 Make it work        execute-plan-loop
@@ -105,9 +105,16 @@ Each card says when to use the skill, what it makes, what comes next, the sectio
 ### on-the-spot
 - When: a vague request; before any spec
 - Makes: `.scratchpad/<slug>/interview-decisions.md`
-- Next: `domain-language`
+- Next: `prototype-options` (optional), then `domain-language`
 - Replaceable: What to cover
 - Off: not allowed
+
+### prototype-options
+- When: the interview is done and the user wants to see options before the spec
+- Makes: `.scratchpad/<slug>/prototypes/`, the choice in `interview-decisions.md`
+- Next: `domain-language`
+- Replaceable: none
+- Off: allowed
 
 ### domain-language
 - When: after the interview, before the spec

@@ -19,7 +19,7 @@ Invoke every phase skill with the skill tool, not by reading its file. If a proj
 
 ```text
 0 Starter kit         branch → slug → .scratchpad/<slug>/ → progress.md → does it fit in one iteration?
-1 Grill & sketch      on-the-spot → domain-language
+1 Grill & sketch      on-the-spot → (prototype-options) → domain-language
 2 Write the contract  write-acceptance-spec → (red-team-review: devil's advocate on the spec)
                       → write-acceptance-spec (refine) → walking-skeleton-plan → (work-items-breakdown)
 3 Make it work        execute-plan-loop

@@ -94,7 +94,7 @@ Save `.scratchpad/<slug>/bug-report.md` in the conversation language:
 
 The fix route reuses the pipeline's skills in a shorter order:
 
-1. Branch `fix/<slug>` (`git-commit-organizer`). If the project has a git host, check now that the branch can reach it; without one, the PR body stays local.
+1. Branch `fix/<slug>` (`git-commit-organizer`). If the project has a git host, check now that the branch can reach it; without one, the PR body stays local. Save `bug-report.md` (section 7) and start `progress.md` before you change any code.
 2. `execute-plan-loop` in change-list mode. Item 1 is the failing test with the fix. Each sibling with the same cause is its own item: write its reproduction test when you start that item, so each commit keeps the suite green.
 3. Check in proportion to the risk. The checks that are not deterministic (`red-team-review`, `browser-acceptance-testing`) cost the most; run them when the risk asks for them. Say which ones you skip and why.
 

@@ -25,7 +25,7 @@
 
 - F-059 (Model, watch): the check line says `go test -race ./...`, the form the CI uses, but the agent ran `go test ./...`. The v0.3.8 rule asks for the commands exactly as they ran.
 - F-060 (Skill, watch: design question): after "go", Sonnet wrote a short spec and the code in one step and said the user had picked the short route; the user had picked the full one. The rule "ask the user before you skip a phase" was in AGENTS.md. After the correction it went back to phase 0 and ran every phase with its checkpoint. Its retrospective proposes an agent hook: no code commit on a `feat/` branch while the spec does not exist. A rule alone did not hold for a strong model; whether YesYak should offer such a hook at setup is for the user to decide.
-- Series count: resets to 0 (F-060 is new).
+- Series count: 1 of 3. The user decided that F-060 is not a defect (a capable model may skip a step), so the run has no skill finding.
 
 ## Cost
 

@@ -2,6 +2,14 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.3.3 · 2026-10-17
+
+From benchmark runs 0005 (a Rust tool, a bug) and 0006 (a JavaScript library, a feature, a project whose check already fails), with the findings forced on purpose.
+
+- `customize-yak`: when one step of a chained check command (for example `a && b`) already fails on the default branch, run each step on its own and name the steps in the block. Before, the failing first step hid every step after it.
+- `feature-delivery-pipeline`: working rules from the chat go to AGENTS.md outside the YesYak block.
+- Benchmark: a run forces the findings that the last run did not exercise; the clone gets no bench commit; Rust toolchains reach the puppet.
+
 ## 0.3.2 · 2026-10-17
 
 From benchmark run 0004 (a TypeScript library, a feature, a stronger model).

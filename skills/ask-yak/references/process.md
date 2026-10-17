@@ -3,16 +3,16 @@
 ## Process map
 
 ```text
-0 Prepare    branch → slug → .scratchpad/<slug>/ → progress.md
-1 Define     on-the-spot → domain-language → write-acceptance-spec
-             → (red-team-review: devil's advocate on the spec) → write-acceptance-spec (refine)
-             → walking-skeleton-plan → (work-items-breakdown)
-2 Build      execute-plan-loop
-3 Validate   verify-against-spec → (browser-acceptance-testing) → red-team-review
-4 Fix        triage-findings-list → execute-plan-loop (change-list mode)
-5 Deliver    write-visual-pr → pr-reviewer-guide → (feature-walkthrough)
-6 Learn      session-retrospective-rules → (handoff-and-resume, when the work pauses)
-7 Later      production-readiness-review, when a deploy is near
+0 Starter kit         branch → slug → .scratchpad/<slug>/ → progress.md → does it fit in one iteration?
+1 Grill & sketch      on-the-spot → domain-language
+2 Write the contract  write-acceptance-spec → (red-team-review: devil's advocate on the spec)
+                      → write-acceptance-spec (refine) → walking-skeleton-plan → (work-items-breakdown)
+3 Make it work        execute-plan-loop
+4 Break it            verify-against-spec → (browser-acceptance-testing) → red-team-review
+5 Sign your work      triage-findings-list → execute-plan-loop (change-list mode)
+                      → write-visual-pr → pr-reviewer-guide → (feature-walkthrough)
+6 Retrospective       session-retrospective-rules → (handoff-and-resume, when the work pauses)
+7 Later               production-readiness-review, when a deploy is near
 ```
 
 Steps in parentheses are optional.
@@ -32,31 +32,33 @@ Find the slug first. Take it from the branch: `feat/<slug>` or `fix/<slug>`. On 
 
 The strongest signal found sets the position. Show the others; do not use them.
 
+A `progress.md` written before the phases got their names can use the old ones: Prepare is 0, Define is 1 and 2, Build is 3, Validate is 4, Fix and Deliver are 5, Learn is 6.
+
 | Signal | Position | Next step |
 | --- | --- | --- |
 | `docs/handoffs/handoff-YYYY-MM-DD-<slug>.md` or `handoff-YYYY-MM-DD-<slug>-N.md`, added by the last commit that changes more than handoffs, or by a later commit that only adds handoffs | Resume | `handoff-and-resume` with that file |
 | The pull request of the branch is merged or closed | Done | the entry points |
-| `.scratchpad/<slug>/retrospective.md` | 6 Learn done | `handoff-and-resume` if the work pauses; otherwise the entry points |
+| `.scratchpad/<slug>/retrospective.md` | 6 Retrospective done | `handoff-and-resume` if the work pauses; otherwise the entry points |
 | `.scratchpad/<slug>/progress.md` | the phase and step it records | that step if it is not done; otherwise the step after it |
-| `.scratchpad/<slug>/pr-guide.md` | 5 Deliver done | `session-retrospective-rules` |
-| An open pull request for the branch | 5 Deliver | `pr-reviewer-guide` |
-| `.scratchpad/<slug>/change-list.md` | 4 Fix | `execute-plan-loop` (change-list mode) |
-| `verification-report.md`, `browser-test-report.md` or `redteam-report.md` in `.scratchpad/<slug>/` | 3 Validate | the next Validate step, or `triage-findings-list` |
-| `docs/<slug>-plan.md` | 2 Build | `execute-plan-loop` |
-| `docs/<slug>-spec.md` | 1 Define | `walking-skeleton-plan` |
-| `.scratchpad/<slug>/interview-decisions.md` | 1 Define | `domain-language` |
+| `.scratchpad/<slug>/pr-guide.md` | 5 Sign your work done | `session-retrospective-rules` |
+| An open pull request for the branch | 5 Sign your work | `pr-reviewer-guide` |
+| `.scratchpad/<slug>/change-list.md` | 5 Sign your work | `execute-plan-loop` (change-list mode) |
+| `verification-report.md`, `browser-test-report.md` or `redteam-report.md` in `.scratchpad/<slug>/` | 4 Break it | the next Break it step, or `triage-findings-list` |
+| `docs/<slug>-plan.md` | 3 Make it work | `execute-plan-loop` |
+| `docs/<slug>-spec.md` | 2 Write the contract | `walking-skeleton-plan` |
+| `.scratchpad/<slug>/interview-decisions.md` | 1 Grill & sketch | `domain-language` |
 | A branch `fix/<slug>` | the fix route | the first fix step without its file |
-| A branch `feat/<slug>` | 0 Prepare not finished | create `progress.md` (`feature-delivery-pipeline`, phase 0) |
+| A branch `feat/<slug>` | 0 Starter kit not finished | create `progress.md` (`feature-delivery-pipeline`, phase 0) |
 | `.scratchpad/<slug>/retrospective.md` older than `progress.md` | not a signal: an earlier piece of work with the same slug | |
 | None of the above | No work started | the entry points |
 
-Other report names do not move the position. In 1 Define, a `redteam-spec-report.md` means the spec may still need `write-acceptance-spec` (refine): offer both next steps and let the user choose.
+Other report names do not move the position. In 2 Write the contract, a `redteam-spec-report.md` means the spec may still need `write-acceptance-spec` (refine): offer both next steps and let the user choose.
 
 A conflict exists only when the strongest signal lacks the file that its phase needs, or when later work contradicts it:
 
 | Strongest signal | Missing | Conflict |
 | --- | --- | --- |
-| `progress.md` at phase 2 or later | `docs/<slug>-plan.md` | yes |
+| `progress.md` at phase 3 or later | `docs/<slug>-plan.md` | yes |
 | An open pull request | `docs/<slug>-spec.md`, on a branch that is not `fix/` | yes |
 | `docs/<slug>-plan.md` without `progress.md` | nothing, but commits after the plan change code | yes: ask how far the build got (`.scratchpad/` may be on another machine) |
 | A merged or closed pull request | nothing, but the branch has commits after the merge | yes: ask whether this is new work on the same branch |

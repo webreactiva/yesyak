@@ -35,9 +35,9 @@ Run `python3` with the `scripts/check_yesyak.py` of this skill, from the project
 Use three parts:
 
 ```text
-You are here: 2 Build, step 3 of 7 (progress.md)
+You are here: 3 Make it work, step 3 of 7 (progress.md)
 
- 0 Prepare ✔ ── 1 Define ✔ ── 2 Build ● ── 3 Validate ── 4 Fix ── 5 Deliver ── 6 Learn
+ 0 Starter kit ✔ ── 1 Grill & sketch ✔ ── 2 Write the contract ✔ ── 3 Make it work ● ── 4 Break it ── 5 Sign your work ── 6 Retrospective
 
 Next: execute-plan-loop, step 3 "Edit an order" of docs/orders-plan.md
 Then: steps 4–7 → verify-against-spec → (browser-acceptance-testing) → red-team-review

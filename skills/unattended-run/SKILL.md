@@ -26,7 +26,7 @@ Every time a skill says "ask the user", "wait for the user" or "checkpoint":
 3. Append one entry to `unattended-decisions.md`:
 
    ```markdown
-   ### Q-07 Phase 1 · write-acceptance-spec · What happens when a paid order is cancelled?
+   ### Q-07 Phase 2 · write-acceptance-spec · What happens when a paid order is cancelled?
    - Options: refund at once (recommended) / refund after a review / store credit
    - Chosen: refund at once
    - Why: the payment provider supports it; the spec has no reviewer role

@@ -6,8 +6,10 @@ report.py run <run-dir>               facts of a whole run: sessions, tokens, co
 report.py metrics <bench-dir> [claude-transcript.jsonl]
                                       one row per run from the saved exports: time, turns, steps, tokens, cost;
                                       with a transcript, also the driver's (Claude Code) usage in each run's time window
+report.py flows <bench-dir>           per run, the YesYak skills the work session used, in order, with the turn of first use
 """
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -195,6 +197,46 @@ def metrics(bench_dir, transcript=None):
         print(line)
 
 
+def skill_uses(path, skills):
+    """(skill, how) for every skill the events of one turn load: the skill tool, or a read of its SKILL.md."""
+    for e in events(path):
+        found = []
+        if e.get("type") == "tool_use":
+            p = e["part"]
+            args = p.get("state", {}).get("input", {})
+            if p.get("tool") == "skill":
+                found.append((args.get("name") or args.get("id"), "tool"))
+            found += [(m, "read") for m in re.findall(r"skills/([a-z-]+)/SKILL\.md", str(args.get("filePath") or args.get("path") or args.get("command") or ""))]
+        elif e.get("type") == "assistant" and isinstance(e.get("message"), dict) and isinstance(e["message"].get("content"), list):
+            for c in e["message"]["content"]:
+                if c.get("type") == "tool_use":
+                    args = c.get("input", {})
+                    if c["name"] == "Skill":
+                        found.append((args.get("skill"), "tool"))
+                    found += [(m, "read") for m in re.findall(r"skills/([a-z-]+)/SKILL\.md", str(args.get("file_path") or args.get("command") or ""))]
+        yield from ((name, how) for name, how in found if name in skills)
+
+
+def flows(bench_dir):
+    skills = set(p.name for p in (Path(__file__).resolve().parents[4] / "skills").iterdir())
+    for run_dir in sorted(Path(bench_dir).glob("[0-9]*")):
+        meta_path = run_dir / "run.json"
+        if not meta_path.exists():
+            continue
+        meta = json.loads(meta_path.read_text())
+        # The first session of a run with several is the isolation probe.
+        work = {s["first_turn"] for s in meta["sessions"][1:]} or {1}
+        start = min(work)
+        seen = {}
+        for path in sorted((run_dir / "turns").glob("*.jsonl")):
+            n = int(path.stem)
+            if n < start:
+                continue
+            for name, how in skill_uses(path, skills):
+                seen.setdefault(name, f"{name}{'*' if how == 'read' else ''} ({n})")
+        print(f"| {meta['run_id']} | {' → '.join(seen.values()) or 'none'} |")
+
+
 def git(repo, *args):
     return subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True).stdout.strip()
 
@@ -260,5 +302,6 @@ def run(run_dir):
 
 if __name__ == "__main__":
     {"turn": lambda: turn(sys.argv[2], sys.argv[3]), "run": lambda: run(sys.argv[2]),
-     "metrics": lambda: metrics(sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else None)}.get(
+     "metrics": lambda: metrics(sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else None),
+     "flows": lambda: flows(sys.argv[2])}.get(
         sys.argv[1] if len(sys.argv) > 1 else "", lambda: sys.exit(__doc__))()

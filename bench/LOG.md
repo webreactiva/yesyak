@@ -14,6 +14,20 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0005](runs/0005-vivid-theme-panic.md) | 2026-10-17 | v0.3.2 | sharkdp/vivid · bug #242 (panic on malformed theme values) | ollama-cloud/deepseek-v4.1-flash | `ses_eb5f1ed03ffeR1Tj8yGoAeajlI` (work), 1 probe session | fix route complete | 0/0/0 | 0.05 $ |
 | [0006](runs/0006-serialize-nonobject.md) | 2026-10-17 | v0.3.2 | sindresorhus/serialize-error · feature #25 (`onNonObject` option) | ollama-cloud/minimax-m2.7 | `ses_eb5c24a03ffe5wm2uvRxCQ3cDl` (work), 1 probe session | 6 Retrospective (all phases) | 1/4/0 | 0.29 $ |
 
+## Metrics
+
+From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Turns are human messages, Steps are model calls, Wall is session time including the waits for the human, Agent is model time only. Driver: the Claude Code session that plays the human (and its subagents), in the time window of the run's sessions only; setup and scoring outside the window are not counted. Prices from models.dev; a 1-hour cache write is priced as a normal cache write, so the driver cost is a little low.
+
+| Run | Model | Turns | Steps | Wall | Agent | Input | Output | Cache read | Cost $ | Driver steps | Driver tokens (out) | Driver $ |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0000-pilot | openai/gpt-5.6-sol | 2 | 56 | 16 min | 16 min | 130759 | 34638 | 4528640 | 3.03 | 109 | 25851644 (64936) | 7.35 |
+| 0001-candlestick-lines | openai/gpt-6-luna | 35 | 443 | 46 min | 35 min | 903309 | 210103 | 53797120 | 0.73 | 129 | 40080259 (51978) | 9.84 |
+| 0002-sjson-empty-key | openai/gpt-6-luna | 10 | 74 | 6 min | 4 min | 109861 | 14385 | 2722560 | 0.05 | 29 | 12767107 (10208) | 2.86 |
+| 0003-markdown-nbsp | ollama-cloud/deepseek-v4.1-flash | 19 | 176 | 65 min | 18 min | 384216 | 150705 | 22311168 | 0.21 | 57 | 28780251 (21180) | 6.42 |
+| 0004-pmemoize-while-pending | ollama-cloud/glm-5.3 | 15 | 140 | 35 min | 32 min | 260144 | 157745 | 17595776 | 5.63 | 42 | 23736753 (13243) | 5.18 |
+| 0005-vivid-theme-panic | ollama-cloud/deepseek-v4.1-flash | 7 | 74 | 7 min | 5 min | 85386 | 50313 | 3847946 | 0.05 | 21 | 1843729 (8667) | 0.66 |
+| 0006-serialize-nonobject | ollama-cloud/minimax-m2.7 | 13 | 103 | 11 min | 8 min | 123495 | 28417 | 3700423 | 0.29 | 17 | 2353051 (9774) | 0.78 |
+
 ## Findings
 
 Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NNNN`.

@@ -141,7 +141,7 @@ Each card says when to use the skill, what it makes, what comes next, the sectio
 
 ### work-items-breakdown
 - When: the user tracks work in a tool
-- Makes: issues or tickets, `.scratchpad/<slug>/work-items.md`
+- Makes: issues or tickets, or a task list in the repo; `.scratchpad/<slug>/work-items.md` for a tracker
 - Next: `execute-plan-loop`
 - Replaceable: 2. Build each item
 - Off: allowed

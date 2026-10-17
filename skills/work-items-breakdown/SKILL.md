@@ -13,7 +13,7 @@ Ask these questions in one round (with recommended options first), unless the an
 
 | Question | Typical options |
 | --- | --- |
-| Where do the items go? | GitHub issues (`gh`), GitLab issues (`glab`), Jira, Azure DevOps (`az boards`), Linear, a markdown task list in the repo |
+| Where do the items go? | GitHub issues (`gh`), GitLab issues (`glab`), Jira, Azure DevOps (`az boards`), Linear, a task list that the project keeps in git (the task file it already has, otherwise `docs/<slug>-tasks.md`) |
 | What granularity? | One item per plan step (Recommended when a plan exists), one per acceptance criterion, one epic with child tasks |
 | Which fields? | Labels, milestone, assignee, estimate, parent or epic, iteration |
 | Do items link to each other? | Dependencies from the plan order, parent/child |
@@ -53,5 +53,5 @@ Show a table of all items (title, criteria, depends on, labels) and the command 
 ## 4. Create and record
 
 - Create items in dependency order so you can link real ids.
-- Save the mapping to `.scratchpad/<slug>/work-items.md`: item id or URL, title, criteria, plan step.
+- For an external tracker, save the mapping to `.scratchpad/<slug>/work-items.md`: item id or URL, title, criteria, plan step. A task list in the repo is its own record: commit it with the plan, never only in `.scratchpad/`.
 - Report the links. If a creation fails, list it with the error; do not retry blindly.

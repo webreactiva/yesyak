@@ -11,6 +11,7 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0002](runs/0002-sjson-empty-key.md) | 2026-10-17 | v0.2.0 | tidwall/sjson · bug #77 (delete an empty key) | openai/gpt-6-luna | `ses_eb6c7d954ffef4eMk69SYt66i5` (work), 1 probe session | fix route complete | 2/0/1 | 0.05 $ |
 | [0003](runs/0003-markdown-nbsp.md) | 2026-10-17 | v0.3.0 | thephpleague/html-to-markdown · feature #258 (keep non-breaking spaces) | ollama-cloud/deepseek-v4.1-flash | `ses_eb6aef4efffessgcw9rHdUKN8n` (work), 2 probe sessions | 6 Retrospective (all phases) | 0/3/0 | 0.22 $ |
 | [0004](runs/0004-pmemoize-while-pending.md) | 2026-10-17 | v0.3.1 | sindresorhus/p-memoize · feature #53 (`cache: 'while-pending'`) | ollama-cloud/glm-5.3 | `ses_eb6488a4effeCMZNyqQMzguBzN` (work), 1 probe session | 6 Retrospective + agent hook | 0/0/0 | 5.63 $ |
+| [0005](runs/0005-vivid-theme-panic.md) | 2026-10-17 | v0.3.2 | sharkdp/vivid · bug #242 (panic on malformed theme values) | ollama-cloud/deepseek-v4.1-flash | `ses_eb5f1ed03ffeR1Tj8yGoAeajlI` (work), 1 probe session | fix route complete | 0/0/0 | 0.05 $ |
 
 ## Findings
 
@@ -40,16 +41,19 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-020 | Bench | fixed in bench tools | The project virtual environment was not on the puppet's PATH; a piped session export was cut at 256 KB | 0001 turns 15, 36 |
 | F-021 | Skill | verified in run 0003 | customize-yak never commits the settings file and AGENTS.md; they stay untracked for many turns | 0001 turns 5-17; 0002 turn 5 |
 | F-022 | Skill | fixed in v0.3.0 | The short PR body for a bug was written only in bug-intake; write-visual-pr, the skill loaded at that step, used the feature template | 0002 turn 9 |
-| F-023 | Skill | verified in run 0003 | The fix route never checked the git host; at the PR step the agent blocked waiting for a remote | 0002 turn 10 |
+| F-023 | Skill | verified in run 0003 | The fix route never checked the git host; at the PR step the agent blocked waiting for a remote | 0002 turn 10; 0005: checked the remote only at the PR step, did not block |
 | F-024 | Skill | watch | customize-yak showed only the settings diff, not the AGENTS.md diff, until asked | 0002 turn 3 |
-| F-025 | Model | watch | Bug fix covered by one test case; siblings (`DeleteBytes`, JSON without the key) not tested | 0002 turn 7 |
+| F-025 | Model | watch | Bug fix covered by one test case; siblings (`DeleteBytes`, JSON without the key) not tested | 0002 turn 7; not repeated in 0005 (deepseek tested seven cases) |
 | F-026 | Bench | fixed in bench tools | The puppet blocked on publishing a PR; the bench now tells it in the first request that PRs stay local (user rule: never publish) | 0002 turn 10 |
 | F-027 | Skill | verified in run 0004 | The AGENTS.md line "run the check before every commit" cannot hold when the default branch already fails; it now says "add no new failures" and where the known failures are | 0003 turns 4-5 |
 | F-028 | Harness | fixed in bench tools | OpenCode's question-cancel message tells the agent to assume and go on, so it wrote files without the yes customize-yak asks for; the bench now disables the question tool, so questions go to the chat | 0003 turn 2 |
 | F-029 | Model | watch | on-the-spot put the recommended option first but did not mark it "(Recommended)" | 0003 turn 7; marked in 0004 |
-| F-030 | Skill | watch | An ADR for a routine fix (keep a converter usable without configuration); decision-record-log says no ADR for routine fixes, but it fixes a public contract | 0003 turn 16 |
+| F-030 | Skill | watch | An ADR for a routine fix (keep a converter usable without configuration); decision-record-log says no ADR for routine fixes, but it fixes a public contract | 0003 turn 16; not repeated in 0005 (no ADR for a fix) |
 | F-031 | Bench | noted | OpenCode Zen had no funds; composer could not authenticate with the user's stale global GitHub token. Runs use ollama-cloud models and an empty COMPOSER_HOME | 0003 setup |
-| F-032 | Skill | fixed in v0.3.2 | `npm test 2>&1 | tail -5 && git commit` passed a failing check: the pipe returns the exit code of `tail`. git-commit-organizer now says to read the check's own exit code | 0004 turns 10, 13 |
+| F-032 | Skill | fixed in v0.3.2 | `npm test 2>&1 | tail -5 && git commit` passed a failing check: the pipe returns the exit code of `tail`. git-commit-organizer now says to read the check's own exit code | 0004 turns 10, 13; 0005: not exercised (git-commit-organizer not loaded; checks run apart, read through `grep`) |
 | F-033 | Skill | watch | The phase 0 proposal to write chat rules to AGENTS.md put the rule inside the YesYak block; project rules belong outside it | 0004 turn 5 |
 | F-034 | Skill | watch | A known failure that stops an `&&` check chain hides the later steps; "add no new failures" then checks nothing after it. The agent ran the tests apart, but no skill says to | 0004 turns 3-4, 10 |
 | F-035 | Skill | verified in run 0004 | agent-hook-guard, first use: diagram and yes first, script plus OpenCode plugin, forced error, false positives, real run blocked | 0004 turns 14-15 |
+| F-036 | Skill | watch | Fix route: `bug-report.md`, `progress.md` and `loop-log.md` written after the last commit; bug-intake writes the report before the fix route, and execute-plan-loop updates `progress.md` per step | 0005 turn 6 |
+| F-037 | Skill | watch | write-visual-pr asks for a "short body" for a bug fix with no measure; 123 lines for about 110 changed lines | 0005 turn 6 |
+| F-038 | Bench | fixed in bench tools | The fake HOME hid rustup: no Rust toolchain for the puppet. `turn.sh` now passes the real `RUSTUP_HOME`, a per-run `CARGO_HOME` and `RUSTUP_TOOLCHAIN` when set | 0005 setup |

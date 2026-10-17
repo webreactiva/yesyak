@@ -18,6 +18,7 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0009](runs/0009-filenamify-claude.md) | 2026-10-17 | v0.3.4 | sindresorhus/filenamify · feature #43, same as 0007 | anthropic/claude-sonnet-5-5 (Claude Code) | `0521d082-9033-4725-b0ed-a3fe5e8dfdd8` (work), 1 probe session | feature built; process skipped | 0/0/0 (no checkpoint reached) | 0.32 $ |
 | [0010](runs/0010-filenamify-claude-v035.md) | 2026-10-17 | v0.3.5 | sindresorhus/filenamify · feature #43, same as 0007 and 0009 | anthropic/claude-sonnet-5-5 (Claude Code) | `11fb328b-38b7-4892-9fcb-6c6483cb9a78` (work), 1 probe session | 6 Retrospective (all phases) | 0/0/0 | 1.86 $ |
 | [0011](runs/0011-retry-split-handoff.md) | 2026-10-17 | v0.3.6 | avast/retry-go · three pieces of work in one request, session cut and resume | ollama-cloud/deepseek-v4.1-flash | `ses_eb56387a8ffe3Vuzb0lY5M2q5K`, `ses_eb55ce938ffe60c435rSaP6S6J` (work, two sessions), 1 probe session | 6 Retrospective for delivery 1 | 0/0/0 | 0.15 $ |
+| [0012](runs/0012-tabulate-unattended.md) | 2026-10-17 | v0.3.7 + unslop | astanin/python-tabulate · bug #354, unattended | ollama-cloud/deepseek-v4.1-flash | `ses_eb54ef691ffeJoM0nsMQxjbOqU` (work), 1 probe session | fix route complete, unattended | 0/0/0 | 0.08 $ |
 
 ## Metrics
 
@@ -37,6 +38,7 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0009-filenamify-claude | anthropic/claude-sonnet-5-5 | 7 | 25 | 4 min | 3 min | 46 | 12647 | 796241 | 0.32 | 7 | 2014066 (5447) | 0.56 |
 | 0010-filenamify-claude-v035 | anthropic/claude-sonnet-5-5 | 17 | 112 | 12 min | 7 min | 228 | 56712 | 6076339 | 1.86 | 13 | 4177180 (5883) | 1.02 |
 | 0011-retry-split-handoff | ollama-cloud/deepseek-v4.1-flash | 11 | 147 | 14 min | 12 min | 307294 | 126821 | 10221458 | 0.15 | 11 | 3809905 (5135) | 0.93 |
+| 0012-tabulate-unattended | ollama-cloud/deepseek-v4.1-flash | 5 | 73 | 5 min | 5 min | 147063 | 60638 | 5919060 | 0.08 | 2 | 826630 (1318) | 0.21 |
 
 ## Findings
 
@@ -79,8 +81,8 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-033 | Skill | verified in run 0007 | The phase 0 proposal to write chat rules to AGENTS.md put the rule inside the YesYak block; project rules belong outside it | 0004 turn 5; 0006 (second model): rules written inside the block after a nudge; phase 0 did not propose them. Pipeline step now says outside the block; verified in 0007 (forced) |
 | F-034 | Skill | verified in run 0010 | A known failure that stops an `&&` check chain hides the later steps; "add no new failures" then checks nothing after it. The agent ran the tests apart, but no skill says to | 0004 turns 3-4, 10; 0006 (forced): `npm test` = `xo && ava && tsd`, xo fails on main, no lint ran on new code. customize-yak now runs each step apart; verified in 0007 (forced); 0009 (Sonnet): ran the steps apart but named the chain in the block. The template's check line now asks for one command per step; verified in 0010 with Sonnet |
 | F-035 | Skill | verified in run 0004 | agent-hook-guard, first use: diagram and yes first, script plus OpenCode plugin, forced error, false positives, real run blocked | 0004 turns 14-15 |
-| F-036 | Skill | watch | Fix route: `bug-report.md`, `progress.md` and `loop-log.md` written after the last commit; bug-intake writes the report before the fix route, and execute-plan-loop updates `progress.md` per step | 0005 turn 6; 0006 feature route: `progress.md` updated once, at the end; not repeated in 0007 |
-| F-037 | Skill | watch | write-visual-pr asks for a "short body" for a bug fix with no measure; 123 lines for about 110 changed lines | 0005 turn 6 |
+| F-036 | Skill | fixed in v0.3.8 | Fix route: `bug-report.md`, `progress.md` and `loop-log.md` written after the last commit; bug-intake writes the report before the fix route, and execute-plan-loop updates `progress.md` per step | 0005 turn 6; 0006 feature route: `progress.md` updated once, at the end; not repeated in 0007; 0012: again (second run). Step 1 of the fix route now saves both files before any code change |
+| F-037 | Skill | watch | write-visual-pr asks for a "short body" for a bug fix with no measure; 123 lines for about 110 changed lines | 0005 turn 6; not repeated in 0012 (78 lines for about 135) |
 | F-038 | Bench | fixed in bench tools | The fake HOME hid rustup: no Rust toolchain for the puppet. `turn.sh` now passes the real `RUSTUP_HOME`, a per-run `CARGO_HOME` and `RUSTUP_TOOLCHAIN` when set | 0005 setup |
 | F-039 | Skill | watch | Phase 5 skipped: "the PR stays local" read as "no PR body"; went to the retrospective | 0006 turn 10; not repeated in 0007 (same no-PR line) |
 | F-040 | Model | watch | Steps 1-3 of the plan in one commit | 0006 turn 10 |
@@ -97,3 +99,5 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-051 | Skill | verified in run 0011 | Sonnet skipped step 4 of phase 0 (propose the chat rules for AGENTS.md); the phase 0 checkpoint question now asks about them | 0010 turn 4; the retrospective found it; verified in 0011 |
 | F-052 | Bench | fixed in bench tools | The puppet inherited the driver's Claude Code variables through tmux (`CLAUDECODE`, `CLAUDE_CODE_SESSION_ID`, a messaging token); the turn scripts now remove every `CLAUDE*` and `AI_AGENT` variable | 0011 turn 10 |
 | F-053 | Skill | watch | After a resume, the retrospective covered only the current session, not the whole piece of work | 0011 turn 12 |
+| F-054 | Bench | fixed in bench tools | The puppet listed the run folder in this repository (where `notes.md` holds the expected behaviour) because tmux started it in the link, not the real clone path; earlier clones also sat next to the active one. Turn scripts use the real path; `archive.sh` moves scored clones into their run folder. No earlier run read outside its clone | 0012 turn 6 |
+| F-055 | Skill | fixed in v0.3.8 | customize-yak wrote `ruff check` in the block but had run `uvx ruff@0.15.4 check` (ruff not installed); the template now asks for the commands exactly as they ran | 0012 turn 3 |

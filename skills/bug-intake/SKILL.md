@@ -1,11 +1,11 @@
 ---
 name: bug-intake
-description: Entry point for one bug report - capture it, triage it without changing anything (severity, owning area, layers crossed with file and line, kind), find the expected behavior even when there is no spec, reproduce it with a failing automated test, trace the root cause across every caller, give it a traffic light and choose the route (fix against an existing contract, write the missing contract first, treat it as a feature, or stop because it does not reproduce), then run the short fix route of the feature-delivery-pipeline. Use it whenever the user reports a bug or a regression, pastes an error, a stack trace, a log line or an issue, says "no funciona", "da 500", "falla", "se ha roto", "hotfix", or asks to triage an issue or to fix unexpected behavior. It is not triage-findings-list, which merges review reports into a change list later in a pipeline.
+description: Entry point for one bug report. Capture it, triage it without changing anything (severity, owning area, layers crossed with file and line, kind), find the expected behavior even when there is no spec, reproduce it with a failing automated test, trace the root cause across every caller, give it a traffic light and choose the route (fix against an existing contract, write the missing contract first, treat it as a feature, or stop because it does not reproduce), then run the short fix route of the feature-delivery-pipeline. Use it whenever the user reports a bug or a regression, pastes an error, a stack trace, a log line or an issue, says "no funciona", "da 500", "falla", "se ha roto", "hotfix", or asks to triage an issue or to fix unexpected behavior. It is not triage-findings-list, which merges review reports into a change list later in a pipeline.
 ---
 
 # Bug intake
 
-A bug report names a symptom. This skill turns it into a triage, a failing test, a root cause and a route. The pipeline's spec phase does not apply: there is no interview and no plan, and there may be no spec at all.
+A bug report names a symptom. This skill turns it into a triage, a failing test, a root cause and a route. The pipeline's spec phase does not apply. There is no interview and no plan, and there may be no spec at all.
 
 ## 1. Capture
 
@@ -22,7 +22,7 @@ Ask only for what is missing and needed to reproduce. In an unattended run, reco
 Read the report and the code it needs. Change nothing yet: no file, no test, no branch. Give:
 
 1. **Severity.** A light with `traffic-light-findings`, impact and likelihood together, and why in one sentence.
-2. **Owner.** The area of the project takes care of it, if the project has areas or teams (for example data, backend, frontend, product).
+2. **Owner.** The area of the project that takes care of it, if the project has areas or teams (for example data, backend, frontend, product).
 3. **Layers.** The layers of the architecture it crosses (for example source data, import, storage, API, interface), each with `file:line`.
 4. **Kind.** For example a code bug, a data bug, a missing requirement, an interface problem, legacy code or performance.
 
@@ -44,22 +44,22 @@ When no source decides the behavior, the expected behavior is a decision. Choose
 
 ## 4. Reproduce
 
-Write the smallest automated test that fails for the reported reason, at the layer where the user meets the bug (an HTTP test for an API answer, a unit test for a query), in the test file of that route or module. Run it and read the failure. It must fail for the reason in the report, not for a setup mistake.
+Write the smallest automated test that fails for the reported reason. Put it at the layer where the user meets the bug (an HTTP test for an API answer, a unit test for a query), in the test file of that route or module. Run it and read the failure. It must fail for the reason in the report, not for a setup mistake.
 
 A script is acceptable only while you explore. The fix starts from a test.
 
-If it does not reproduce after two honest tries, stop: route D.
+If it does not reproduce after two honest tries, stop and take route D.
 
 ## 5. Find the root cause
 
 - Follow the code path from the entry point to the line that goes wrong.
 - Grep every caller of the function you are going to change, and every sibling with the same pattern (the same parser, the same unchecked body, the same query).
 - Fix at the shared point when the siblings share the cause: one guard in the shared function is a smaller change than one guard in each caller.
-- Siblings with the same cause are in scope. Other bugs you find on the way are not: write each one as a separate report line.
+- Siblings with the same cause are in scope. Other bugs you find on the way are not. Write each one as a separate report line.
 
 ## 6. Route
 
-Update the light of the triage with what the reproduction and the root cause showed. A 🔴 in production is a hotfix: fix, test and pull request first; verification, review and retrospective right after.
+Update the light of the triage with what the reproduction and the root cause showed. A 🔴 in production is a hotfix. The fix, the test and the pull request come first. Verification, review and retrospective come right after.
 
 | Route | When | Next |
 | --- | --- | --- |
@@ -103,6 +103,6 @@ The fix route reuses the pipeline's skills in a shorter order:
    | 🟡 For example a typo in a message | The regression test and the full test suite |
    | 🟠 Something does not work, or visible data is wrong | Also the affected criteria or contract (`verify-against-spec` when a spec exists) |
    | 🔴 Data lost, a service down, or security | Also `red-team-review` with one or two missions, and `browser-acceptance-testing` when the user meets the bug in an interface |
-4. Never skip the regression test: the route is flexible, the proof is not.
+4. Never skip the regression test, even when you skip other checks.
 5. `write-visual-pr`, with its short body for a bug fix.
 6. `session-retrospective-rules`, always, with one question first: why did no test, verification or review catch this bug? The guard goes where it should have been caught.

@@ -1,6 +1,6 @@
 ---
 name: handoff-and-resume
-description: Writes a dated handoff note in docs/handoffs when a session ends, before a context compaction, or when work passes to another person or agent - goal, state, map of branches and pull requests, decisions with who took them, the user's standing instructions, open questions, next steps and how to check the state - marked with the date and the session id, with the date also in the file name. It also resumes from the latest handoff and checks it against git before work continues. Use it whenever the user says "handoff", "traspaso", "deja una nota para retomar", "we stop here", "continue tomorrow", "pick up where we left", "resume", "where were we", "what branch was it", before a long pause or a compaction, or when another agent or teammate takes over.
+description: Writes a dated handoff note in docs/handoffs when a session ends, before a context compaction, or when work passes to another person or agent. The note holds the goal, the state, a map of branches and pull requests, the decisions with who took them, the user's standing instructions, open questions, next steps and how to check the state. It shows the date and the session id, and the file name also has the date. It also resumes from the latest handoff and checks it against git before work continues. Use it whenever the user says "handoff", "traspaso", "deja una nota para retomar", "we stop here", "continue tomorrow", "pick up where we left", "resume", "where were we", "what branch was it", before a long pause or a compaction, or when another agent or teammate takes over.
 ---
 
 # Handoff and resume
@@ -15,7 +15,7 @@ Run the commands; do not write from memory.
 
 - Date and time with the time zone: `date "+%Y-%m-%d %H:%M %Z"`.
 - Session id. Find it in this order and write where it came from:
-  1. A session variable of the harness, for example `CLAUDE_CODE_SESSION_ID` in Claude Code or `OPENCODE_SESSION_ID` in OpenCode.
+  1. A session variable of the agent tool, for example `CLAUDE_CODE_SESSION_ID` in Claude Code or `OPENCODE_SESSION_ID` in OpenCode.
   2. The transcript file of the session: in Claude Code, the newest `~/.claude/projects/<project folder>/<id>.jsonl`; in Codex, the newest `~/.codex/sessions/YYYY/MM/DD/rollout-<time>-<id>.jsonl` (its first line, `session_meta`, has `session_id`).
   3. If none gives it, write `unknown` and say what you checked.
 - Branches and pull requests: the current branch, its base, the last commit, whether it is pushed, and the open pull requests with their base (`git status -sb`, `git log --oneline -1`, `gh pr list` or the tools of the environment).
@@ -33,7 +33,7 @@ Save `docs/handoffs/handoff-YYYY-MM-DD-<slug>.md`, with the date of today and th
 | --- | --- |
 | Date | YYYY-MM-DD HH:MM TZ |
 | Session | <session id> (<where it came from>) |
-| Agent | <harness and model, if known> |
+| Agent | <agent tool and model, if known> |
 | Branch | `<branch>` from `<base>`, last commit `<hash>`, pushed: yes/no |
 
 ## Goal                  what the work is for, in two or three sentences
@@ -49,7 +49,7 @@ Save `docs/handoffs/handoff-YYYY-MM-DD-<slug>.md`, with the date of today and th
 ```
 
 - **Decisions** says who decided. A default the agent chose is not a decision the user approved.
-- **Standing instructions** are the rules the user gave during the session, for example "do not push" or "keep the spec short". They are lost first when context is compacted.
+- **Standing instructions** are the rules the user gave during the session, for example "do not push" or "keep the spec short". A context compaction loses them first.
 - Do not copy secrets, tokens or personal data into the note.
 
 ### 3. Commit and report

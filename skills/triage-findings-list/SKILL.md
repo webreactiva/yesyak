@@ -22,6 +22,6 @@ For each change give: number, light, action, a short "why", the main files, and 
 ## Output
 
 - Save `.scratchpad/<slug>/change-list.md`.
-- In the chat, show the list compactly: one line per change with number, light, action and source.
+- In the chat, show a compact list: one line per change with number, light, action and source.
 - Ask which changes to apply. Suggest a default: all 🔴 plus the cheap 🟠 before merge.
 - Apply the approved changes with `execute-plan-loop` in change-list mode.

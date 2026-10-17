@@ -1,6 +1,6 @@
 ---
 name: red-team-review
-description: Launches read-only subagents in parallel - three fixed adversarial missions (quality, security, six-month premortem) and a fourth chosen for the change (architecture, devil's advocate, or another kind the change calls for) - on top of the deterministic checks the project runs (mutation testing, linters, audits), then has the serious findings reproduced by one verifier that did not produce them and ends with a verdict and what it did not cover. Findings count by evidence - a probe run against the change and against the base, a surviving mutant - not by how plausible they read. Use it whenever the user asks for a red team, adversarial review, security review plus architecture review, premortem, devil's advocate, "tear this apart", "prove it", or several independent reviews of a branch, spec, plan or pull request.
+description: Launches read-only subagents in parallel for three fixed adversarial missions (quality, security, six-month premortem) and a fourth chosen for the change (architecture, devil's advocate, or another kind the change calls for). They work on top of the deterministic checks the project runs (mutation testing, linters, audits). Then one verifier that did not produce the serious findings reproduces them, and the review ends with a verdict and what it did not cover. Findings count by evidence, such as a probe run against the change and against the base or a surviving mutant, not by how plausible they read. Use it whenever the user asks for a red team, adversarial review, security review plus architecture review, premortem, devil's advocate, "tear this apart", "prove it", or several independent reviews of a branch, spec, plan or pull request.
 ---
 
 # Red team review
@@ -14,9 +14,9 @@ Settle both before the missions start, in two lines the user can correct:
 
 ## Facts first
 
-Some checks are deterministic: a tool gives the same answer every time and costs no agent turns. Mutation testing (the proof that the tests kill a broken line), the test suite run on the base, linters and static analysis, dependency audits, secret scans, architecture tests, a diff of routes or commands, a merge of the other active branches with the test suite. They are facts, not missions.
+Some checks are deterministic: a tool gives the same answer every time and costs no agent turns. Examples are mutation testing (the proof that the tests kill a broken line), the test suite run on the base, linters and static analysis, dependency audits, secret scans, architecture tests, a diff of routes or commands, a merge of the other active branches with the test suite. They are facts, not missions.
 
-- Run only the checks that the user gives or that an `add` adjustment of this skill names (`customize-yak`), with the exact command, scoped to the changed code. Never search the project for such a tool and launch it on your own: a mutation run over a whole repository takes hours.
+- Run only the checks that the user gives or that an `add` adjustment of this skill names (`customize-yak`), with the exact command, scoped to the changed code. Never search the project for such a tool and launch it on your own. A mutation run over a whole repository takes hours.
 - Give their output to the missions. A mission judges that output; it does not run the check again or imitate it by hand.
 - A check that nobody configured goes under "Not covered", with the tool you would use and the adjustment that would add it.
 
@@ -38,13 +38,13 @@ A fourth mission, chosen for what the change needs, with one line that says why:
 | --- | --- |
 | `redteam-architecture` | The change moves module boundaries, the data layer, migrations or deployment assumptions; check that global error and not-found handling reaches every module or route group |
 | `redteam-devils-advocate` | The change rests on decisions a reviewer could refuse: the strongest honest case against each one, alternatives, and whether it survives |
-| another kind | Performance, concurrency, accessibility, data migration, or what else the change calls for. A browser pass when the user asked for one or an unattended run decided the UI needs it: follow `browser-acceptance-testing`. When the change touches a UI and no browser was used, say so under "Not covered" |
+| another kind | Performance, concurrency, accessibility, data migration, or what else the change calls for. If the user asked for a browser pass, or an unattended run decided the UI needs one, follow `browser-acceptance-testing`. When the change touches a UI and no browser was used, say so under "Not covered" |
 
 For a spec or a plan, `redteam-devils-advocate` alone is the right tool.
 
 ## Brief every subagent
 
-Launch all mission subagents in one message so they run in parallel. This skill needs subagents: each mission needs its own fresh context, and the cross-check needs a context that did not produce the findings. If the environment has none, tell the user and do not run the missions in the main context. Each brief contains:
+Launch all mission subagents in one message so they run in parallel. This skill needs subagents. Each mission needs its own fresh context, and the cross-check needs a context that did not produce the findings. If the environment has none, tell the user and do not run the missions in the main context. Each brief contains:
 
 1. The target and the oracle from above. Subagents read files at that hash.
 2. The context files: spec, plan, decision records, AGENTS.md.
@@ -54,7 +54,7 @@ Launch all mission subagents in one message so they run in parallel. This skill 
    - **Compare with the oracle.** Send the same input to the change and to the base and compare what comes out.
 4. **Where to probe:** in a scratch copy of the repository (`git worktree add` in `.scratchpad/<slug>/`) or on a throwaway server with its own port and scratch database, never in the working tree and never against a shared environment. Before running code there, check that it is loaded from the scratch copy, not through a symlink to the original checkout. Remove the copy at the end.
 5. **Rules:** read-only on the repository; write only under `.scratchpad/<slug>/`; stop every server they start; do not ask the user for permissions you do not have.
-6. **Evidence:** cite `file:line` and tag each finding with its weight: `demonstrated` (a probe, a killed or surviving mutation, an exit status), `read` (seen in code or text), or `enumerated` (a list for a human to judge). "Attacked it, nothing broke" is a result: report the probe that showed it.
+6. **Evidence:** cite `file:line` and tag each finding with its weight: `demonstrated` (a probe, a killed or surviving mutation, an exit status), `read` (seen in code or text), or `enumerated` (a list for a human to judge). "Attacked it, nothing broke" is a result. Report the probe that showed it.
 7. **Files:** list every file they leave in `.scratchpad/<slug>/`.
 8. **Settings under review:** if the diff changes `.agents/yesyak.json`, review with the version of the base branch (`git show <base>:.agents/yesyak.json`), and report a ðŸŸ  that quotes every changed instruction.
 9. **Output:** the full report goes in the final message, because some environments block subagent writes; the orchestrator saves it. Findings follow `traffic-light-findings`, in the user's conversation language, at most about 15, ending with a two-line verdict.
@@ -73,7 +73,7 @@ Before anything reaches the report, launch one verifier subagent for all the ðŸ”
 | refuted | "Asserted, not verified", never the tables |
 | uncheckable | "Not covered", with what would settle it |
 
-Where two missions disagree about the same point, settle it against the code. Merge duplicates as `traffic-light-findings` says and record who found each finding: two missions that reached the same point independently rank it higher. An `enumerated` finding has not been judged yet: it goes under "Decide", not in the tables.
+Where two missions disagree about the same point, settle it against the code. Merge duplicates as `traffic-light-findings` says and record who found each finding: two missions that reached the same point independently rank it higher. An `enumerated` finding has not been judged yet. It goes under "Decide", not in the tables.
 
 ## Report
 

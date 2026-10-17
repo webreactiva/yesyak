@@ -10,7 +10,7 @@ The user decides when a browser opens. If they asked for this skill, go ahead. I
 ## Setup
 
 1. Start the app in an isolated environment with its own port and data (`.scratchpad/<slug>/manual-env.sh`). If the app has sign-in, create test accounts there; keep credentials in the helper, not in chat messages.
-2. Choose the browser tool. Prefer the Chrome DevTools MCP: load the browser tools you need before you start (navigate, snapshot, screenshot, click, fill, fill form, evaluate script, console messages, network requests, emulate, resize). If the environment has no DevTools MCP but has Playwright and a browser (common in containers and cloud sessions), write one script in `.scratchpad/<slug>/scripts/` that drives the same checks. Record console messages, network status codes and screenshots in `.scratchpad/<slug>/shots/`. This is the tool choice, not a switch after a failure.
+2. Choose the browser tool. Prefer the Chrome DevTools MCP. Load the browser tools you need before you start (navigate, snapshot, screenshot, click, fill, fill form, evaluate script, console messages, network requests, emulate, resize). If the environment has no DevTools MCP but has Playwright and a browser (common in containers and cloud sessions), write one script in `.scratchpad/<slug>/scripts/` that drives the same checks. Record console messages, network status codes and screenshots in `.scratchpad/<slug>/shots/`. This is the tool choice, not a switch after a failure.
 3. Look at a few screenshots yourself (desktop, 375 px, one error page). Layout problems such as wrong plurals, missing headings or cut text show there and not in status codes.
 4. Keep notes in `.scratchpad/<slug>/browser-test-notes.md` while you test.
 
@@ -33,7 +33,7 @@ Walk through the acceptance criteria in the order a user meets them (for example
 | Layout | Desktop and a 375 px mobile viewport; horizontal overflow; hidden actions; dark color scheme if the CSS has one; keyboard focus order |
 | Console | Script errors and security policy violations after every page |
 
-Never trigger `alert`, `confirm` or `prompt`: they block the browser tools. Use `console.log` to prove script execution.
+Never trigger `alert`, `confirm` or `prompt`. They block the browser tools. Use `console.log` to prove script execution.
 
 ## Report
 

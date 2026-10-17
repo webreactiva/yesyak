@@ -1,6 +1,6 @@
 ---
 name: domain-language
-description: Fixes the domain language of one feature after the interview - one agreed term per concept, its definition, its name in code and in each UI language, the words not to use, and the states and actions of the main records - so the spec, code, tests and UI all say the same thing. It borrows only the ubiquitous-language idea from DDD; it adds no aggregates, bounded contexts or layers. Use it right after on-the-spot in the feature-delivery-pipeline, and whenever the user asks for a glossary, domain language, ubiquitous language, "what do we call this", or notices that two words name the same thing.
+description: Fixes the domain language of one feature after the interview, so the spec, code, tests and UI all say the same thing. It records one agreed term per concept, its definition, its name in code and in each UI language, the words not to use, and the states and actions of the main records. It borrows only the ubiquitous-language idea from DDD; it adds no aggregates, bounded contexts or layers. Use it right after on-the-spot in the feature-delivery-pipeline, and whenever the user asks for a glossary, domain language, ubiquitous language, "what do we call this", or notices that two words name the same thing.
 ---
 
 # Domain language
@@ -20,7 +20,7 @@ Scope: only the terms of the current feature, plus the existing terms it touches
 3. For each term, write one table row: term, definition in one sentence, code identifier (table, column, type, route segment), UI text in each UI language, and the words to avoid.
 4. For each record with a lifecycle, list its states and the actions that move it between states, with who can do each action. Add a `stateDiagram-v2` (`plain-visual-docs`).
 5. Write the open ambiguities: a word that means two things, or a concept without a name. Resolve each one with the recommended option, or ask the user.
-6. Check the result against the code: every identifier that already exists must match its current spelling. Check URL paths, query parameters and form field names too: they are public names that are hard to change later.
+6. Check the result against the code. Every identifier that already exists must match its current spelling. Check URL paths, query parameters and form field names too. They are public names that are hard to change later.
 
 ## Output
 

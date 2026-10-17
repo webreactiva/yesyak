@@ -1,6 +1,6 @@
 ---
 name: execute-plan-loop
-description: Implements a plan step by step in a loop until the end - one capability per step, tests and a manual check for each, decision records, docs kept in sync, atomic commits and a progress file that allows a resume after any interruption. Also applies a triaged change list by item id. Use it whenever the user asks to implement the plan, "run the loop", continue from a step, resume after a break, or apply a numbered list of changes or review fixes.
+description: Implements a plan step by step in a loop until the end. Each step has one capability, tests and a manual check, decision records, docs kept in sync and an atomic commit. A progress file allows a resume after any interruption. Also applies a triaged change list by item id. Use it whenever the user asks to implement the plan, "run the loop", continue from a step, resume after a break, or apply a numbered list of changes or review fixes.
 ---
 
 # Execute plan loop
@@ -11,7 +11,7 @@ Load and follow these conventions during the whole loop: `git-commit-organizer`,
 
 1. Read the plan and the spec. Read `.scratchpad/<slug>/progress.md` if it exists and continue from the first step that is not done.
 2. Run the full test suite and record the baseline (number of tests, all passing).
-3. Prepare the smallest way to run the change by hand, isolated from real data (for example a server on its own port with a scratch database, or a CLI call on a scratch folder). Put its start and stop commands in `.scratchpad/<slug>/manual-env.sh`. Check that its ports are free first: another project can hold them. Never stop a process that you did not start.
+3. Prepare the smallest way to run the change by hand, isolated from real data (for example a server on its own port with a scratch database, or a CLI call on a scratch folder). Put its start and stop commands in `.scratchpad/<slug>/manual-env.sh`. Check that its ports are free first. Another project can hold them. Never stop a process that you did not start.
 
 ## For each step
 
@@ -22,7 +22,7 @@ Load and follow these conventions during the whole loop: `git-commit-organizer`,
 5. **Record and commit.** Write the ADRs that `decision-record-log` asks for (if the project switched it off, the reason goes in the commit body), sync the docs the change affects, and commit as `git-commit-organizer` says.
 6. **Update `progress.md`** with the status and the commit hashes. Do not start the next step before `progress.md` shows the commit of this one.
 
-Keep the output of each step short in the chat: what was added, test count, manual check result, commit hash.
+Keep the output of each step short in the chat: what the step added, test count, manual check result, commit hash.
 
 ## When reality differs from the plan
 

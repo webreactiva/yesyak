@@ -1,11 +1,11 @@
 ---
 name: customize-yak
-description: Adapts the YesYak process to a project or a person without editing any skill - it detects what the project already has, asks only what is missing, and after a preview and a yes writes adjustments (add, replace, off) to .agents/yesyak.json or ~/.agents/yesyak.json and a short YesYak block between markers in AGENTS.md that tells every agent to apply them. Use it on the first install of the skills in a project, and whenever the user wants another process - "use my spec template", "verify with Playwright too", "skip work items", "change how the skills work here", "personaliza el proceso", "adapta las skills"; run again, it audits the block and keeps it short ("clean up the YesYak block").
+description: Adapts the YesYak process to a project or a person without editing any skill. It detects what the project already has, asks only what is missing, and after a preview and a yes writes adjustments (add, replace, off) to .agents/yesyak.json or ~/.agents/yesyak.json and a short YesYak block between markers in AGENTS.md that tells every agent to apply them. Use it on the first install of the skills in a project, and whenever the user wants another process, for example "use my spec template", "verify with Playwright too", "skip work items", "change how the skills work here", "personaliza el proceso", "adapta las skills"; run again, it audits the block and keeps it short ("clean up the YesYak block").
 ---
 
 # Customize Yak
 
-A person changes the process here, not in the skills. No skill checks its own adjustments: the YesYak block of AGENTS.md tells the agent to apply them.
+A person changes the process here, not in the skills. No skill checks its own adjustments. The YesYak block of AGENTS.md tells the agent to apply them.
 
 ## 1. Detect before asking
 
@@ -26,7 +26,7 @@ Use commands that only check. A script that fixes files in place is not a check.
 
 Stop and ask if the markers are broken: a start without an end, two blocks, or a marker inside a code fence. Change no file until the user says how to fix it.
 
-If the agent reads its own file and that file does not import AGENTS.md (for example `@AGENTS.md` in CLAUDE.md), every preview, also in an audit, adds the import, and creates AGENTS.md if it is missing. Say why before the preview. If the agent cannot import files, put the block in its own file.
+If the agent reads its own file and that file does not import AGENTS.md (for example `@AGENTS.md` in CLAUDE.md), every preview adds the import, also in an audit. The preview also creates AGENTS.md if it is missing. Say why before the preview. If the agent cannot import files, put the block in its own file.
 
 If a block exists and the user asks for no change ("audit", "clean up the YesYak block", or a run with nothing to change), go to section 5.
 

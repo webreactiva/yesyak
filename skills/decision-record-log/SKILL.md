@@ -95,11 +95,11 @@ Also write one for:
 
 Do not write one for a routine fix, or for a preference that a linter or a formatter already checks. Put a small choice in the commit body.
 
-An ADR is not a story that tells only the good part: the consequences say what is lost. It fits on one page.
+An ADR is not a story that tells only the good part. The consequences say what is lost. It fits on one page.
 
 If the project switched this skill off, write the reason for each decision in the commit body instead.
 
 ## Before you commit an ADR
 
 - Compare the Type with the examples in the table above. An environment variable, a public URL or a stored format is Irreversible even when the code change is small.
-- Every consequence must be true at the commit of the ADR and proven: run a mutation to show that a named test fails, or grep a named document. Do not write "the tests pin it" or "documented" without that proof, and do not cite files outside the repository, such as `.scratchpad/`.
+- Every consequence must be true at the commit of the ADR and proven. Run a mutation to show that a named test fails, or grep a named document. Do not write "the tests pin it" or "documented" without that proof, and do not cite files outside the repository, such as `.scratchpad/`.

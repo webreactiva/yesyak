@@ -1,6 +1,6 @@
 ---
 name: no-slop-code
-description: Anti-slop convention for code, tests, docs and user-facing text - no comments that restate the code, no defensive checks out of place, no orphan or dead code, no speculative abstractions, no loose casts, no claims the code does not fulfil, no filler. Use it whenever you write or edit code, tests, templates or documentation, whenever you review generated code, and whenever the user mentions slop, redundant comments, unnecessary checks, clean code, over-engineering or "keep it lean".
+description: Anti-slop convention for code, tests, docs and user-facing text. No comments that restate the code, no defensive checks out of place, no orphan or dead code, no speculative abstractions, no loose casts, no claims the code does not fulfil, no filler. Use it whenever you write or edit code, tests, templates or documentation, whenever you review generated code, and whenever the user mentions slop, redundant comments, unnecessary checks, clean code, over-engineering or "keep it lean".
 ---
 
 # No slop code

@@ -1,11 +1,11 @@
 ---
 name: feature-delivery-pipeline
-description: Orchestrates the full feature workflow from a vague request to a reviewed pull request - interview, acceptance spec, walking-skeleton plan, optional work items, step-by-step implementation, verification, optional browser testing, red team, triage and fixes, visual PR, reviewer guide and retrospective - with a checkpoint for the user after every phase. Use it whenever the user wants to build a feature "end to end", "from spec to PR", "the full process", or starts a non-trivial feature and wants the complete disciplined workflow rather than one isolated step.
+description: Orchestrates the full feature workflow from a vague request to a reviewed pull request, with a checkpoint for the user after every phase. The phases are interview, acceptance spec, walking-skeleton plan, optional work items, step-by-step implementation, verification, optional browser testing, red team, triage and fixes, visual PR, reviewer guide and retrospective. Use it whenever the user wants to build a feature "end to end", "from spec to PR", "the full process", or starts a non-trivial feature and wants the complete disciplined workflow rather than one isolated step.
 ---
 
 # Feature delivery pipeline
 
-This skill runs the other skills in order. Each phase ends at a checkpoint: a short summary in the user's language, the artifact path, the defaults you took and one clear question. Then wait: do not start the next phase in the same message, unless `unattended-run` is active. The user often changes direction at a checkpoint; that is the point of it.
+This skill runs the other skills in order. Each phase ends at a checkpoint: a short summary in the user's language, the artifact path, the defaults you took and one clear question. Then wait. Do not start the next phase in the same message, unless `unattended-run` is active. The user often changes direction at a checkpoint; that is the point of it.
 
 ## Conventions for the whole pipeline
 
@@ -15,7 +15,7 @@ If the user asks you to run without them ("do not ask me", "take the decisions y
 
 ## Phases
 
-Invoke every phase skill with the skill tool, not by reading its file. If a project skill is not listed, or the base directory that the tool prints is neither in this repository's skills folder (for example `.claude/skills/` or `.agents/skills/`) nor the target of a symlink there (a user skill with the same name shadows it), read the project `SKILL.md` directly and tell the user.
+Invoke every phase skill with the skill tool, not by reading its file. If a project skill is not listed, read the project `SKILL.md` directly and tell the user. Do the same if the base directory that the tool prints is neither in this repository's skills folder (for example `.claude/skills/` or `.agents/skills/`) nor the target of a symlink there. A user skill with the same name shadows it.
 
 ```text
 0 Starter kit         branch → slug → .scratchpad/<slug>/ → progress.md → does it fit in one iteration?
@@ -32,7 +32,7 @@ Invoke every phase skill with the skill tool, not by reading its file. If a proj
 
 A bug report enters through `bug-intake` instead of phase 1. It reproduces the bug, finds its contract and runs the short fix route, which ends with `write-visual-pr` (short) and `session-retrospective-rules`.
 
-The map of the whole process lives in `ask-yak/references/process.md`; this block lists the same skills per phase.
+The map of the whole process is in `ask-yak/references/process.md`. This block lists the same skills per phase.
 
 Steps in parentheses are optional. Offer them; do not run them by default.
 
@@ -49,7 +49,7 @@ Steps in parentheses are optional. Offer them; do not run them by default.
 ## Phase 0: Starter kit
 
 1. Ask for the branch name if the user did not give one; derive the slug. If the branch name is fixed and not descriptive, choose the slug separately (`git-commit-organizer`).
-2. Create the branch from the default branch, or from the base branch the user names. Record the base branch in `progress.md`: the pull request targets it. If the project has a git host, check now that the branch can reach it (a remote, signed-in tools), not at the end.
+2. Create the branch from the default branch, or from the base branch the user names. Record the base branch in `progress.md`, because the pull request targets it. If the project has a git host, check now that the branch can reach it (a remote, signed-in tools), not at the end.
 3. Make sure `.scratchpad/` is ignored; create `.scratchpad/<slug>/progress.md` with the phase table.
 4. If the user gives working rules in the chat (language, branch names, commit style), propose to write them in AGENTS.md, outside the YesYak block (`customize-yak` rewrites that block). A rule that stays only in the chat is lost in the next session.
 5. Fix obvious inconsistencies you find in AGENTS.md only if the user agrees.
@@ -64,7 +64,7 @@ Before the interview, read the request and the code it touches and give one verd
 | Split | It holds more than one result that a user can check on its own | Propose the deliveries; the user chooses the first one |
 | Information missing | You cannot size it | Phase 1 starts with the questions that size it |
 
-Split by deliveries, not by technical layers: each delivery is complete, can be verified on its own, and they are ordered by dependency. Use the smallest number of deliveries. The other deliveries go to the out-of-scope section of the spec, so they are not lost.
+Split by deliveries, not by technical layers. Each delivery is complete and can be verified on its own. Order the deliveries by dependency. Use the smallest number of deliveries. The other deliveries go to the out-of-scope section of the spec, so they are not lost.
 
 ## Keeping state
 

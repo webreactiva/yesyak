@@ -13,7 +13,7 @@ Not sure where you are? Ask "what now?" and `ask-yak` shows the position, the ne
 
 To update the skills later, pull this repository (symlinks follow it) or copy the new folders, and run `python3 <skills folder>/ask-yak/scripts/check_yesyak.py`. It reports adjustments that the new version breaks, for example a section that was renamed. If a project has `.agents/yesyak.json` and no YesYak block in AGENTS.md, run `customize-yak`.
 
-A user skill with the same name as a project skill can shadow it. If the skill tool prints a base directory that is neither in the project's skills folder nor the target of a symlink there, read the project `SKILL.md` directly (`feature-delivery-pipeline` checks this). If it happens often, rename your own skill, not the YesYak one: settings files use the YesYak names.
+A user skill with the same name as a project skill can shadow it. If the skill tool prints a base directory that is neither in the project's skills folder nor the target of a symlink there, read the project `SKILL.md` directly (`feature-delivery-pipeline` checks this). If it happens often, rename your own skill, not the YesYak one, because settings files use the YesYak names.
 
 ## Entry points
 
@@ -52,7 +52,7 @@ Each topic has one owner skill. It keeps the full rule, even when the project's 
 | Subagents | `red-team-review` (required); `feature-walkthrough`, `plain-visual-docs`, `prototype-options`, `write-acceptance-spec` (optional) | `red-team-review` tells the user and stops; the others do the work in the main session |
 | A question tool | `on-the-spot` | Ask in the chat |
 | `gh`, `glab` or `az` | `write-visual-pr`, `pr-reviewer-guide`, `work-items-breakdown` | Use the environment's tools, or write a markdown list |
-| Hooks in the agent's harness (for example Claude Code hooks or OpenCode plugins) | `agent-hook-guard` | Propose a test or a command instead |
+| Hooks in the agent tool (for example Claude Code hooks or OpenCode plugins) | `agent-hook-guard` | Propose a test or a command instead |
 | Chrome DevTools MCP, or Playwright and a browser | `browser-acceptance-testing` | Only on the user's request; ask before you switch tools |
 | Node.js with `npx`, and a browser for Mermaid | `plain-visual-docs` | The skill says how to point the renderer to an installed browser |
 | Python 3 | `feature-walkthrough` (citation check), `plain-visual-docs` (block extraction), `customize-yak` (`check_yesyak.py`) | Check citations, blocks and settings files by hand |
@@ -66,13 +66,13 @@ Do not copy a skill to change it. Put the change in a settings file, and every a
 | `.agents/yesyak.json` | The project, in git, for the whole team |
 | `~/.agents/yesyak.json` | Only you, in every project whose instructions run the check: a project with the YesYak block, or every project when your personal instructions file has the same line (`customize-yak` proposes it) |
 
-Each entry names a skill and a mode: `add` (extra instructions), `replace` (one section that the skill card lists), or `off` (skip an optional step). At the start of a session the agent runs `check_yesyak.py` and applies only the `active:` lines it prints; if the check fails, no adjustment applies. The project wins when both files change the same skill. Settings files are instructions for the agent: review a change to them like a change to code. `customize-yak` asks what you want, shows a diff and writes the files; run it again to audit the block. The skill cards in `ask-yak/references/process.md` list what each skill allows.
+Each entry names a skill and a mode: `add` (extra instructions), `replace` (one section that the skill card lists), or `off` (skip an optional step). At the start of a session the agent runs `check_yesyak.py` and applies only the `active:` lines it prints; if the check fails, no adjustment applies. The project wins when both files change the same skill. Settings files are instructions for the agent. Review a change to them like a change to code. `customize-yak` asks what you want, shows a diff and writes the files; run it again to audit the block. The skill cards in `ask-yak/references/process.md` list what each skill allows.
 
 ## Changing a skill
 
 - Keep each skill usable on its own and free of facts of one repository (an ADR number, a function name, a local path).
 - For every new rule in a skill, remove or merge one that is obsolete or duplicated.
-- The description must not contain `<` or `>`: the skill format rejects them.
+- The description must not contain `<` or `>`, because the skill format rejects them.
 - Commit skill changes apart from feature changes, with the scope `skills`.
 - Keep `ask-yak/references/process.md` in step: `check_yesyak.py --dev` checks that every skill has a card and that the map follows the pipeline.
-- Skill names and the sections that a card lists as Replaceable are a contract with the settings files of other projects. Do not rename them; if you must, say it in the release notes, because `check_yesyak.py` reports the old names as problems after an update.
+- Skill names and the sections that a card lists as Replaceable are a contract with the settings files of other projects. Do not rename them. If you must, say it in the release notes, because `check_yesyak.py` reports the old names as problems after an update.

@@ -1,6 +1,6 @@
 ---
 name: feature-walkthrough
-description: Writes a walkthrough of a feature branch for a reader who did not build it - it follows the real code path end to end with file:line stops verified at one commit, draws the structure with ASCII trees and validated Mermaid diagrams (plain-visual-docs), uses the feature's domain terms, and stays short. The writing can go to a read-only subagent when the environment has one; the citations and diagrams are checked before delivery. Use it whenever the user asks for a walkthrough, a code tour, "recorrido", "explícame la feature", "cómo funciona lo que hemos hecho", "enséñame el código de la rama", an onboarding explanation of a branch or pull request, or wants to understand a feature before a review or a merge.
+description: Writes a walkthrough of a feature branch for a reader who did not build it. It follows the real code path end to end with file:line stops verified at one commit, draws the structure with ASCII trees and validated Mermaid diagrams (plain-visual-docs), uses the feature's domain terms, and stays short. The writing can go to a read-only subagent when the environment has one; the citations and diagrams are checked before delivery. Use it whenever the user asks for a walkthrough, a code tour, "recorrido", "explícame la feature", "cómo funciona lo que hemos hecho", "enséñame el código de la rama", an onboarding explanation of a branch or pull request, or wants to understand a feature before a review or a merge.
 ---
 
 # Feature walkthrough
@@ -18,7 +18,7 @@ Collect these before you delegate. They go into the brief.
 
 ## 2. Write it, or delegate it
 
-The writing reads many files. When the environment has subagents, brief one read-only subagent with the template below, so the main context stays small. Name the convention skills in the brief: a subagent does not load them by itself, and without `plain-visual-docs` the walkthrough comes back without diagrams. Without subagents, follow the same brief yourself.
+The writing reads many files. When the environment has subagents, brief one read-only subagent with the template below, so the main context stays small. Name the convention skills in the brief. A subagent does not load them by itself, and without `plain-visual-docs` the walkthrough comes back without diagrams. Without subagents, follow the same brief yourself.
 
 ```text
 Write a walkthrough of <feature> for <reader>. Repository <path>, branch <branch>,
@@ -63,7 +63,7 @@ Fill every `<…>` and drop the sections that do not apply.
 
 The writer can be wrong about the code it cites. Check these after the writing:
 
-1. Run `python3 <base directory of this skill>/scripts/check_walkthrough.py .scratchpad/<slug>/walkthrough.md <hash>`. It reports citations that point past the end of a file, to files that do not exist at the commit, or have no file path, plus the Mermaid block count by type and the length.
+1. Run `python3 <base directory of this skill>/scripts/check_walkthrough.py .scratchpad/<slug>/walkthrough.md <hash>`. It reports citations that point past the end of a file, point to files that do not exist at the commit, or have no file path. It also reports the Mermaid block count by type and the length.
 2. Render every Mermaid block with the `plain-visual-docs` validator.
 3. Run every claim that the writer marked "not run" (for example with a mutation that should make a named test fail). Restore the file after each mutation.
 4. Grep the walkthrough for the words in the "Avoid" column of the domain language.

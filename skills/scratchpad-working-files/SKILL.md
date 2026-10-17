@@ -1,6 +1,6 @@
 ---
 name: scratchpad-working-files
-description: Convention for working files that do not belong in the repository history - notes, progress tracking, reports, manual test helpers, scratch databases, reproduction scripts and session transcripts - all kept in a gitignored .scratchpad/ folder organized by feature slug. Use it at the start of any multi-step task, whenever you are about to create a temporary file, write a report, track progress, or brief a subagent, and whenever the user mentions the scratchpad or asks you to "save this" or "write the report".
+description: Convention for working files that do not belong in the repository history, such as notes, progress tracking, reports, manual test helpers, scratch databases, reproduction scripts and session transcripts. All of them go in a gitignored .scratchpad/ folder, organized by feature slug. Use it at the start of any multi-step task, whenever you are about to create a temporary file, write a report, track progress, or brief a subagent, and whenever the user mentions the scratchpad or asks you to "save this" or "write the report".
 ---
 
 # Scratchpad working files
@@ -62,7 +62,7 @@ If the session stops (usage limit, crash, new day), the next session reads this 
 - Keep the data of manual checks (a scratch database, fixtures) inside `.scratchpad/<slug>/`, never the real data.
 - Use a dedicated port that other sessions do not use.
 - Put start and stop helpers in `manual-env.sh` so each check is one command.
-- Stop every server you start by the PID that the start helper saved. Do not use `pkill -f` with a pattern that also appears in the command you run: it can stop your own shell. After the stop, wait until the port is free (`lsof -iTCP:<port> -sTCP:LISTEN`); a `pgrep` right after `kill` can still see the process.
+- Stop every server you start by the PID that the start helper saved. Do not use `pkill -f` with a pattern that also appears in the command you run. It can stop your own shell. After the stop, wait until the port is free (`lsof -iTCP:<port> -sTCP:LISTEN`); a `pgrep` right after `kill` can still see the process.
 - Mutation checks and backups also go in `.scratchpad/<slug>/`, not in `/tmp`.
 - Keep test credentials in the helper script, not in chat messages.
 

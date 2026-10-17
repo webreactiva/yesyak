@@ -1,6 +1,6 @@
 ---
 name: production-readiness-review
-description: Reviews whether a feature branch is ready to run in production - deployment platform, data durability and backups, schema migrations, configuration and secrets, transport security, build and dependencies, observability, scaling and rollback - and produces a traffic-light report and a change list. Use it whenever the user asks if something is production ready, before a first deploy or a release, for a go-live checklist, deployment review, operational readiness, or when "production changes" left for later need to be addressed.
+description: Reviews whether a feature branch is ready to run in production. It checks the deployment platform, data durability and backups, schema migrations, configuration and secrets, transport security, build and dependencies, observability, scaling and rollback, and produces a traffic-light report and a change list. Use it whenever the user asks if something is production ready, before a first deploy or a release, for a go-live checklist, deployment review, operational readiness, or when "production changes" left for later need to be addressed.
 ---
 
 # Production readiness review
@@ -42,6 +42,6 @@ Write `.scratchpad/<slug>/production-readiness-report.md` with `traffic-light-fi
 
 - Facts confirmed by the user and assumptions still open.
 - Findings per area.
-- A "where to look first when it fails" table: symptom → first suspect.
+- A "where to look first when it fails" table, with the first suspect for each symptom.
 
 Then run `triage-findings-list` to merge it with other open reports, and ask which changes to apply.

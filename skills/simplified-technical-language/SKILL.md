@@ -22,7 +22,7 @@ Identifiers, commands, file paths, error messages and quoted UI text stay exactl
 
 ## Style
 
-Write English deliverables in ASD-STE100 Simplified Technical English. Write Spanish in the same spirit (ETS). The rules of the standard are not repeated here.
+Write English deliverables in ASD-STE100 Simplified Technical English. Write Spanish in the same spirit (ETS). This skill does not repeat the rules of the standard.
 
 ## Conversation style
 

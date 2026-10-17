@@ -1,6 +1,6 @@
 ---
 name: on-the-spot
-description: Puts the user on the spot with rounds of multiple-choice questions, each with a recommended option, until no implementation doubt is left - before any spec or code is written. Use it whenever the user asks you to grill them, interview them, ask questions until everything is clear, clarify requirements, or when a feature request is vague ("I want an admin panel", "add authentication", "let users export data"). Also use it as the first phase of the feature-delivery-pipeline.
+description: Puts the user on the spot with rounds of multiple-choice questions, each with a recommended option, until no implementation doubt is left, before any spec or code is written. Use it whenever the user asks you to grill them, interview them, ask questions until everything is clear, clarify requirements, or when a feature request is vague ("I want an admin panel", "add authentication", "let users export data"). Also use it as the first phase of the feature-delivery-pipeline.
 ---
 
 # On the spot
@@ -17,7 +17,7 @@ Turn a vague request into a set of explicit decisions. Ask; do not implement, an
 
 - Ask in rounds of up to four questions, with the question tool if the environment has one, otherwise in the chat.
 - Every question has two to four options, the recommended one first and marked "(Recommended)", each with a one-line trade-off. Allow multiple selection when the options are not exclusive.
-- Read free-text answers carefully: they often change the direction, add an option you did not offer, or ask you to stop.
+- Read free-text answers carefully. They often change the direction, add an option you did not offer, or ask you to stop.
 
 ## What to cover
 

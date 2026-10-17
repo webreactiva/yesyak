@@ -1,11 +1,11 @@
 ---
 name: verify-against-spec
-description: Verifies an implementation against its spec criterion by criterion - maps every acceptance criterion to tests and code, fills coverage gaps with reproduction scripts, lists deviations that are not criteria, and writes a verification report. Use it whenever the user asks to check the implementation against the spec, which criteria are met or not, whether the work is complete, or for a coverage or compliance report before review or merge.
+description: Verifies an implementation against its spec criterion by criterion. It maps every acceptance criterion to tests and code, fills coverage gaps with reproduction scripts, lists deviations that are not criteria, and writes a verification report. Use it whenever the user asks to check the implementation against the spec, which criteria are met or not, whether the work is complete, or for a coverage or compliance report before review or merge.
 ---
 
 # Verify against spec
 
-The question is not "do the tests pass" but "is every promise in the spec kept, and how do we know".
+Passing tests are not the goal. The question is "is every promise in the spec kept, and how do we know".
 
 ## 1. Collect evidence
 
@@ -19,7 +19,7 @@ The question is not "do the tests pass" but "is every promise in the spec kept, 
 | --- | --- |
 | Suite, full | A test in the suite covers every part of the criterion |
 | Suite, partial | Tests cover part of it; you checked the rest with a script now |
-| Logic tested, entry point manual | The logic has tests; the command or script around it was checked by hand |
+| Logic tested, entry point manual | The logic has tests; you checked the command or script around it by hand |
 | Manual only | The spec says it is manual, or no automated check is possible |
 | ❌ Not met | The behavior differs from the criterion |
 
@@ -27,7 +27,7 @@ Be strict. A test that checks the ids in a list does not cover "shows id, custom
 
 ## 3. Check the gaps with a script
 
-Change no source file and make no commit in this step: new tests come after the user says yes. For every partial criterion, write a small script in `.scratchpad/<slug>/scripts/verify-gaps.*` that exercises the missing part (for example through the test client of the framework). Build the app the way the test setup does (seed data, test secrets) so the script sees the same state. Run it and record the result. Keep the script: it is the starting point for new tests.
+Change no source file and make no commit in this step. New tests come after the user says yes. For every partial criterion, write a small script in `.scratchpad/<slug>/scripts/verify-gaps.*` that exercises the missing part (for example through the test client of the framework). Build the app the way the test setup does (seed data, test secrets) so the script sees the same state. Run it and record the result. Keep the script. It is the starting point for new tests.
 
 Check command-line and startup criteria with real commands against a scratch database.
 

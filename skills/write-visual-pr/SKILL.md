@@ -1,6 +1,6 @@
 ---
 name: write-visual-pr
-description: Creates a pull request whose description opens with a plain-language paragraph and then explains the change with ASCII trees and diagrams and validated Mermaid charts - overview, request flow, data, configuration, how it was built and checked, and follow-ups. Use it whenever the user asks to create, open or write a pull request or merge request, write a PR description, or explain a branch to reviewers, especially when they want it understandable for non-technical readers or with diagrams.
+description: Creates a pull request whose description opens with a plain-language paragraph and then explains the change with ASCII trees and diagrams and validated Mermaid charts. It covers the overview, request flow, data, configuration, how it was built and checked, and follow-ups. Use it whenever the user asks to create, open or write a pull request or merge request, write a PR description, or explain a branch to reviewers, especially when they want it understandable for non-technical readers or with diagrams.
 ---
 
 # Write visual PR
@@ -19,7 +19,7 @@ git diff --shortstat <base>...HEAD       # size
 - If the remote is on GitLab, use `glab` for the same checks: `glab auth status`, `glab mr list --source-branch <branch>`.
 - If neither tool is installed or signed in (common in cloud sessions), use the tools that the environment gives (for example an MCP server) for the same checks and for the creation. Do not stop only because `gh` or `glab` is missing.
 - If the branch is not on the remote, ask before you push.
-- If there is no remote, or the user wants no hosted PR, stop at the body: report its path and go on with the next step.
+- If there is no remote, or the user wants no hosted PR, stop at the body. Report its path and go on with the next step.
 - If a PR already exists, update it instead of creating another one.
 - Collect real numbers for the description: tests on the base branch and on the branch, commits, files, decisions. Verify each number; do not estimate.
 

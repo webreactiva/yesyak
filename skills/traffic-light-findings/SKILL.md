@@ -1,6 +1,6 @@
 ---
 name: traffic-light-findings
-description: Convention for reporting findings with a traffic-light severity (🔴 blocking, 🟠 worth discussing, 🟡 minor) and stable IDs. Use it whenever you review, audit, challenge or verify anything and report what you found — code reviews, security reviews, devil's advocate passes, premortems, verification reports, browser test reports, triage lists — and whenever the user asks for a "semaphore", "traffic light", severity levels or a ranked list of issues. Also use it when you consolidate findings from several reviewers or subagents.
+description: Convention for reporting findings with a traffic-light severity (🔴 blocking, 🟠 worth discussing, 🟡 minor) and stable IDs. Use it whenever you review, audit, challenge or verify anything and report what you found. This includes code reviews, security reviews, devil's advocate passes, premortems, verification reports, browser test reports and triage lists. Use it too whenever the user asks for a "semaphore", "traffic light", severity levels or a ranked list of issues. Also use it when you consolidate findings from several reviewers or subagents.
 ---
 
 # Traffic-light findings
@@ -11,7 +11,7 @@ If AGENTS.md sets a different convention for this topic, follow AGENTS.md.
 
 | Light | Meaning | What happens next |
 | --- | --- | --- |
-| 🔴 | Blocking. It must be fixed before the work moves on (merge, release, next phase). | Fix it or get an explicit decision from the user. |
+| 🔴 | Blocking. The work does not move on (merge, release, next phase) until it is fixed. | Fix it or get an explicit decision from the user. |
 | 🟠 | Worth discussing. It is a real problem or a strong counter-argument, but it does not block. | Discuss, then fix or record the decision. |
 | 🟡 | Minor. A warning without real risk, or a cosmetic issue. | Fix when convenient, or accept. |
 
@@ -37,7 +37,7 @@ When you merge reports from several reviewers or subagents:
 1. Merge duplicates into one finding. List who found it ("Found by: security, architecture").
 2. Keep the highest severity that the evidence supports. Say when you changed a reviewer's light and why.
 3. Reproduce the 🔴 and the most important 🟠 findings yourself before you report them.
-4. Add a section "Verified without findings" for checks that passed. It shows what was covered.
+4. Add a section "Verified without findings" for checks that passed. It shows what the review covered.
 
 ## Summary block
 

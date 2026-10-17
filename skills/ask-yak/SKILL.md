@@ -1,6 +1,6 @@
 ---
 name: ask-yak
-description: Tells the user where their work is in the YesYak process and what comes next - it reads the branch, the progress file, specs, plans, reports, handoffs and pull requests, shows a map of the whole process with the current position marked, names the next skill and the rest of the way to the pull request, and waits. It never writes and never starts a skill alone. Use it whenever the user asks "what now", "what next", "where am I", "where are we", "which skill do I use", "what is left", "qué hago ahora", "por dónde voy", is new to the skills, or seems lost between phases.
+description: Tells the user where their work is in the YesYak process and what comes next. It reads the branch, the progress file, specs, plans, reports, handoffs and pull requests, shows a map of the whole process with the current position marked, names the next skill and the rest of the way to the pull request, and waits. It never writes and never starts a skill alone. Use it whenever the user asks "what now", "what next", "where am I", "where are we", "which skill do I use", "what is left", "qué hago ahora", "por dónde voy", is new to the skills, or seems lost between phases.
 ---
 
 # Ask Yak
@@ -28,7 +28,7 @@ If nothing is found, show the entry points table and ask one question: feature, 
 
 ## 3. Read the adjustments
 
-Run `python3` with the `scripts/check_yesyak.py` of this skill, from the project root. Its `active:` lines are the adjustments that apply: extra instructions (`add`), a replaced section (`replace`) or a skill switched off (`off`). If it reports problems or cannot run, say so: no adjustment applies until they are fixed.
+Run `python3` with the `scripts/check_yesyak.py` of this skill, from the project root. Its `active:` lines are the adjustments that apply: extra instructions (`add`), a replaced section (`replace`) or a skill switched off (`off`). If it reports problems or cannot run, say so. No adjustment applies until they are fixed.
 
 ## 4. Answer
 

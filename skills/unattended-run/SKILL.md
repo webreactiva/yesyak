@@ -1,6 +1,6 @@
 ---
 name: unattended-run
-description: Lets the feature-delivery-pipeline and its phase skills run from start to end without the user - every checkpoint, interview round and "which option?" question is answered by the agent with the recommended option, logged with its reason, and the run only stops for actions the user did not authorize. Use it whenever the user says "do not ask me", "answer the questions yourself", "take the best decisions", "run it to the end without me", "no me preguntes", "hasta terminar sin interactuar conmigo", or starts the pipeline and then leaves.
+description: Lets the feature-delivery-pipeline and its phase skills run from start to end without the user. The agent answers every checkpoint, interview round and "which option?" question with the recommended option and logs it with its reason. The run only stops for actions the user did not authorize. Use it whenever the user says "do not ask me", "answer the questions yourself", "take the best decisions", "run it to the end without me", "no me preguntes", "hasta terminar sin interactuar conmigo", or starts the pipeline and then leaves.
 ---
 
 # Unattended run
@@ -56,9 +56,9 @@ Stop and wait only when:
 
 ## Skill feedback
 
-When the user wants skill feedback, keep `.scratchpad/<slug>/skill-feedback.md`: the skill, the problem you met, the change you propose. Do not edit an installed skill: it can be a symlink to the shared skills repository. A change for this project only goes to `customize-yak`.
+When the user wants skill feedback, keep `.scratchpad/<slug>/skill-feedback.md`: the skill, the problem you met, the change you propose. Do not edit an installed skill. It can be a symlink to the shared skills repository. A change for this project only goes to `customize-yak`.
 
 ## At the end
 
 - Tell the user the number of decisions you took alone and where the log is.
-- In the pull request, add a short "Decisions taken without the user" section with the most important `Q-` entries: `.scratchpad/` is not in the repository, and a cloud session loses it with the container.
+- In the pull request, add a short "Decisions taken without the user" section with the most important `Q-` entries, because `.scratchpad/` is not in the repository, and a cloud session loses it with the container.

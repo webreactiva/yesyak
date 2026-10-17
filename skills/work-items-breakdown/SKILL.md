@@ -1,6 +1,6 @@
 ---
 name: work-items-breakdown
-description: Converts a spec or an implementation plan into work items for the user's tracker - GitHub or GitLab issues, Jira or Azure DevOps work items, Linear issues, or a plain task list - with the granularity, fields and links the user needs. Use it whenever the user asks to create issues, tickets, tasks, stories, epics, a backlog or a board from a spec or plan, or asks "how do we split this work for the team".
+description: Converts a spec or an implementation plan into work items for the user's tracker, with the granularity, fields and links the user needs. The tracker can be GitHub or GitLab issues, Jira or Azure DevOps work items, Linear issues, or a plain task list. Use it whenever the user asks to create issues, tickets, tasks, stories, epics, a backlog or a board from a spec or plan, or asks "how do we split this work for the team".
 ---
 
 # Work items breakdown
@@ -44,7 +44,7 @@ One or two sentences. Link to docs/<slug>-spec.md and docs/<slug>-plan.md.
 
 - Write items in the document language of `simplified-technical-language`.
 - Add a label or tag with the feature slug.
-- In an external tracker, copy the criteria text, not only the ids: people read it outside the repository.
+- In an external tracker, copy the criteria text, not only the ids. People read it outside the repository.
 
 ## 3. Preview and confirm
 

@@ -175,7 +175,7 @@ Each card says when to use the skill, what it makes, what comes next, the sectio
 - Off: not allowed
 
 ### agent-hook-guard
-- When: a review found a problem that a check of the agent's harness could stop
+- When: a review found a problem that a check of the agent tool could stop
 - Makes: an agent hook and its script, `.scratchpad/<slug>/hook-report.md`
 - Next: `triage-findings-list`
 - Replaceable: none

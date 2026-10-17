@@ -35,6 +35,6 @@ Without subagents, build the options one after the other in the main session, wi
 1. Show the options side by side: how to open each one, one line about what makes it different, and one screenshot each if the environment can take them.
 2. If an option is late, show the ones that are ready. Do not wait for all of them when the user is waiting.
 3. Ask which option to keep, or which parts of each to combine.
-4. Add the choice to `.scratchpad/<slug>/interview-decisions.md`, under its own heading, with what the user rejected and why. The spec takes it from there.
+4. Add the choice to `.scratchpad/<slug>/interview-decisions.md`, under its own heading, with what the user rejected and why. The spec uses the choice from that file.
 
 The prototypes stay in `.scratchpad/`. The build of `execute-plan-loop` starts from the spec, not from the prototype code.

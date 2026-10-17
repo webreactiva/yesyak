@@ -1,6 +1,6 @@
 ---
 name: session-retrospective-rules
-description: Reviews the current session - what the user asked and whether it was done, the instructions the user repeated, what worked - and the moments where the user had to correct the assistant or where it did something unexpected, and proposes for each one a guard in the first place that fits - a test, a command, an agent hook, a rule in AGENTS.md, a YesYak adjustment for this project, or the skill - without applying anything until the user approves; can also archive the session transcripts. Use it whenever the user asks for a retrospective, lessons learned, "where did I have to correct you", "how do we avoid this next time", "what should change for the next session", session insights, or to capture the session's transcripts.
+description: Reviews the current session. It finds what the user asked and whether it was done, the instructions the user repeated, what worked, and the moments where the user had to correct the assistant or where it did something unexpected. For each moment it proposes a guard in the first place that fits, which is a test, a command, an agent hook, a rule in AGENTS.md, a YesYak adjustment for this project, or the skill. It applies nothing until the user approves. It can also archive the session transcripts. Use it whenever the user asks for a retrospective, lessons learned, "where did I have to correct you", "how do we avoid this next time", "what should change for the next session", session insights, or to capture the session's transcripts.
 ---
 
 # Session retrospective rules
@@ -37,12 +37,12 @@ For each moment give:
 | --- | --- | --- |
 | 1 | 🧪 A test | The mistake shows in behavior that a test can check |
 | 2 | ⌨️ A command or script | A check before a commit can catch it |
-| 3 | 🪝 An agent hook | The agent's harness can check it while the agent works, and the project's agent has hooks (`agent-hook-guard`) |
+| 3 | 🪝 An agent hook | The agent tool can check it while the agent works, and the project's agent has hooks (`agent-hook-guard`) |
 | 4 | 📏 AGENTS.md | It matters even when no skill is loaded, and it fits in one or two lines |
 | 5 | An adjustment in `.agents/yesyak.json` | It changes how one skill works in this project only (`customize-yak`) |
 | 6 | The skill, or a saved prompt | It improves the skill in every project, or the user pasted the same long prompt more than once. Propose the change, or a new skill for the prompt, for the skills repository; do not edit an installed skill, which can be a symlink |
 
-Tests, commands and hooks come first because a machine runs them: they do not depend on memory. For each guard, say whether a machine can check it alone. A rule for AGENTS.md goes in the section where it belongs (for example "Git"), not in the YesYak block. An adjustment is written by `customize-yak`: propose the entry and let it write the file. Skills stay complete, because other projects may load them without this AGENTS.md.
+Tests, commands and hooks come first because a machine runs them. They do not depend on memory. For each guard, say whether a machine can check it alone. A rule for AGENTS.md goes in the section where it belongs (for example "Git"), not in the YesYak block. `customize-yak` writes adjustments. Propose the entry and let it write the file. Skills stay complete, because other projects may load them without this AGENTS.md.
 
 Skills must not only grow. For every new rule in a skill, remove or merge one that is obsolete, duplicated or never used. Record the total size of the skills before and after (`wc -l <skills folder>/*/SKILL.md | tail -1`) in the retrospective.
 

@@ -2,6 +2,13 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.4.3 · 2026-10-18
+
+From benchmark run 0019 (Claude Code with Sonnet, one cut, then an unattended session).
+
+- `handoff-and-resume`: on the pipeline or the fix route, the next steps of a note list every phase still to run, up to the retrospective. A note that stopped at "merge" made the next session skip verification, red team, PR body and retrospective.
+- `unattended-run`: the end point includes every remaining phase of the pipeline; a project step such as a merge comes after the retrospective, and a skipped phase is a logged decision.
+
 ## 0.4.2 · 2026-10-17
 
 From benchmark run 0018 (a large app, one piece of work over four sessions with forced cuts, and one unattended delivery).

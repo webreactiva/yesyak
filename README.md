@@ -131,22 +131,22 @@ Each entry names a skill and a mode: `add` (extra instructions), `replace` (one 
 
 YesYak is tested on small real projects from GitHub. An internal skill of this repository (`.claude/skills/yak-bench/`, not installed by `npx skills`) drives an agent as a puppet through the process, in tmux, while Claude Code plays the human user: it answers the checkpoints, and it corrects the agent only where a real user would. Each run is scored, every correction becomes a finding, and confirmed findings become skill changes and a release. The full record is in [`bench/LOG.md`](bench/LOG.md) (runs, findings, metrics), [`bench/runs/`](bench/runs/) (one report per run) and [`bench/FLOWS.md`](bench/FLOWS.md) (the skills each run used).
 
-All figures are from 2026-10-17 and 2026-10-18, versions v0.1.0 to v0.4.2.
+All figures are from 2026-10-17 and 2026-10-18, versions v0.1.0 to v0.4.3.
 
 ### In numbers
 
 | | |
 | --- | --- |
-| Runs | 19 (0000 to 0018) |
-| Agents | OpenCode (13 runs), Claude Code (6 runs) |
+| Runs | 20 (0000 to 0019) |
+| Agents | OpenCode (13 runs), Claude Code (7 runs) |
 | Models | 6: deepseek-v4.1-flash, claude-sonnet-5-5, gpt-6-luna, gpt-5.6-sol, glm-5.3, minimax-m2.7 |
 | Languages | Python, Go, TypeScript and JavaScript, PHP, Rust |
-| Routes | 13 features, 4 bugs, 2 runs as a user who does not know YesYak |
-| Findings | 68: skill, model, agent and benchmark defects |
-| Releases | 15 tags, v0.1.0 to v0.4.2 |
-| Puppet time | 342 minutes of model work, 2,675 model steps, 242 human turns |
-| Puppet cost | 17.58 $ for all runs |
-| Driver cost | 49.85 $ for Claude Code (Opus) as the human, in the time of the runs |
+| Routes | 14 features, 4 bugs, 2 runs as a user who does not know YesYak |
+| Findings | 69: skill, model, agent and benchmark defects |
+| Releases | 16 tags, v0.1.0 to v0.4.3 |
+| Puppet time | 378 minutes of model work, 2,829 model steps, 254 human turns |
+| Puppet cost | 21.43 $ for all runs |
+| Driver cost | 51.25 $ for Claude Code (Opus) as the human, in the time of the runs |
 
 Costs are the equivalent at the prices of the [models.dev API](https://models.dev/api.json). The Claude Code runs used a subscription. The driver cost does not include the time spent writing the skills.
 
@@ -155,19 +155,19 @@ Costs are the equivalent at the prices of the [models.dev API](https://models.de
 | Model | Agent | Runs | Turns | Model steps | Model time | Output tokens | Cache read | Cost $ | $ per run |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | deepseek-v4.1-flash | OpenCode | 8 | 112 | 1,590 | 221 min | 1,329k | 213.4M | 3.56 | 0.45 |
-| claude-sonnet-5-5 | Claude Code | 6 | 55 | 269 | 26 min | 155k | 13.3M | 4.29 | 0.71 |
+| claude-sonnet-5-5 | Claude Code | 7 | 67 | 423 | 62 min | 279k | 30.2M | 8.14 | 1.16 |
 | gpt-6-luna | OpenCode | 2 | 45 | 517 | 39 min | 224k | 56.5M | 0.78 | 0.39 |
 | glm-5.3 | OpenCode | 1 | 15 | 140 | 32 min | 158k | 17.6M | 5.63 | 5.63 |
 | gpt-5.6-sol | OpenCode | 1 | 2 | 56 | 16 min | 35k | 4.5M | 3.03 | 3.03 |
 | minimax-m2.7 | OpenCode | 1 | 13 | 103 | 8 min | 28k | 3.7M | 0.29 | 0.29 |
-| **All** | | **19** | **242** | **2,675** | **342 min** | **1,930k** | **309.1M** | **17.58** | **0.93** |
+| **All** | | **20** | **254** | **2,829** | **378 min** | **2,054k** | **326.0M** | **21.43** | **1.07** |
 
 Run 0018 also used minimax-m2.7 for part of one session; its figures count under deepseek-v4.1-flash.
 
 What the models did with the same process:
 
 - **deepseek-v4.1-flash** was the best value: complete runs for 0.05 to 0.32 $, with real findings from its red team, and the first unattended run. On a large app (0018) it wrote a handoff without being asked, resumed from it in a new session, and finished a delivery alone.
-- **claude-sonnet-5-5** gave the best code and retrospectives, but it skips steps that it thinks a change does not need. Without the YesYak block it skipped the whole process (runs 0009, 0014, 0015). With the block, it ran every phase (0010, 0016).
+- **claude-sonnet-5-5** gave the best code and retrospectives, but it skips steps that it thinks a change does not need. Without the YesYak block it skipped the whole process (runs 0009, 0014, 0015). With the block, it ran every phase (0010, 0016). On a large app (0019) it built a 10-step delivery alone after a handoff, and replaced the review phases with its own code review.
 - **gpt-6-luna** needed the most corrections and loaded skills it did not need.
 - **glm-5.3** ran every phase with no intervention and built the first agent hook, at the highest cost per run.
 - **minimax-m2.7** needed four corrections and one nudge, in setup, in the spec and at the pull request. In 0018 it resumed a cut session without any skill and called a new test failure pre-existing.
@@ -195,6 +195,7 @@ What the models did with the same process:
 | 0016 | Claude Code · claude-sonnet-5-5 | gomodifytags · as 0015, new install | all phases | 0 / 1 / 0 | 9 min | 1.07 |
 | 0017 | OpenCode · deepseek-v4.1-flash | MCU-Countdown (Python, Docker) · feature, work items, walkthrough, production readiness | all phases + production review | 0 / 0 / 0 | 33 min | 0.32 |
 | 0018 | OpenCode · deepseek-v4.1-flash, minimax-m2.7 | a large web app · 2 of 5 deliveries, 4 sessions, 3 forced cuts, one unattended | 2 deliveries, all phases | 0 / 2 / 1 | 131 min | 2.58 |
+| 0019 | Claude Code · claude-sonnet-5-5 | the same app · delivery 3, one cut, then unattended | built and merged, review phases replaced by a code review | 0 / 0 / 0 | 36 min | 3.85 |
 
 A nudge means the user told the agent something that a skill should have told it; a correction stopped a wrong action; a rescue unblocked a stuck agent.
 

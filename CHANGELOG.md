@@ -2,6 +2,13 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.3.1 · 2026-10-17
+
+From benchmark run 0003 (a PHP library, a feature, a second weak model).
+
+- `write-acceptance-spec`: before the checkpoint, count the lines of the spec against the estimated lines of code and tests, cut if the spec is longer, and report both counts. The v0.2.0 sentence alone did not stop a 230-line spec for 37 lines of code.
+- `customize-yak`: the check line in the AGENTS.md block says "add no new failures" and where the known failures of the default branch are recorded.
+
 ## 0.3.0 · 2026-10-17
 
 From benchmark run 0002 (a Go library, a bug, a weak model) and the findings it confirmed from run 0001.

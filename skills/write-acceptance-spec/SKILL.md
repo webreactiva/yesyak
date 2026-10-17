@@ -93,6 +93,6 @@ Add the TL;DR and diagrams with `plain-visual-docs`. This mode can go to a subag
 
 ## Finish
 
-Before you report, count the lines of the spec and estimate the lines of code and tests the change needs. If the spec is longer, cut what repeats the decisions, the code or another document (`no-slop-code`), then count again.
+Before you report, count the lines of the spec and estimate the lines of code and tests the change needs. If the spec is longer, keep only what a reviewer needs to check the change: the TL;DR, the interface, the acceptance criteria and what is out of scope. Remove the other sections, and every line that repeats the decisions, the code or another document (`no-slop-code`). Count again. If the spec is still longer, say in one line which part must stay and why.
 
 Report in the chat: the path, both line counts, the number of criteria, the main sections, and the defaults that need confirmation. Ask before moving to the plan.

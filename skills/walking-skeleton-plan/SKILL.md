@@ -48,8 +48,9 @@ State the ordering decisions in the plan so the user can challenge them.
 Every acceptance criterion must appear in the overview at least once. Check it with a script, not by eye:
 
 ```bash
-for i in $(seq -w 1 NN); do
-  grep -q "AC-$i" <(sed -n '/^## Overview/,/^## Steps/p' docs/<slug>-plan.md) || echo "missing AC-$i"
+for i in $(seq 1 NN); do
+  id=$(printf 'AC-%02d' "$i")   # use the id form of the spec
+  grep -q "$id" <(sed -n '/^## Overview/,/^## Steps/p' docs/<slug>-plan.md) || echo "missing $id"
 done
 ```
 

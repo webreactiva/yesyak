@@ -17,6 +17,7 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0008](runs/0008-retry-novice.md) | 2026-10-17 | v0.3.4 | avast/retry-go · feature #107 (retry on a rejected value), devil's advocate user | ollama-cloud/deepseek-v4.1-flash | `ses_eb591dddfffes1fAciXxlNwClE` (work), 1 probe session | feature built; process never started | 6 user mistakes: 🟢1 🟠2 🔴3 | 0.05 $ |
 | [0009](runs/0009-filenamify-claude.md) | 2026-10-17 | v0.3.4 | sindresorhus/filenamify · feature #43, same as 0007 | anthropic/claude-sonnet-5-5 (Claude Code) | `0521d082-9033-4725-b0ed-a3fe5e8dfdd8` (work), 1 probe session | feature built; process skipped | 0/0/0 (no checkpoint reached) | 0.32 $ |
 | [0010](runs/0010-filenamify-claude-v035.md) | 2026-10-17 | v0.3.5 | sindresorhus/filenamify · feature #43, same as 0007 and 0009 | anthropic/claude-sonnet-5-5 (Claude Code) | `11fb328b-38b7-4892-9fcb-6c6483cb9a78` (work), 1 probe session | 6 Retrospective (all phases) | 0/0/0 | 1.86 $ |
+| [0011](runs/0011-retry-split-handoff.md) | 2026-10-17 | v0.3.6 | avast/retry-go · three pieces of work in one request, session cut and resume | ollama-cloud/deepseek-v4.1-flash | `ses_eb56387a8ffe3Vuzb0lY5M2q5K`, `ses_eb55ce938ffe60c435rSaP6S6J` (work, two sessions), 1 probe session | 6 Retrospective for delivery 1 | 0/0/0 | 0.15 $ |
 
 ## Metrics
 
@@ -35,6 +36,7 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0008-retry-novice | ollama-cloud/deepseek-v4.1-flash | 5 | 27 | 5 min | 4 min | 152304 | 35841 | 1367424 | 0.05 | 6 | 1513658 (3899) | 0.42 |
 | 0009-filenamify-claude | anthropic/claude-sonnet-5-5 | 7 | 25 | 4 min | 3 min | 46 | 12647 | 796241 | 0.32 | 7 | 2014066 (5447) | 0.56 |
 | 0010-filenamify-claude-v035 | anthropic/claude-sonnet-5-5 | 17 | 112 | 12 min | 7 min | 228 | 56712 | 6076339 | 1.86 | 13 | 4177180 (5883) | 1.02 |
+| 0011-retry-split-handoff | ollama-cloud/deepseek-v4.1-flash | 11 | 147 | 14 min | 12 min | 307294 | 126821 | 10221458 | 0.15 | 11 | 3809905 (5135) | 0.93 |
 
 ## Findings
 
@@ -92,4 +94,6 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-048 | Skill | watch | The user left early; the agent did not say which steps were left | 0008 turn 5 |
 | F-049 | Skill | verified in run 0010 | Nothing in the YesYak block says that a feature request or a bug report starts the process; Sonnet judged a breaking change "small", skipped every phase and answered "what now?" without ask-yak. The block template now has the line, and "ask before you skip a phase" | 0009 turns 4-5; 0008 (weak model, no block); verified in 0010: the same request ran every phase |
 | F-050 | Bench | fixed in bench tools | The bench drove only OpenCode. `turn-claude.sh` drives Claude Code, `prepare.sh` copies the skills to `.claude/skills` too, `report.py` reads Claude Code's stream JSON and transcripts | 0009 setup |
-| F-051 | Skill | fixed in v0.3.6 | Sonnet skipped step 4 of phase 0 (propose the chat rules for AGENTS.md); the phase 0 checkpoint question now asks about them | 0010 turn 4; the retrospective found it |
+| F-051 | Skill | verified in run 0011 | Sonnet skipped step 4 of phase 0 (propose the chat rules for AGENTS.md); the phase 0 checkpoint question now asks about them | 0010 turn 4; the retrospective found it; verified in 0011 |
+| F-052 | Bench | fixed in bench tools | The puppet inherited the driver's Claude Code variables through tmux (`CLAUDECODE`, `CLAUDE_CODE_SESSION_ID`, a messaging token); the turn scripts now remove every `CLAUDE*` and `AI_AGENT` variable | 0011 turn 10 |
+| F-053 | Skill | watch | After a resume, the retrospective covered only the current session, not the whole piece of work | 0011 turn 12 |

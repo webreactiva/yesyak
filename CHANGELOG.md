@@ -2,6 +2,12 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.4.1 · 2026-10-17
+
+From benchmark run 0017 (a small HTTP service that deploys a Docker image; the first use in this series of `work-items-breakdown`, `feature-walkthrough` and `production-readiness-review`).
+
+- `work-items-breakdown`: a task list that the project keeps goes to a file in git (the project's task file, otherwise `docs/<slug>-tasks.md`) and is committed with the plan. The `.scratchpad/` mapping is only for an external tracker. A user's task list landed in the gitignored folder.
+
 ## 0.4.0 · 2026-10-17
 
 From benchmark run 0015: without the YesYak block in AGENTS.md, a strong model skipped the skills for a small change, whatever the skill descriptions said (also runs 0009 and 0014). The block is the switch, so the install now writes it.

@@ -2,6 +2,15 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.3.5 · 2026-10-17
+
+From benchmark runs 0008 (a user who does not know YesYak) and 0009 (Claude Code with Sonnet, the same task as 0007).
+
+- `customize-yak`: the YesYak block says that a feature request starts `feature-delivery-pipeline` and a bug report starts `bug-intake`, whatever the size, and that the agent asks before it skips a phase. A strong model skipped every phase of a breaking change because it looked small.
+- `customize-yak`: the check line of the block asks for one command per step, never a chain that stops at a known failure.
+- `install.sh` prints the next step when the project has no YesYak block.
+- Benchmark: Claude Code can be the puppet (`turn-claude.sh`).
+
 ## 0.3.4 · 2026-10-17
 
 From benchmark run 0007 (a JavaScript library, a feature), which also verified the 0.3.3 fixes.

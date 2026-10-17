@@ -32,11 +32,18 @@ python3 skills/feature-walkthrough/scripts/check_walkthrough.py <walkthrough.md>
 - **Contract with other projects.** Skill names and the headings that a card lists as "Replaceable" are names that settings files in other repositories use. A `replace` entry must match a `##`/`###` heading outside code fences. Do not rename them. If you must, say it in the release notes.
 - **Owner skills.** Each topic has one owner skill that keeps the full rule (table in README.md): branches and commits in `git-commit-organizer`, working files in `scratchpad-working-files`, language in `simplified-technical-language`, findings in `traffic-light-findings`, ADRs in `decision-record-log`, openings and diagrams in `plain-visual-docs`, slop in `no-slop-code`. Other skills name the owner and do not copy its rule. Each owner says that AGENTS.md wins when it sets a different convention.
 
+## Benchmark and releases
+
+- `.claude/skills/yak-bench/` is a skill of this repository only (not in `skills/`, so `install.sh` never copies it). It drives OpenCode as a puppet through the YesYak process on a small real project, with you as the human, and turns confirmed findings into skill changes.
+- `bench/LOG.md` keeps every run and every finding; `bench/runs/` has one file per run. Run folders stay in `.scratchpad/bench/`.
+- Releases: an entry in `CHANGELOG.md` and a tag `vX.Y.Z`. Push tags only when the user asks.
+
 ## Rules for changing a skill
 
 - Keep each skill usable on its own (see the premise above). The existing examples share one neutral domain, orders; a new example that needs a domain uses it too.
 - Do not write `.claude/skills/` as the only location; say "the skills folder".
 - For every new rule, remove or merge one that is obsolete or duplicated.
-- The `description` in the frontmatter must not contain `<` or `>`.
+- The `description` in the frontmatter must not contain `<` or `>`, and must not contain `: ` (it breaks the YAML).
+- Before you commit skill text, review it with the `unslop` skill if it is installed (user level). Review scripts with `deslop`.
 - Skills are written in English, ASD-STE100 Simplified Technical English. The document language rule of the skills lives only in `simplified-technical-language`: documents in English unless the project names another language; the conversation in the user's language.
 - Commits: Conventional Commits with gitmoji, in English, scope `skills` for skill changes, kept apart from other changes.

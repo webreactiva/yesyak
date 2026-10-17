@@ -49,7 +49,7 @@ description: Writes or refines a feature spec in docs/SLUG-spec.md with a plain-
 ## Out of scope
 ```
 
-Leave out the sections that do not apply. Size the spec to the change: if it is longer than the code you expect to write, cut what repeats the decisions, the code or another document (`no-slop-code`).
+Leave out the sections that do not apply.
 
 ## Acceptance criteria
 
@@ -93,4 +93,6 @@ Add the TL;DR and diagrams with `plain-visual-docs`. This mode can go to a subag
 
 ## Finish
 
-Report in the chat: the path, the number of criteria, the main sections, and the defaults that need confirmation. Ask before moving to the plan.
+Before you report, count the lines of the spec and estimate the lines of code and tests the change needs. If the spec is longer, cut what repeats the decisions, the code or another document (`no-slop-code`), then count again.
+
+Report in the chat: the path, both line counts, the number of criteria, the main sections, and the defaults that need confirmation. Ask before moving to the plan.

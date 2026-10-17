@@ -131,22 +131,22 @@ Each entry names a skill and a mode: `add` (extra instructions), `replace` (one 
 
 YesYak is tested on small real projects from GitHub. An internal skill of this repository (`.claude/skills/yak-bench/`, not installed by `npx skills`) drives an agent as a puppet through the process, in tmux, while Claude Code plays the human user: it answers the checkpoints, and it corrects the agent only where a real user would. Each run is scored, every correction becomes a finding, and confirmed findings become skill changes and a release. The full record is in [`bench/LOG.md`](bench/LOG.md) (runs, findings, metrics), [`bench/runs/`](bench/runs/) (one report per run) and [`bench/FLOWS.md`](bench/FLOWS.md) (the skills each run used).
 
-All figures are from 2026-10-17, versions v0.1.0 to v0.4.0.
+All figures are from 2026-10-17 and 2026-10-18, versions v0.1.0 to v0.4.2.
 
 ### In numbers
 
 | | |
 | --- | --- |
-| Runs | 17 (0000 to 0016) |
-| Agents | OpenCode (11 runs), Claude Code (6 runs) |
+| Runs | 19 (0000 to 0018) |
+| Agents | OpenCode (13 runs), Claude Code (6 runs) |
 | Models | 6: deepseek-v4.1-flash, claude-sonnet-5-5, gpt-6-luna, gpt-5.6-sol, glm-5.3, minimax-m2.7 |
 | Languages | Python, Go, TypeScript and JavaScript, PHP, Rust |
-| Routes | 11 features, 4 bugs, 2 runs as a user who does not know YesYak |
-| Findings | 60: skill, model, agent and benchmark defects |
-| Releases | 13 tags, v0.1.0 to v0.4.0 |
-| Puppet time | 178 minutes of model work, 1,685 model steps, 192 human turns |
-| Puppet cost | 14.68 $ for all runs |
-| Driver cost | 41.48 $ for Claude Code (Opus) as the human, in the time of the runs |
+| Routes | 13 features, 4 bugs, 2 runs as a user who does not know YesYak |
+| Findings | 68: skill, model, agent and benchmark defects |
+| Releases | 15 tags, v0.1.0 to v0.4.2 |
+| Puppet time | 342 minutes of model work, 2,675 model steps, 242 human turns |
+| Puppet cost | 17.58 $ for all runs |
+| Driver cost | 49.85 $ for Claude Code (Opus) as the human, in the time of the runs |
 
 Costs are the equivalent at the prices of the [models.dev API](https://models.dev/api.json). The Claude Code runs used a subscription. The driver cost does not include the time spent writing the skills.
 
@@ -154,21 +154,23 @@ Costs are the equivalent at the prices of the [models.dev API](https://models.de
 
 | Model | Agent | Runs | Turns | Model steps | Model time | Output tokens | Cache read | Cost $ | $ per run |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| deepseek-v4.1-flash | OpenCode | 6 | 62 | 600 | 57 min | 537k | 53.1M | 0.66 | 0.11 |
+| deepseek-v4.1-flash | OpenCode | 8 | 112 | 1,590 | 221 min | 1,329k | 213.4M | 3.56 | 0.45 |
 | claude-sonnet-5-5 | Claude Code | 6 | 55 | 269 | 26 min | 155k | 13.3M | 4.29 | 0.71 |
 | gpt-6-luna | OpenCode | 2 | 45 | 517 | 39 min | 224k | 56.5M | 0.78 | 0.39 |
 | glm-5.3 | OpenCode | 1 | 15 | 140 | 32 min | 158k | 17.6M | 5.63 | 5.63 |
 | gpt-5.6-sol | OpenCode | 1 | 2 | 56 | 16 min | 35k | 4.5M | 3.03 | 3.03 |
 | minimax-m2.7 | OpenCode | 1 | 13 | 103 | 8 min | 28k | 3.7M | 0.29 | 0.29 |
-| **All** | | **17** | **192** | **1,685** | **178 min** | **1,138k** | **148.7M** | **14.68** | **0.86** |
+| **All** | | **19** | **242** | **2,675** | **342 min** | **1,930k** | **309.1M** | **17.58** | **0.93** |
+
+Run 0018 also used minimax-m2.7 for part of one session; its figures count under deepseek-v4.1-flash.
 
 What the models did with the same process:
 
-- **deepseek-v4.1-flash** was the best value: complete runs for 0.05 to 0.22 $, with real findings from its red team, and the first unattended run.
+- **deepseek-v4.1-flash** was the best value: complete runs for 0.05 to 0.32 $, with real findings from its red team, and the first unattended run. On a large app (0018) it wrote a handoff without being asked, resumed from it in a new session, and finished a delivery alone.
 - **claude-sonnet-5-5** gave the best code and retrospectives, but it skips steps that it thinks a change does not need. Without the YesYak block it skipped the whole process (runs 0009, 0014, 0015). With the block, it ran every phase (0010, 0016).
 - **gpt-6-luna** needed the most corrections and loaded skills it did not need.
 - **glm-5.3** ran every phase with no intervention and built the first agent hook, at the highest cost per run.
-- **minimax-m2.7** needed four corrections and one nudge, in setup, in the spec and at the pull request.
+- **minimax-m2.7** needed four corrections and one nudge, in setup, in the spec and at the pull request. In 0018 it resumed a cut session without any skill and called a new test failure pre-existing.
 
 ### By run
 
@@ -191,6 +193,8 @@ What the models did with the same process:
 | 0014 | Claude Code · claude-sonnet-5-5 | inflect (Python) · feature, user who does not know YesYak | feature built, no process | 6 forced mistakes | 2 min | 0.29 |
 | 0015 | Claude Code · claude-sonnet-5-5 | gomodifytags (Go) · feature, no setup | code on main, no process | 0 / 0 / 0 | 1 min | 0.12 |
 | 0016 | Claude Code · claude-sonnet-5-5 | gomodifytags · as 0015, new install | all phases | 0 / 1 / 0 | 9 min | 1.07 |
+| 0017 | OpenCode · deepseek-v4.1-flash | MCU-Countdown (Python, Docker) · feature, work items, walkthrough, production readiness | all phases + production review | 0 / 0 / 0 | 33 min | 0.32 |
+| 0018 | OpenCode · deepseek-v4.1-flash, minimax-m2.7 | a large web app · 2 of 5 deliveries, 4 sessions, 3 forced cuts, one unattended | 2 deliveries, all phases | 0 / 2 / 1 | 131 min | 2.58 |
 
 A nudge means the user told the agent something that a skill should have told it; a correction stopped a wrong action; a rescue unblocked a stuck agent.
 
@@ -200,4 +204,5 @@ A nudge means the user told the agent something that a skill should have told it
 - **Checks must be real.** Setup now detects the full check (tests, lint, types), runs it once, records the failures that are already there, and names each step as it ran. A pipe in front of a check once let a failing commit through.
 - **Specs stay short.** Four runs wrote specs several times longer than the code. The spec skill now keeps only what a reviewer needs.
 - **Retrospectives turn corrections into guards.** They start from every user message, and prefer a test, a command or an agent hook to a written rule.
-- **Some skills still have no run that used them for their job**: `browser-acceptance-testing`, `feature-walkthrough`, `production-readiness-review`, `prototype-options` and `work-items-breakdown`.
+- **Work survives a cut.** A handoff in git and `progress.md` carried one piece of work across four sessions and two models. The retrospective now covers the whole piece of work, and an unattended run never ends a turn to wait.
+- **Every skill has been used in at least one run.** Run 0017 was the first to use `work-items-breakdown`, `feature-walkthrough` and `production-readiness-review` in this series.

@@ -7,7 +7,7 @@ description: Reviews the current session - what the user asked and whether it wa
 
 ## 1. Find the moments
 
-Read the whole session, not only the end, and `.scratchpad/<slug>/loop-log.md` if it exists. If the session is long or was compacted, read its transcript (section 4 says where agents keep it). Focus on the user's messages and on failures, not on every tool call.
+First list every message of the user in this session, in order, from the first one. If your context does not hold them all (a long or compacted session), read the transcript (section 4 says where agents keep it). Mark each message: request, answer, approval, nudge or correction. The moments come from this list and from `.scratchpad/<slug>/loop-log.md` if it exists, not from the last turns alone. Do not list every tool call.
 
 Start with what the user asked, not what you chose to do alone. Give each request a light: 🟢 done, 🟠 partly done, 🔴 not done.
 

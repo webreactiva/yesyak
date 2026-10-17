@@ -38,7 +38,7 @@ Steps in parentheses are optional. Offer them; do not run them by default.
 
 | Phase | Checkpoint question |
 | --- | --- |
-| 0 Starter kit | Branch name confirmed? Does it fit in one iteration, or which delivery first? |
+| 0 Starter kit | Branch name confirmed? Does it fit in one iteration, or which delivery first? Write the working rules from the chat to AGENTS.md? |
 | 1 Grill & sketch | Decisions complete? Prototype chosen? Terms agreed? |
 | 2 Write the contract | Spec approved? Challenge findings to apply? Plan approved? Work items needed? |
 | 3 Make it work | Loop finished, or where it stopped |

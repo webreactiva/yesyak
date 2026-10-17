@@ -53,7 +53,7 @@ done_file="$run/turns/$n.done"
 # The tmux server may come from the driver's Claude Code session; its variables (session id, messaging token)
 # must not reach the puppet.
 driver_vars=$(env | grep -oE '^(CLAUDE[A-Z_]*|AI_AGENT)=' | tr -d = | sed 's/^/-u /' | tr '\n' ' ')
-env_vars="env $driver_varsGIT_AUTHOR_NAME=yak-puppet GIT_AUTHOR_EMAIL=puppet@yak-bench GIT_COMMITTER_NAME=yak-puppet GIT_COMMITTER_EMAIL=puppet@yak-bench"
+env_vars="env ${driver_vars}GIT_AUTHOR_NAME=yak-puppet GIT_AUTHOR_EMAIL=puppet@yak-bench GIT_COMMITTER_NAME=yak-puppet GIT_COMMITTER_EMAIL=puppet@yak-bench"
 
 # The message goes through a file, so quotes in it never reach the shell.
 tmux new-window -d -t yak-bench -n "$window" -c "$repo" \

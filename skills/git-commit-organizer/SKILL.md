@@ -18,7 +18,7 @@ The **slug** is the part after the prefix: `feat/order-cancel` → `order-cancel
 | Working files | `.scratchpad/<slug>/` |
 | Work items | label or tag `<slug>` |
 
-Create the branch before the first change. Never commit feature work on the default branch.
+Create the branch before the first change. Never commit feature work on the default branch. One piece of work has one branch: the steps of a plan and the fixes of a change list are commits on it, not branches of their own.
 
 Sometimes the environment or the user fixes a branch name that says nothing about the feature (for example a name that a cloud session assigns). Do not rename it and do not create a second branch. Choose a descriptive slug for the feature, write `Branch` and `Slug` as two separate rows in `progress.md`, and use that slug for every artifact. Documents that show a branch name show the real branch.
 

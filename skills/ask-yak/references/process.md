@@ -146,7 +146,7 @@ Each card says when to use the skill, what it makes, what comes next, the sectio
 
 ### execute-plan-loop
 - When: build the plan, or apply a change list
-- Makes: commits, `.scratchpad/<slug>/progress.md`
+- Makes: commits, `.scratchpad/<slug>/progress.md`, `.scratchpad/<slug>/loop-log.md`
 - Next: `verify-against-spec`, or after a change list `write-visual-pr`
 - Replaceable: none
 - Off: not allowed

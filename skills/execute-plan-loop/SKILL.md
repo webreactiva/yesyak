@@ -11,7 +11,7 @@ Load and follow these conventions during the whole loop: `git-commit-organizer`,
 
 1. Read the plan and the spec. Read `.scratchpad/<slug>/progress.md` if it exists and continue from the first step that is not done.
 2. Run the full test suite and record the baseline (number of tests, all passing).
-3. Prepare the smallest way to run the change by hand, isolated from real data (for example a server on its own port with a scratch database, or a CLI call on a scratch folder). Put its start and stop commands in `.scratchpad/<slug>/manual-env.sh`.
+3. Prepare the smallest way to run the change by hand, isolated from real data (for example a server on its own port with a scratch database, or a CLI call on a scratch folder). Put its start and stop commands in `.scratchpad/<slug>/manual-env.sh`. Check that its ports are free first: another project can hold them. Never stop a process that you did not start.
 
 ## For each step
 
@@ -28,7 +28,8 @@ Keep the output of each step short in the chat: what was added, test count, manu
 
 - If a library does not work as the plan assumed, choose the smallest change that keeps the spec true, record it in an ADR and say it in the step summary.
 - If the spec itself looks wrong or a step cannot stay integrated, stop and ask. Do not silently change the behavior the user approved.
-- Do not open a browser for checks unless the user asked for browser testing. Use the test client, direct calls or static checks, and say what stays unverified.
+- Do not open a browser for checks unless the user asked for browser testing. A step that changes a user interface still needs a look at the result, not only a build and a lint: a render or component test, a headless screenshot, or a check of the generated output. If the user stops one tool, use another. Say what stays unverified.
+- If the user delegated the decisions ("do not ask me", "choose the best option"), decide, act and say the decision in one line. Do not ask again for something the user already approved, such as a merge after each step.
 
 ## Change-list mode
 
@@ -41,6 +42,9 @@ When the input is a numbered change list (from `triage-findings-list`) instead o
 
 ## At the end
 
-Write `.scratchpad/<slug>/progress.md` in its final state and give a report: steps done, commits, tests before and after, decisions recorded, anything left or skipped and why.
+1. Write `.scratchpad/<slug>/progress.md` in its final state.
+2. Read AGENTS.md against what the loop added. A new command to test, lint or start the project, a new folder or a new convention goes in, in the same commit style as the steps.
+3. Review the failures and corrections of the loop: failed checks, reverted commits, plan deviations, corrections from the user. For each one that can happen again, give the evidence (step, commit or output) and one concrete way to prevent it. Save it in `.scratchpad/<slug>/loop-log.md`. `session-retrospective-rules` starts from it.
+4. Report: steps done, commits, tests before and after, decisions recorded, anything left or skipped and why.
 
 If the session stops before the end, say what is done, what is left and which step to resume from.

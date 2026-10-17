@@ -12,6 +12,7 @@ description: Turns an approved spec into docs/SLUG-plan.md - step 1 is a walking
 - **Always integrated.** At the end of every step the project builds, the main path works and the full test suite passes.
 - **No orphan code.** Every function, table, dependency and template added in a step has a caller in that same step.
 - **Testable.** Every step says what can be tested when it is done: automated tests and one manual check.
+- **One feature.** A step is not a feature. The whole plan runs on the branch of the feature (`git-commit-organizer`), with commits per step.
 
 ## Ordering
 

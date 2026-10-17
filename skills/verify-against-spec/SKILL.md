@@ -25,9 +25,9 @@ The question is not "do the tests pass" but "is every promise in the spec kept, 
 
 Be strict. A test that checks the ids in a list does not cover "shows id, customer, total and state".
 
-## 3. Close the gaps now
+## 3. Check the gaps with a script
 
-For every partial criterion, write a small script in `.scratchpad/<slug>/scripts/verify-gaps.*` that exercises the missing part (for example through the test client of the framework). Build the app the way the test setup does (seed data, test secrets) so the script sees the same state. Run it and record the result. Keep the script: it is the starting point for new tests.
+Change no source file and make no commit in this step: new tests come after the user says yes. For every partial criterion, write a small script in `.scratchpad/<slug>/scripts/verify-gaps.*` that exercises the missing part (for example through the test client of the framework). Build the app the way the test setup does (seed data, test secrets) so the script sees the same state. Run it and record the result. Keep the script: it is the starting point for new tests.
 
 Check command-line and startup criteria with real commands against a scratch database.
 

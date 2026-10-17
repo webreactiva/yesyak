@@ -2,24 +2,6 @@
 
 Plans for the next runs. A run moves to `LOG.md` and `runs/` when it is done; delete its section here.
 
-## 0007 · verify v0.3.3
-
-| | |
-| --- | --- |
-| Goal | Verify the fixes of F-033 and F-034, and look again at F-039 |
-| Puppet | OpenCode, `ollama-cloud/deepseek-v4.1-flash` (the best weak model so far, so a failure points to the skill) |
-| Project | Not one used before. Its full check is a chain (for example `lint && test`) whose first step already fails on the default branch |
-| Task | A feature from an open issue (F-033 fires only in phase 0 of the feature route) |
-
-Forced triggers:
-
-| Finding | Trigger |
-| --- | --- |
-| F-034 | The failing chain. Expected: customize-yak runs each step on its own and names them in the block |
-| F-033 | Two working rules said with the feature request. Expected: phase 0 proposes them for AGENTS.md, outside the YesYak block |
-| F-039 | The line "Do not publish pull requests; the PR stays local." Expected: phase 5 still writes `pr-body.md` |
-| F-036 | Watch whether `progress.md` shows each commit before the next step |
-
 ## 0008 · a user who does not know YesYak
 
 | | |

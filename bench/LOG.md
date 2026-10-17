@@ -13,6 +13,7 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0004](runs/0004-pmemoize-while-pending.md) | 2026-10-17 | v0.3.1 | sindresorhus/p-memoize · feature #53 (`cache: 'while-pending'`) | ollama-cloud/glm-5.3 | `ses_eb6488a4effeCMZNyqQMzguBzN` (work), 1 probe session | 6 Retrospective + agent hook | 0/0/0 | 5.63 $ |
 | [0005](runs/0005-vivid-theme-panic.md) | 2026-10-17 | v0.3.2 | sharkdp/vivid · bug #242 (panic on malformed theme values) | ollama-cloud/deepseek-v4.1-flash | `ses_eb5f1ed03ffeR1Tj8yGoAeajlI` (work), 1 probe session | fix route complete | 0/0/0 | 0.05 $ |
 | [0006](runs/0006-serialize-nonobject.md) | 2026-10-17 | v0.3.2 | sindresorhus/serialize-error · feature #25 (`onNonObject` option) | ollama-cloud/minimax-m2.7 | `ses_eb5c24a03ffe5wm2uvRxCQ3cDl` (work), 1 probe session | 6 Retrospective (all phases) | 1/4/0 | 0.29 $ |
+| [0007](runs/0007-filenamify-entry.md) | 2026-10-17 | v0.3.3 | sindresorhus/filenamify · feature #43 (`filenamify/path` entry) | ollama-cloud/deepseek-v4.1-flash | `ses_eb5a30ed1ffefpJkQlv7BzSrLr` (work), 1 probe session | 6 Retrospective (all phases) | 0/1/0 | 0.12 $ |
 
 ## Metrics
 
@@ -27,6 +28,7 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0004-pmemoize-while-pending | ollama-cloud/glm-5.3 | 15 | 140 | 35 min | 32 min | 260144 | 157745 | 17595776 | 5.63 | 42 | 23736753 (13243) | 5.18 |
 | 0005-vivid-theme-panic | ollama-cloud/deepseek-v4.1-flash | 7 | 74 | 7 min | 5 min | 85386 | 50313 | 3847946 | 0.05 | 21 | 1843729 (8667) | 0.66 |
 | 0006-serialize-nonobject | ollama-cloud/minimax-m2.7 | 13 | 103 | 11 min | 8 min | 123495 | 28417 | 3700423 | 0.29 | 17 | 2353051 (9774) | 0.78 |
+| 0007-filenamify-entry | ollama-cloud/deepseek-v4.1-flash | 15 | 103 | 16 min | 13 min | 171722 | 113137 | 9395826 | 0.12 | 20 | 3254531 (8285) | 1.16 |
 
 ## Findings
 
@@ -34,7 +36,7 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 
 | Id | Class | Status | Finding | Evidence |
 | --- | --- | --- | --- | --- |
-| F-001 | Skill | verified in run 0004 | A spec of 146 lines for one CLI flag: write-acceptance-spec does not scale the spec to the size of the change (no-slop-code says a spec longer than the code is suspect) | 0000: `docs/json-output-spec.md`; 0001: 207-line spec for about 60 lines of code; 0003: 230-line spec for 37 lines of `src`, after the v0.2.0 rule (second model). The rule became a count reported at the checkpoint; 0004 reported 160 vs about 110 and cut; 0006: counted, did not cut until told (minimax) |
+| F-001 | Skill | fixed in v0.3.4 | A spec of 146 lines for one CLI flag: write-acceptance-spec does not scale the spec to the size of the change (no-slop-code says a spec longer than the code is suspect) | 0000: `docs/json-output-spec.md`; 0001: 207-line spec for about 60 lines of code; 0003: 230-line spec for 37 lines of `src`, after the v0.2.0 rule (second model). The rule became a count reported at the checkpoint; 0004 reported 160 vs about 110 and cut; 0006: counted, did not cut until told (minimax); 0006 and 0007 (deepseek): counted and cut a little, then argued for a long spec; the rule now names the sections that stay |
 | F-002 | Bench | fixed in bench tools | The pilot ran with the user's global OpenCode config (other skills, a browser MCP server) and symlinked skills | 0000: `opencode.json` of the user; now `turn.sh` isolates the config and `prepare.sh` copies the skills |
 | F-003 | Bench | fixed in bench tools | The clone kept `origin` pointing to the original repository | 0000; now `prepare.sh` removes the remote |
 | F-004 | Skill | verified in runs 0002 and 0003 (baseline held at every commit) | customize-yak detected only the test command, so AGENTS.md named pytest alone; the loop, verify-against-spec and red-team-review never ran lint or types, and the branch added 13 ruff errors that only the human found. The command it later wrote fixed files in place | 0001 turns 16, 24, 28, 30, 31 |
@@ -66,12 +68,15 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-030 | Skill | watch | An ADR for a routine fix (keep a converter usable without configuration); decision-record-log says no ADR for routine fixes, but it fixes a public contract | 0003 turn 16; not repeated in 0005 (no ADR for a fix) |
 | F-031 | Bench | noted | OpenCode Zen had no funds; composer could not authenticate with the user's stale global GitHub token. Runs use ollama-cloud models and an empty COMPOSER_HOME | 0003 setup |
 | F-032 | Skill | fixed in v0.3.2 | `npm test 2>&1 | tail -5 && git commit` passed a failing check: the pipe returns the exit code of `tail`. git-commit-organizer now says to read the check's own exit code | 0004 turns 10, 13; 0005: not exercised (git-commit-organizer not loaded; checks run apart, read through `grep`); 0006: loaded; checks in separate calls through `tail`, read as text; no failing commit |
-| F-033 | Skill | fixed in v0.3.3 | The phase 0 proposal to write chat rules to AGENTS.md put the rule inside the YesYak block; project rules belong outside it | 0004 turn 5; 0006 (second model): rules written inside the block after a nudge; phase 0 did not propose them. Pipeline step now says outside the block |
-| F-034 | Skill | fixed in v0.3.3 | A known failure that stops an `&&` check chain hides the later steps; "add no new failures" then checks nothing after it. The agent ran the tests apart, but no skill says to | 0004 turns 3-4, 10; 0006 (forced): `npm test` = `xo && ava && tsd`, xo fails on main, no lint ran on new code. customize-yak now runs each step apart |
+| F-033 | Skill | verified in run 0007 | The phase 0 proposal to write chat rules to AGENTS.md put the rule inside the YesYak block; project rules belong outside it | 0004 turn 5; 0006 (second model): rules written inside the block after a nudge; phase 0 did not propose them. Pipeline step now says outside the block; verified in 0007 (forced) |
+| F-034 | Skill | verified in run 0007 | A known failure that stops an `&&` check chain hides the later steps; "add no new failures" then checks nothing after it. The agent ran the tests apart, but no skill says to | 0004 turns 3-4, 10; 0006 (forced): `npm test` = `xo && ava && tsd`, xo fails on main, no lint ran on new code. customize-yak now runs each step apart; verified in 0007 (forced) |
 | F-035 | Skill | verified in run 0004 | agent-hook-guard, first use: diagram and yes first, script plus OpenCode plugin, forced error, false positives, real run blocked | 0004 turns 14-15 |
-| F-036 | Skill | watch | Fix route: `bug-report.md`, `progress.md` and `loop-log.md` written after the last commit; bug-intake writes the report before the fix route, and execute-plan-loop updates `progress.md` per step | 0005 turn 6; 0006 feature route: `progress.md` updated once, at the end |
+| F-036 | Skill | watch | Fix route: `bug-report.md`, `progress.md` and `loop-log.md` written after the last commit; bug-intake writes the report before the fix route, and execute-plan-loop updates `progress.md` per step | 0005 turn 6; 0006 feature route: `progress.md` updated once, at the end; not repeated in 0007 |
 | F-037 | Skill | watch | write-visual-pr asks for a "short body" for a bug fix with no measure; 123 lines for about 110 changed lines | 0005 turn 6 |
 | F-038 | Bench | fixed in bench tools | The fake HOME hid rustup: no Rust toolchain for the puppet. `turn.sh` now passes the real `RUSTUP_HOME`, a per-run `CARGO_HOME` and `RUSTUP_TOOLCHAIN` when set | 0005 setup |
-| F-039 | Skill | watch | Phase 5 skipped: "the PR stays local" read as "no PR body"; went to the retrospective | 0006 turn 10 |
+| F-039 | Skill | watch | Phase 5 skipped: "the PR stays local" read as "no PR body"; went to the retrospective | 0006 turn 10; not repeated in 0007 (same no-PR line) |
 | F-040 | Model | watch | Steps 1-3 of the plan in one commit | 0006 turn 10 |
-| F-041 | Bench | fixed in bench tools | The bench's `chore:` commit made the puppet detect Conventional Commits in a project that does not use them; `prepare.sh` now writes `.git/info/exclude` and commits nothing | 0006 turn 3 (0005 had a mixed history, so no evidence there) |
+| F-041 | Bench | verified in run 0007 | The bench's `chore:` commit made the puppet detect Conventional Commits in a project that does not use them; `prepare.sh` now writes `.git/info/exclude` and commits nothing | 0006 turn 3 (0005 had a mixed history, so no evidence there); verified in 0007 |
+| F-042 | Skill | fixed in v0.3.4 | The coverage check of walking-skeleton-plan used `seq -w 1 NN`, which does not pad below 10 on macOS, so it printed every criterion as missing | 0007 retrospective; reproduced |
+| F-043 | Skill | watch | A red-team probe subagent left a symlink loop in the working tree that broke the suite; the orchestrator did not check the tree after the missions | 0007 turn 11 |
+| F-044 | Bench | fixed in bench tools | With no bench commit, `prepare.sh` recorded `HEAD~1` as the base ref | 0007 setup |

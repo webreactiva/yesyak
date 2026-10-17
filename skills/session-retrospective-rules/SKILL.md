@@ -56,12 +56,7 @@ Save the answer to `.scratchpad/<slug>/retrospective.md` when the user asks, or 
 
 ## 4. Archive transcripts (on request)
 
-In Claude Code, session transcripts are JSONL files under `~/.claude/projects/<project-folder>/`:
-
-- The main session: `<session-id>.jsonl`.
-- Its subagents: `<session-id>/subagents/agent-*.jsonl` with a `.meta.json` each.
-
-Other agents keep them elsewhere (Codex: `~/.codex/sessions/`). Say where you looked.
+Find where your agent keeps its sessions before you say there is no transcript. It can be a folder of files, a database or an export command. For example: Claude Code keeps JSONL files under `~/.claude/projects/<project-folder>/` (subagents in `<session-id>/subagents/`), Codex under `~/.codex/sessions/`, and OpenCode exports a session with `opencode session export <id>`. Say where you looked.
 
 A session can span more than one main file (for example after a clear or a resume). Identify the files that belong to this session by the first user prompt, the timestamps and the subagent team name. Exclude other sessions that ran in parallel on the same project, and tell the user about them.
 

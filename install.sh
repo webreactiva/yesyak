@@ -73,3 +73,8 @@ for d in "${dirs[@]}"; do
     fi
   done
 done
+
+# Without the YesYak block in AGENTS.md, nothing tells the agent to follow the process.
+if [ $uninstall -eq 0 ] && ! grep -qs 'yesyak:start' "$target/AGENTS.md"; then
+  echo "Siguiente paso: pide a tu agente \"set up YesYak\" (customize-yak) antes de la primera tarea."
+fi

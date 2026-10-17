@@ -155,7 +155,20 @@ def check_adjusted_line(block, project, problems):
         problems.append("adjusted skills line differs from .agents/yesyak.json")
 
 
+def check_install_block(problems):
+    """The minimal block that install.sh writes must use the same lines as the template of customize-yak."""
+    install = SKILLS_DIR.parent / "install.sh"
+    if not install.exists():
+        return
+    template = read_text(SKILLS_DIR / "customize-yak" / "SKILL.md")
+    block = BLOCK.search(read_text(install))
+    for line in (block.group(1).splitlines() if block else []):
+        if line.startswith("- ") and "not set up" not in line and line not in template:
+            problems.append(f"install.sh block line differs from the customize-yak template: {line[:60]}")
+
+
 def check_dev(cards, problems):
+    check_install_block(problems)
     for folder in sorted(p.parent.name for p in SKILLS_DIR.glob("*/SKILL.md")):
         if folder not in cards:
             problems.append(f"missing card: {folder}")

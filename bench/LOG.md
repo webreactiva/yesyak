@@ -25,6 +25,7 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0016](runs/0016-gomodifytags-install-claude.md) | 2026-10-17 | v0.4.0 | fatih/gomodifytags · #95, same as 0015, installed with the new install.sh | anthropic/claude-sonnet-5-5 (Claude Code) | `fb8ef5a9-cb87-4371-ae2a-0a6e25232446` (work), 1 probe session | 6 Retrospective (all phases) | 0/1/0 | 1.07 $ |
 | [0017](runs/0017-mcu-health-readiness.md) | 2026-10-17 | v0.4.0 | DiljotSG/MCU-Countdown · feature (named lists as JSON, health endpoint), forced work items, walkthrough, production readiness | ollama-cloud/deepseek-v4.1-flash | `ses_eb50723a6ffetf83ihd3WNF4Un` (work), 1 probe session | 6 Retrospective + 7 Later | 0/0/0 | 0.32 $ |
 | [0018](runs/0018-packbeat-ux-sessions.md) | 2026-10-17 | v0.4.1 | packbeat (the user's app) · owner UX request, 2 of 5 deliveries over 4 sessions with 3 forced cuts, one unattended | ollama-cloud/deepseek-v4.1-flash, minimax-m2.7 (session 3) | 4 work sessions (`ses_eb4d524b…`, `ses_eb4d43a2…`, `ses_eb4b735e…`, `ses_eb46fbf7…`), 1 probe session | 6 Retrospective, twice | 0/2/1 | 2.58 $ |
+| [0019](runs/0019-packbeat-reactions-claude.md) | 2026-10-18 | v0.4.2 | packbeat · delivery 3 (Reactions), one cut, then unattended | anthropic/claude-sonnet-5-5 (Claude Code) | `449f00be…` (setup and session 1), `902de219…` (session 2), 1 probe session | 3 Make it work + merge (phases 4-6 skipped, unattended) | 0/0/0 | 3.85 $ |
 
 ## Metrics
 
@@ -51,6 +52,7 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0016-gomodifytags-install-claude | anthropic/claude-sonnet-5-5 | 14 | 63 | 14 min | 9 min | 126 | 44909 | 3709666 | 1.07 | 15 | 8286632 (9088) | 1.92 |
 | 0017-mcu-health-readiness | ollama-cloud/deepseek-v4.1-flash | 20 | 226 | 46 min | 33 min | 407901 | 225576 | 39820556 | 0.32 | 72 | 8254467 (22323) | 2.94 |
 | 0018-packbeat-ux-sessions | ollama-cloud/deepseek-v4.1-flash | 30 | 764 | 164 min | 131 min | 1349426 | 565622 | 120534888 | 2.58 | 83 | 20899006 (37747) | 5.43 |
+| 0019-packbeat-reactions-claude | anthropic/claude-sonnet-5-5 | 12 | 154 | 40 min | 36 min | 310 | 124330 | 16860967 | 3.85 | 16 | 5853234 (6989) | 1.40 |
 
 ## Findings
 
@@ -122,7 +124,8 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-062 | Model | watch | production-readiness-review wrote the verdict first and asked the target questions after, without options | 0017 turn 17 |
 | F-063 | Skill | watch | The walkthrough subagent wrote wrong counts (criteria, risks); `check_walkthrough.py` checks citations and diagrams, not numbers. The agent caught them by hand | 0017 turn 16, from the puppet's retrospective |
 | F-064 | Bench | fixed in bench tools | `turn.sh` without `--model` used the run's first model, not the current session's, so a session changed model after one turn; the fake HOME hid Playwright's browsers | 0018 session 3 |
-| F-065 | Skill | fixed in v0.4.2 | Unattended run: the agent ended its turn to wait for a background e2e run ("I'll resume automatically"); nobody sends the next message, so the run stalled | 0018 session 4 turn 1 |
+| F-065 | Skill | verified in run 0019 | Unattended run: the agent ended its turn to wait for a background e2e run ("I'll resume automatically"); nobody sends the next message, so the run stalled | 0018 session 4 turn 1 |
 | F-066 | Model | watch | minimax resumed without any skill (the start-up check failed on a malformed tool call), called a new e2e failure pre-existing, rewrote `progress.md` and lost the step table, tagged before the last commits | 0018 session 3 |
-| F-067 | Skill | watch | After the demo the agent merged and tagged without asking and skipped red team, PR body and retrospective; it followed the project's "merge and tag per phase" rule in a session that never loaded the pipeline | 0018 session 3 turn 7 |
+| F-067 | Skill | see F-069 | After the demo the agent merged and tagged without asking and skipped red team, PR body and retrospective; it followed the project's "merge and tag per phase" rule in a session that never loaded the pipeline | 0018 session 3 turn 7 |
 | F-068 | Model | watch | A retrospective proposed a `pre-merge` git hook as a guard; git runs no hook on a fast-forward merge, so it could never fire | 0018 session 3 turn 13 |
+| F-069 | Skill | improvement in v0.4.3, not a defect (user decision) | A handoff listed "build, e2e, merge and tag" as next steps and left out phases 4-6; the unattended session took it as its end point and merged, with the built-in code review in place of verification and red team. Same gap as F-067 with another model. The user decided a stronger model may do this; the skills now carry every remaining phase in a handoff and in the end point of an unattended run | 0019 session 2 |

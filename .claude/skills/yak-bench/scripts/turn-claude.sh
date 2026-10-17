@@ -39,7 +39,7 @@ cp "$message" "$run/turns/$n-human.md"
 # HOME stays real: the sign-in lives there. The probe turn checks what the puppet can still see.
 args=(-p --model "$model" --setting-sources project --strict-mcp-config --no-chrome
       --output-format stream-json --verbose --permission-mode acceptEdits
-      --allowedTools "Bash Read Edit Write Glob Grep Skill Agent Task TodoWrite")
+      --allowedTools "Bash Read Edit Write Glob Grep Skill Agent Task TodoWrite WebFetch WebSearch")
 if [ -n "$session" ]; then
   args+=(--resume "$session")
 else

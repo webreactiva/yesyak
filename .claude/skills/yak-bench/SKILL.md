@@ -31,6 +31,23 @@ All in `scripts/`. Runs live in `.scratchpad/bench/<run-id>/` of this repository
 
 Run `turn.sh` in the background and wait for it to finish; one turn can take many minutes.
 
+## Pitfalls already met
+
+Each one cost a run. The scripts handle them; check them again when you change a script or add a puppet.
+
+| Pitfall | What prevents it |
+| --- | --- |
+| The puppet sees the user's skills, plugins or config (OpenCode reads `.agents/skills` in every parent folder; Claude Code loads user settings) | Clones outside the user's home; a fake HOME and a per-run server for OpenCode; `--setting-sources project --strict-mcp-config` for Claude Code; the probe turn |
+| The puppet sees the run folder (`notes.md` has the expected behaviour) or the clones of earlier runs | Start the puppet in the real clone path, never in the `repo` link; `archive.sh` after every run |
+| The puppet inherits the driver's variables through tmux (session id, a messaging token) | The turn scripts remove every `CLAUDE*` and `AI_AGENT` variable |
+| A bench commit in the clone misleads the commit convention detection | No commit: `.git/info/exclude` |
+| The fake HOME hides toolchains (rustup) or the project's virtual environment is not active | `turn.sh` passes `RUSTUP_HOME` and `RUSTUP_TOOLCHAIN`, and puts `.venv/bin` on PATH |
+| The machine's toolchain is older than the project needs | Install a pinned extra toolchain (for example `rustup toolchain install 1.90.0`) and pass it; never change the default |
+| OpenCode's question tool cancels in `opencode run` and tells the agent to assume | Question tool off in the bench config; questions go to the chat |
+| A pipe in front of a check hides its exit code; a session export through a pipe is cut | Read `PIPESTATUS` or the check alone; export to a file |
+| The project has its own AGENTS.md that needs a web page | Web tools allowed for both puppets |
+| A strong model is over the price cap | Only when the user asks, with `YAKBENCH_ALLOW_EXPENSIVE=1` |
+
 ## 1. Read the log
 
 Read `bench/LOG.md`: the last version, the models used, and the findings with status `watch` or `fixed`. A `fixed` finding must be checked again in this run; choose a project and task that can show it.

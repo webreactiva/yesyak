@@ -31,7 +31,8 @@ def summarize_claude(path):
     text, calls, skills, errors = [], [], [], []
     tokens = dict.fromkeys(TOKEN_KEYS, 0)
     for e in events(path):
-        content = (e.get("message") or {}).get("content")
+        message = e.get("message") if isinstance(e.get("message"), dict) else {}
+        content = message.get("content")
         if e["type"] == "assistant" and isinstance(content, list):
             for c in content:
                 if c.get("type") == "text":

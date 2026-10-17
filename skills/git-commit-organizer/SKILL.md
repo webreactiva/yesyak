@@ -27,7 +27,7 @@ Sometimes the environment or the user fixes a branch name that says nothing abou
 1. **Atomic.** One commit does one thing: one feature step, one fix, one refactor. Commit each piece as soon as it passes the project's full check. Do not collect changes and split them later: splitting afterwards with stashes and restores is where work gets lost.
 2. **Refactor separate from behavior.** If a feature needs a refactor, commit the refactor first, with all tests passing and no behavior change.
 3. **Complete.** A commit includes its tests, the docs it affects (README, AGENTS.md, spec, plan) and its ADR if it contains a decision.
-4. **Green.** Run the project's full check (for example `npm test`) before every commit. Do not commit with failing tests.
+4. **Green.** Run the project's full check (for example `npm test`) before every commit, and read its own exit code: a pipe to another command (for example `| tail`) returns the exit code of the last command. Do not commit with failing tests.
 
 ## Message format
 

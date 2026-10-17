@@ -50,7 +50,7 @@ Read `bench/LOG.md`: the last version, the models used, and the findings with st
 Start the way a real user starts, and let `ask-yak` lead:
 
 1. "I just installed YesYak in this project, set it up." This tests `customize-yak`. Ask it to switch off `browser-acceptance-testing`: browser evidence is out of the benchmark unless the user asks for it.
-2. The request in plain words: a feature request, or a bug report as a user would write it.
+2. The request in plain words: a feature request, or a bug report as a user would write it. Add one line: "Do not publish pull requests; the PR stays local." The benchmark never publishes a PR, and the clone has no remote.
 3. At each checkpoint, answer as the product owner: take the recommended option when it is right, say no when it is wrong. When you do not know what comes next, ask the agent "what now?", as the process says.
 
 Write every intervention in `notes.md`, with the turn number, the kind and your exact words:

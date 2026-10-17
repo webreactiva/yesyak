@@ -26,6 +26,8 @@ meta="$run/run.json"
 repo=$(cd "$run/repo" && pwd -P)
 
 read_meta() { python3 -c "import json,sys;d=json.load(open('$meta'));print(eval(sys.argv[1]))" "$1"; }
+# Without --model, a turn keeps the model of the current session, not the model of the first turn.
+[ -z "$model" ] && [ "$new" = 0 ] && model=$(read_meta "(d['sessions'] or [{}])[-1].get('model') or ''")
 [ -z "$model" ] && model=$(read_meta "d['model'] or ''")
 [ -z "$model" ] && { echo "no model: pass --model on the first turn" >&2; exit 2; }
 python3 "$here/models.py" check "$model"
@@ -46,6 +48,9 @@ venv_path=""
 [ -d "$repo/.venv/bin" ] && venv_path="PATH='$repo/.venv/bin':\$PATH VIRTUAL_ENV='$repo/.venv' "
 # The fake HOME hides rustup's toolchains; keep them, with a per-run cargo cache. RUSTUP_TOOLCHAIN passes through.
 [ -d "$HOME/.rustup" ] && venv_path+="RUSTUP_HOME='$HOME/.rustup' CARGO_HOME='$run/cargo-home' ${RUSTUP_TOOLCHAIN:+RUSTUP_TOOLCHAIN='$RUSTUP_TOOLCHAIN' }"
+# The same for the browsers that Playwright installed under the real HOME.
+pw="$HOME/Library/Caches/ms-playwright"; [ -d "$pw" ] || pw="$HOME/.cache/ms-playwright"
+[ -d "$pw" ] && venv_path+="PLAYWRIGHT_BROWSERS_PATH='$pw' "
 password=$(read_meta "d.get('password') or ''")
 if [ -z "$password" ]; then
   password=$(python3 -c "import secrets;print(secrets.token_urlsafe(24))")

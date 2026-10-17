@@ -49,7 +49,10 @@ if [ -z "$password" ]; then
   password=$(python3 -c "import secrets;print(secrets.token_urlsafe(24))")
   python3 -c "import json;p='$meta';d=json.load(open(p));d['password']='$password';json.dump(d,open(p,'w'),indent=2)"
 fi
-env_vars="${venv_path}OPENCODE_SERVER_PASSWORD='$password' OPENCODE_PASSWORD='$password' HOME='$bench/home' XDG_CONFIG_HOME='$bench/home/.config' XDG_DATA_HOME='$HOME/.local/share' \
+# The tmux server may come from the driver's Claude Code session; its variables (session id, messaging token)
+# must not reach the puppet.
+driver_vars=$(env | grep -oE '^(CLAUDE[A-Z_]*|AI_AGENT)=' | tr -d = | sed 's/^/-u /' | tr '\n' ' ')
+env_vars="env $driver_vars${venv_path}OPENCODE_SERVER_PASSWORD='$password' OPENCODE_PASSWORD='$password' HOME='$bench/home' XDG_CONFIG_HOME='$bench/home/.config' XDG_DATA_HOME='$HOME/.local/share' \
   XDG_CACHE_HOME='$HOME/.cache' XDG_STATE_HOME='$HOME/.local/state' OPENCODE_CONFIG_DIR='$bench/opencode-config' \
   OPENCODE_DISABLE_CLAUDE_CODE=1 OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=1 OPENCODE_DISABLE_AUTOUPDATE=1 \
   GIT_AUTHOR_NAME=yak-puppet GIT_AUTHOR_EMAIL=puppet@yak-bench GIT_COMMITTER_NAME=yak-puppet GIT_COMMITTER_EMAIL=puppet@yak-bench"

@@ -15,7 +15,7 @@ Run the commands; do not write from memory.
 
 - Date and time with the time zone: `date "+%Y-%m-%d %H:%M %Z"`.
 - Session id. Find it in this order and write where it came from:
-  1. A session variable of the harness, for example `CLAUDE_CODE_SESSION_ID` in Claude Code.
+  1. A session variable of the harness, for example `CLAUDE_CODE_SESSION_ID` in Claude Code or `OPENCODE_SESSION_ID` in OpenCode.
   2. The transcript file of the session: in Claude Code, the newest `~/.claude/projects/<project folder>/<id>.jsonl`; in Codex, the newest `~/.codex/sessions/YYYY/MM/DD/rollout-<time>-<id>.jsonl` (its first line, `session_meta`, has `session_id`).
   3. If none gives it, write `unknown` and say what you checked.
 - Branches and pull requests: the current branch, its base, the last commit, whether it is pushed, and the open pull requests with their base (`git status -sb`, `git log --oneline -1`, `gh pr list` or the tools of the environment).

@@ -33,7 +33,8 @@ git -c user.name=yak-bench -c user.email=yak-bench@localhost commit -q -m "chore
 
 # Isolated OpenCode config: no global skills, plugins or MCP servers. Auth lives in the data dir and stays shared.
 mkdir -p "$bench/opencode-config"
-[ -f "$bench/opencode-config/opencode.json" ] || printf '{\n  "$schema": "https://opencode.ai/config.json",\n  "autoupdate": false\n}\n' > "$bench/opencode-config/opencode.json"
+# The question tool is off: in a non-interactive run its cancel message tells the agent to assume and go on.
+[ -f "$bench/opencode-config/opencode.json" ] || printf '{\n  "$schema": "https://opencode.ai/config.json",\n  "autoupdate": false,\n  "tools": { "question": false }\n}\n' > "$bench/opencode-config/opencode.json"
 
 python3 - "$run/run.json" <<EOF
 import json, sys, datetime

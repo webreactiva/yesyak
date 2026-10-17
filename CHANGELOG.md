@@ -2,6 +2,15 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.4.0 · 2026-10-17
+
+From benchmark run 0015: without the YesYak block in AGENTS.md, a strong model skipped the skills for a small change, whatever the skill descriptions said (also runs 0009 and 0014). The block is the switch, so the install now writes it.
+
+- `install.sh` writes a minimal YesYak block in AGENTS.md when there is none (the settings line, "a feature request starts the pipeline", and "YesYak is installed but not set up"), `@AGENTS.md` in CLAUDE.md when it installs for Claude Code, and `.scratchpad/` in `.gitignore`. It prints each file it writes. `-u` removes the block while it is still the minimal one.
+- `customize-yak` treats the minimal block as a first install and replaces it with the full one. `feature-delivery-pipeline` offers `customize-yak` first when the block says YesYak is not set up.
+- `check_yesyak.py --dev` fails when a line of the install block differs from the template of `customize-yak`.
+- README: the install steps follow the new flow.
+
 ## 0.3.9 · 2026-10-17
 
 From benchmark runs 0013 (Claude Code with Sonnet, a bug with a design choice) and 0014 (Sonnet as a user who does not know YesYak).

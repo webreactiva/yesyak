@@ -67,3 +67,7 @@
 ## Cost
 
 ≈ 3.85 $ at models.dev prices (paid by the subscription that runs Claude Code).
+
+## Pull request
+
+The user allowed a real PR: https://github.com/delineas/packbeat/pull/2, stacked on #1. Branch `pr/p17-reactions`, 13 commits (without the bench commit, the YesYak setup and the handoff), authored by the user; the body was written by the driver because the run skipped phase 5. `pnpm check` 195 pass on the branch.

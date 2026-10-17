@@ -24,7 +24,8 @@ All in `scripts/`. Runs live in `.scratchpad/bench/<run-id>/` of this repository
 | `models.py check <model>` | Fails for a banned model (any `kimi k-3`, any `astra`) or one over the price cap (`YAKBENCH_MAX_OUTPUT`, 5 $/M output by default). Old models can be expensive: always check |
 | `prepare.sh <run-id> <git-url> [ref]` | Clones the project without its remote, copies the skills, writes `run.json` with the YesYak version |
 | `turn.sh <run-id> <message-file> [--model m] [--new-session]` | Sends one human message in tmux session `yak-bench`, waits, prints the answer, keeps every session id in `run.json`. Starts one isolated, password-protected `opencode serve` per run, so background subagents survive between turns |
-| `report.py run <run-dir>` | Facts of the run: sessions, tokens, equivalent cost, skills loaded, commits, artifacts, tool errors. Saves each session export (the full transcript) in the run folder |
+| `report.py run <run-dir>` | Facts of the run: sessions, time, model steps, tokens, equivalent cost, skills loaded, commits, artifacts, tool errors. Saves each session export (the full transcript) in the run folder |
+| `report.py metrics <bench-dir> [transcript]` | One row per run: turns, steps, wall and agent time, tokens, cost. With your own session transcript (`~/.claude/projects/<project>/<session>.jsonl`), also what you spent as the driver in each run's window |
 
 Run `turn.sh` in the background and wait for it to finish; one turn can take many minutes.
 
@@ -95,7 +96,7 @@ A skill finding changes a skill when it is confirmed: seen in two runs, or in on
 
 ## 7. Log, commit and release
 
-1. Add the run to `bench/LOG.md`: one row in the runs table, and new or changed rows in the findings table (`F-NNN`, class, status `watch` / `confirmed` / `fixed in vX.Y.Z` / `verified in run NNNN`, evidence).
+1. Add the run to `bench/LOG.md`: one row in the runs table, the metrics table again from `report.py metrics`, and new or changed rows in the findings table (`F-NNN`, class, status `watch` / `confirmed` / `fixed in vX.Y.Z` / `verified in run NNNN`, evidence).
 2. Commit with `git-commit-organizer`: skill changes (scope `skills`), bench changes (scope `bench`) and the log, each in its own commits.
 3. If the skills changed, cut a release: add an entry to `CHANGELOG.md`, bump the version (0.x: minor for a new skill, rule or renamed contract; patch for a fix), and tag `vX.Y.Z` on the commit. Push tags only when the user asks.
 4. Tell the user: the run in three lines, the findings, the changes, the new version and the next run you propose.

@@ -49,7 +49,7 @@ description: Writes or refines a feature spec in docs/SLUG-spec.md with a plain-
 ## Out of scope
 ```
 
-Leave out the sections that do not apply.
+Leave out the sections that do not apply. Size the spec to the change: if it is longer than the code you expect to write, cut what repeats the decisions, the code or another document (`no-slop-code`).
 
 ## Acceptance criteria
 

@@ -15,6 +15,7 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0006](runs/0006-serialize-nonobject.md) | 2026-10-17 | v0.3.2 | sindresorhus/serialize-error · feature #25 (`onNonObject` option) | ollama-cloud/minimax-m2.7 | `ses_eb5c24a03ffe5wm2uvRxCQ3cDl` (work), 1 probe session | 6 Retrospective (all phases) | 1/4/0 | 0.29 $ |
 | [0007](runs/0007-filenamify-entry.md) | 2026-10-17 | v0.3.3 | sindresorhus/filenamify · feature #43 (`filenamify/path` entry) | ollama-cloud/deepseek-v4.1-flash | `ses_eb5a30ed1ffefpJkQlv7BzSrLr` (work), 1 probe session | 6 Retrospective (all phases) | 0/1/0 | 0.12 $ |
 | [0008](runs/0008-retry-novice.md) | 2026-10-17 | v0.3.4 | avast/retry-go · feature #107 (retry on a rejected value), devil's advocate user | ollama-cloud/deepseek-v4.1-flash | `ses_eb591dddfffes1fAciXxlNwClE` (work), 1 probe session | feature built; process never started | 6 user mistakes: 🟢1 🟠2 🔴3 | 0.05 $ |
+| [0009](runs/0009-filenamify-claude.md) | 2026-10-17 | v0.3.4 | sindresorhus/filenamify · feature #43, same as 0007 | anthropic/claude-sonnet-5-5 (Claude Code) | `0521d082-9033-4725-b0ed-a3fe5e8dfdd8` (work), 1 probe session | feature built; process skipped | 0/0/0 (no checkpoint reached) | 0.32 $ |
 
 ## Metrics
 
@@ -31,6 +32,7 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0006-serialize-nonobject | ollama-cloud/minimax-m2.7 | 13 | 103 | 11 min | 8 min | 123495 | 28417 | 3700423 | 0.29 | 17 | 2353051 (9774) | 0.78 |
 | 0007-filenamify-entry | ollama-cloud/deepseek-v4.1-flash | 15 | 103 | 16 min | 13 min | 171722 | 113137 | 9395826 | 0.12 | 20 | 3254531 (8285) | 1.16 |
 | 0008-retry-novice | ollama-cloud/deepseek-v4.1-flash | 5 | 27 | 5 min | 4 min | 152304 | 35841 | 1367424 | 0.05 | 6 | 1513658 (3899) | 0.42 |
+| 0009-filenamify-claude | anthropic/claude-sonnet-5-5 | 7 | 25 | 4 min | 3 min | 46 | 12647 | 796241 | 0.32 | 7 | 2014066 (5447) | 0.56 |
 
 ## Findings
 
@@ -71,7 +73,7 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-031 | Bench | noted | OpenCode Zen had no funds; composer could not authenticate with the user's stale global GitHub token. Runs use ollama-cloud models and an empty COMPOSER_HOME | 0003 setup |
 | F-032 | Skill | fixed in v0.3.2 | `npm test 2>&1 | tail -5 && git commit` passed a failing check: the pipe returns the exit code of `tail`. git-commit-organizer now says to read the check's own exit code | 0004 turns 10, 13; 0005: not exercised (git-commit-organizer not loaded; checks run apart, read through `grep`); 0006: loaded; checks in separate calls through `tail`, read as text; no failing commit |
 | F-033 | Skill | verified in run 0007 | The phase 0 proposal to write chat rules to AGENTS.md put the rule inside the YesYak block; project rules belong outside it | 0004 turn 5; 0006 (second model): rules written inside the block after a nudge; phase 0 did not propose them. Pipeline step now says outside the block; verified in 0007 (forced) |
-| F-034 | Skill | verified in run 0007 | A known failure that stops an `&&` check chain hides the later steps; "add no new failures" then checks nothing after it. The agent ran the tests apart, but no skill says to | 0004 turns 3-4, 10; 0006 (forced): `npm test` = `xo && ava && tsd`, xo fails on main, no lint ran on new code. customize-yak now runs each step apart; verified in 0007 (forced) |
+| F-034 | Skill | fixed in v0.3.5 | A known failure that stops an `&&` check chain hides the later steps; "add no new failures" then checks nothing after it. The agent ran the tests apart, but no skill says to | 0004 turns 3-4, 10; 0006 (forced): `npm test` = `xo && ava && tsd`, xo fails on main, no lint ran on new code. customize-yak now runs each step apart; verified in 0007 (forced); 0009 (Sonnet): ran the steps apart but named the chain in the block. The template's check line now asks for one command per step |
 | F-035 | Skill | verified in run 0004 | agent-hook-guard, first use: diagram and yes first, script plus OpenCode plugin, forced error, false positives, real run blocked | 0004 turns 14-15 |
 | F-036 | Skill | watch | Fix route: `bug-report.md`, `progress.md` and `loop-log.md` written after the last commit; bug-intake writes the report before the fix route, and execute-plan-loop updates `progress.md` per step | 0005 turn 6; 0006 feature route: `progress.md` updated once, at the end; not repeated in 0007 |
 | F-037 | Skill | watch | write-visual-pr asks for a "short body" for a bug fix with no measure; 123 lines for about 110 changed lines | 0005 turn 6 |
@@ -82,7 +84,9 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-042 | Skill | fixed in v0.3.4 | The coverage check of walking-skeleton-plan used `seq -w 1 NN`, which does not pad below 10 on macOS, so it printed every criterion as missing | 0007 retrospective; reproduced |
 | F-043 | Skill | watch | A red-team probe subagent left a symlink loop in the working tree that broke the suite; the orchestrator did not check the tree after the missions | 0007 turn 11 |
 | F-044 | Bench | fixed in bench tools | With no bench commit, `prepare.sh` recorded `HEAD~1` as the base ref | 0007 setup |
-| F-045 | Skill | watch | Skills installed but no YesYak block: a plain feature request never engaged the process (no ask-yak, no phase 0, no PR body, no retrospective). The pipeline description triggers on "end to end", and no skill checks for a missing block. `install.sh` now prints the next step | 0008 turns 2-5 |
+| F-045 | Skill | watch | Skills installed but no YesYak block: a plain feature request never engaged the process (no ask-yak, no phase 0, no PR body, no retrospective). The pipeline description triggers on "end to end", and no skill checks for a missing block. `install.sh` now prints the next step | 0008 turns 2-5; same gap as F-049, seen with the block in place in 0009 |
 | F-046 | Skill | watch | The user's uncommitted changes went into the new branch without a question (phase 0 did not run) | 0008 turn 3 |
 | F-047 | Skill | watch | "Just code it, no spec" followed without one line on the risk or a short safe route | 0008 turn 3 |
 | F-048 | Skill | watch | The user left early; the agent did not say which steps were left | 0008 turn 5 |
+| F-049 | Skill | fixed in v0.3.5 | Nothing in the YesYak block says that a feature request or a bug report starts the process; Sonnet judged a breaking change "small", skipped every phase and answered "what now?" without ask-yak. The block template now has the line, and "ask before you skip a phase" | 0009 turns 4-5; 0008 (weak model, no block) |
+| F-050 | Bench | fixed in bench tools | The bench drove only OpenCode. `turn-claude.sh` drives Claude Code, `prepare.sh` copies the skills to `.claude/skills` too, `report.py` reads Claude Code's stream JSON and transcripts | 0009 setup |

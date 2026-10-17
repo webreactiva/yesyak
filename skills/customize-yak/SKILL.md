@@ -16,6 +16,7 @@ Read before you ask. Show what you detected in one table and do not ask for it a
 | The full check: tests, and lint, format and type checks if the project has them | `package.json` scripts, `Makefile` targets, `pyproject.toml`, `Cargo.toml`, `go.mod`, `composer.json`, CI workflow files, check scripts in the root |
 | Working files ignored | `.scratchpad/` in `.gitignore` |
 | Docs folders and their language | `docs/`, `docs/decisions/`, README; without docs, the language of AGENTS.md |
+| The commit convention | AGENTS.md or contributing docs first; otherwise the last 20 commit subjects (`git log --format=%s -20`) |
 | Whether the project keeps decision records | a decisions folder or ADR files; if there is none, ask once whether to keep them (`decision-record-log` can be `off`) |
 | Current adjustments | `.agents/yesyak.json` and `~/.agents/yesyak.json` |
 | The YesYak block | AGENTS.md, between `<!-- yesyak:start -->` and `<!-- yesyak:end -->` |
@@ -70,6 +71,7 @@ AGENTS.md: write only between the markers. Every byte outside them stays the sam
 - Documentation in <detected language>, written in simplified technical language.
 - Record decisions in `<detected decisions folder>` (`decision-record-log`). Leave this line out when it is `off`.
 - Run `<detected check commands>` before every commit.
+- Commit messages: <detected commit convention>.
 <!-- yesyak:end -->
 ```
 
@@ -84,7 +86,7 @@ Write a file outside the repository only after a yes that the user types in this
 
 ## 4. Check and report
 
-Run `python3 <skills folder>/ask-yak/scripts/check_yesyak.py` from the project root. Fix what it reports before you finish. Report the files you changed and the active adjustments that the check prints.
+Run `python3 <skills folder>/ask-yak/scripts/check_yesyak.py` from the project root. Fix what it reports before you finish. Commit the settings file and AGENTS.md in their own commit, apart from any feature work (`git-commit-organizer`). Report the files you changed, the commit and the active adjustments that the check prints.
 
 ## 5. Audit
 

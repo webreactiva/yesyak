@@ -32,8 +32,8 @@ def summarize(path):
             state = part.get("state", {})
             args = state.get("input", {})
             if part.get("tool") == "skill":
-                skills.append(args.get("name", "?"))
-            short = args.get("command") or args.get("filePath") or args.get("name") or args.get("pattern") or ""
+                skills.append(args.get("name") or args.get("id") or "?")
+            short = args.get("command") or args.get("filePath") or args.get("path") or args.get("name") or args.get("id") or args.get("pattern") or ""
             calls.append(f"{part.get('tool')}: {str(short)[:120]}")
             if state.get("status") == "error":
                 errors.append(f"{part.get('tool')}: {str(state.get('error', ''))[:200]}")
@@ -79,7 +79,11 @@ def run(run_dir):
     # The JSON stream drops the token count of a turn's last step; the session export has all of them.
     total, cost = dict.fromkeys(TOKEN_KEYS, 0), 0.0
     for session in meta["sessions"]:
-        exported = json.loads(subprocess.run(["opencode", "session", "export", session["id"]], cwd=repo, capture_output=True, text=True).stdout or "{}")
+        # A pipe cuts the export of a long session; a file keeps it whole, and it stays as the transcript of the run.
+        target = run_dir / f"session-{session['id']}.json"
+        with target.open("w") as out:
+            subprocess.run(["opencode", "session", "export", session["id"]], cwd=repo, stdout=out, stderr=subprocess.DEVNULL)
+        exported = json.loads(target.read_text() or "{}")
         t = exported.get("info", {}).get("tokens") or {}
         tokens = {"input": t.get("input", 0), "output": t.get("output", 0) + t.get("reasoning", 0),
                   "cache_read": t.get("cache", {}).get("read", 0), "cache_write": t.get("cache", {}).get("write", 0)}

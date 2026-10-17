@@ -33,19 +33,39 @@ session=""
 n=$(printf '%02d' $(( $(read_meta "d['turns']") + 1 )))
 cp "$message" "$run/turns/$n-human.md"
 
-args=(run --standalone -m "$model" --auto --format json)
-[ -n "$session" ] && args+=(-s "$session") || args+=(--title "yak-bench $run_id")
-
 tmux has-session -t yak-bench 2>/dev/null || tmux new-session -d -s yak-bench -x 200 -y 50
 window="$run_id-$n"
 done_file="$run/turns/$n.done"
-# Isolation: --standalone skips the shared background service (it runs with the user's config), and a fake HOME
+# Isolation: the puppet never uses the shared background service (it runs with the user's config). A fake HOME
 # hides the user's skills (~/.claude, ~/.agents, ~/.config/opencode). Auth and sessions stay in the real data dir.
 mkdir -p "$bench/home"
-env_vars="HOME='$bench/home' XDG_CONFIG_HOME='$bench/home/.config' XDG_DATA_HOME='$HOME/.local/share' \
+# A developer works with the project's virtual environment active; give the puppet the same PATH.
+venv_path=""
+[ -d "$run/repo/.venv/bin" ] && venv_path="PATH='$run/repo/.venv/bin':\$PATH VIRTUAL_ENV='$run/repo/.venv' "
+password=$(read_meta "d.get('password') or ''")
+if [ -z "$password" ]; then
+  password=$(python3 -c "import secrets;print(secrets.token_urlsafe(24))")
+  python3 -c "import json;p='$meta';d=json.load(open(p));d['password']='$password';json.dump(d,open(p,'w'),indent=2)"
+fi
+env_vars="${venv_path}OPENCODE_SERVER_PASSWORD='$password' OPENCODE_PASSWORD='$password' HOME='$bench/home' XDG_CONFIG_HOME='$bench/home/.config' XDG_DATA_HOME='$HOME/.local/share' \
   XDG_CACHE_HOME='$HOME/.cache' XDG_STATE_HOME='$HOME/.local/state' OPENCODE_CONFIG_DIR='$bench/opencode-config' \
   OPENCODE_DISABLE_CLAUDE_CODE=1 OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=1 OPENCODE_DISABLE_AUTOUPDATE=1 \
   GIT_AUTHOR_NAME=yak-puppet GIT_AUTHOR_EMAIL=puppet@yak-bench GIT_COMMITTER_NAME=yak-puppet GIT_COMMITTER_EMAIL=puppet@yak-bench"
+
+# One isolated server per run, alive between turns: background subagents die with a per-turn --standalone server.
+port=$(read_meta "d.get('port') or ''")
+if [ -z "$port" ] || ! nc -z 127.0.0.1 "$port" 2>/dev/null; then
+  port=$(python3 -c "import socket;s=socket.socket();s.bind(('127.0.0.1',0));print(s.getsockname()[1])")
+  tmux kill-window -t "yak-bench:srv-$run_id" 2>/dev/null || true
+  tmux new-window -d -t yak-bench -n "srv-$run_id" -c "$run/repo" \
+    "$env_vars opencode serve --hostname 127.0.0.1 --port $port 2> '$run/server.log'"
+  for _ in $(seq 60); do nc -z 127.0.0.1 "$port" 2>/dev/null && break; sleep 1; done
+  python3 -c "import json;p='$meta';d=json.load(open(p));d['port']=$port;json.dump(d,open(p,'w'),indent=2)"
+fi
+
+args=(run --server "http://127.0.0.1:$port" -m "$model" --auto --format json)
+[ -n "$session" ] && args+=(-s "$session") || args+=(--title "yak-bench $run_id")
+
 # The message goes through a file, so quotes in it never reach the shell.
 tmux new-window -d -t yak-bench -n "$window" -c "$run/repo" \
   "$env_vars opencode $(printf '%q ' "${args[@]}") \"\$(cat '$run/turns/$n-human.md')\" > '$run/turns/$n.jsonl' 2> '$run/turns/$n.stderr'; \

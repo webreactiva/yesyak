@@ -16,15 +16,15 @@ This skill belongs to this repository only. It is not in `skills/`, so `install.
 
 ## Tools
 
-All in `scripts/`. Runs live in `.scratchpad/bench/<run-id>/` of this repository (ignored by git).
+All in `scripts/`. Runs live in `.scratchpad/bench/<run-id>/` of this repository (ignored by git). The clone itself lives in `/Users/Shared/yak-bench/<run-id>` and `repo` links to it: OpenCode reads `.agents/skills` in every parent folder, so a clone inside the user's home would see the user's own skills.
 
 | Script | Does |
 | --- | --- |
 | `models.py list` | Models that OpenCode offers, with models.dev prices, cheapest first. Banned models never appear |
 | `models.py check <model>` | Fails for a banned model (any `kimi k-3`, any `astra`) or one over the price cap (`YAKBENCH_MAX_OUTPUT`, 5 $/M output by default). Old models can be expensive: always check |
 | `prepare.sh <run-id> <git-url> [ref]` | Clones the project without its remote, copies the skills, writes `run.json` with the YesYak version |
-| `turn.sh <run-id> <message-file> [--model m] [--new-session]` | Sends one human message in tmux session `yak-bench`, waits, prints the answer, keeps every session id in `run.json` |
-| `report.py run <run-dir>` | Facts of the run: sessions, tokens, equivalent cost, skills loaded, commits, artifacts, tool errors |
+| `turn.sh <run-id> <message-file> [--model m] [--new-session]` | Sends one human message in tmux session `yak-bench`, waits, prints the answer, keeps every session id in `run.json`. Starts one isolated, password-protected `opencode serve` per run, so background subagents survive between turns |
+| `report.py run <run-dir>` | Facts of the run: sessions, tokens, equivalent cost, skills loaded, commits, artifacts, tool errors. Saves each session export (the full transcript) in the run folder |
 
 Run `turn.sh` in the background and wait for it to finish; one turn can take many minutes.
 

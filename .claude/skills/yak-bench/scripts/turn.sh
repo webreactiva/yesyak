@@ -42,6 +42,8 @@ mkdir -p "$bench/home"
 # A developer works with the project's virtual environment active; give the puppet the same PATH.
 venv_path=""
 [ -d "$run/repo/.venv/bin" ] && venv_path="PATH='$run/repo/.venv/bin':\$PATH VIRTUAL_ENV='$run/repo/.venv' "
+# The fake HOME hides rustup's toolchains; keep them, with a per-run cargo cache. RUSTUP_TOOLCHAIN passes through.
+[ -d "$HOME/.rustup" ] && venv_path+="RUSTUP_HOME='$HOME/.rustup' CARGO_HOME='$run/cargo-home' ${RUSTUP_TOOLCHAIN:+RUSTUP_TOOLCHAIN='$RUSTUP_TOOLCHAIN' }"
 password=$(read_meta "d.get('password') or ''")
 if [ -z "$password" ]; then
   password=$(python3 -c "import secrets;print(secrets.token_urlsafe(24))")

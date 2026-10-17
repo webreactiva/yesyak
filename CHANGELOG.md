@@ -2,6 +2,13 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.3.7 · 2026-10-17
+
+From benchmark run 0011 (a request too big for one iteration, and a session cut), which exercised the "Split" verdict and `handoff-and-resume` for the first time; both held.
+
+- `handoff-and-resume`: the session variable example names OpenCode's `OPENCODE_SESSION_ID` next to Claude Code's.
+- Benchmark: the turn scripts remove the driver's Claude Code variables before they start the puppet.
+
 ## 0.3.6 · 2026-10-17
 
 From benchmark run 0010 (Claude Code with Sonnet), which verified the 0.3.5 fixes.

@@ -70,7 +70,7 @@ AGENTS.md: write only between the markers. Every byte outside them stays the sam
 - Temporary files, reports and scratch data go in `.scratchpad/<slug>/` (gitignored).
 - Documentation in <detected language>, written in simplified technical language.
 - Record decisions in `<detected decisions folder>` (`decision-record-log`). Leave this line out when it is `off`.
-- Run `<detected check commands>` before every commit.
+- Run `<detected check commands>` before every commit and add no new failures. <if the default branch already fails: where the known failures are recorded>
 - Commit messages: <detected commit convention>.
 <!-- yesyak:end -->
 ```

@@ -101,3 +101,7 @@ Both reach a similar size and pace per phase. YesYak asked the owner more in the
 ## Cost
 
 ≈ 2.58 $ at models.dev prices for the puppet.
+
+## Pull request
+
+The user allowed a real PR on this project: https://github.com/delineas/packbeat/pull/1. Branch `pr/p15-p16-ux` from the project's `main`, 21 commits (without the bench commit, the YesYak setup, the YesYak guard line and the two handoffs), authored by the user. `pnpm check` 165 pass and `pnpm e2e` 186 pass on the branch.

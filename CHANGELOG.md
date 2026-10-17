@@ -2,6 +2,12 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.3.6 · 2026-10-17
+
+From benchmark run 0010 (Claude Code with Sonnet), which verified the 0.3.5 fixes.
+
+- `feature-delivery-pipeline`: the phase 0 checkpoint question asks whether to write the working rules from the chat to AGENTS.md. A strong model skipped that step when it was only in the step list.
+
 ## 0.3.5 · 2026-10-17
 
 From benchmark runs 0008 (a user who does not know YesYak) and 0009 (Claude Code with Sonnet, the same task as 0007).

@@ -1,6 +1,6 @@
 ---
 name: feature-delivery-pipeline
-description: Orchestrates the full feature workflow from a vague request to a reviewed pull request, with a checkpoint for the user after every phase. The phases are interview, acceptance spec, walking-skeleton plan, optional work items, step-by-step implementation, verification, optional browser testing, red team, triage and fixes, visual PR, reviewer guide and retrospective. Use it whenever the user wants to build a feature "end to end", "from spec to PR", "the full process", or starts a non-trivial feature and wants the complete disciplined workflow rather than one isolated step.
+description: Orchestrates the full feature workflow from a vague request to a reviewed pull request, with a checkpoint for the user after every phase. The phases are interview, acceptance spec, walking-skeleton plan, optional work items, step-by-step implementation, verification, optional browser testing, red team, triage and fixes, visual PR, reviewer guide and retrospective. Use it whenever the user asks for a new feature or a change in behavior, in any words ("can you add", "I want", "let me"), or wants a feature "end to end", "from spec to PR", "the full process".
 ---
 
 # Feature delivery pipeline
@@ -48,7 +48,7 @@ Steps in parentheses are optional. Offer them; do not run them by default.
 
 ## Phase 0: Starter kit
 
-1. Ask for the branch name if the user did not give one; derive the slug. If the branch name is fixed and not descriptive, choose the slug separately (`git-commit-organizer`).
+1. If AGENTS.md has no YesYak block, say it in one line and offer `customize-yak` first. Go on without it if the user says no. Ask for the branch name if the user did not give one; derive the slug. If the branch name is fixed and not descriptive, choose the slug separately (`git-commit-organizer`).
 2. Create the branch from the default branch, or from the base branch the user names. Record the base branch in `progress.md`, because the pull request targets it. If the project has a git host, check now that the branch can reach it (a remote, signed-in tools), not at the end.
 3. Make sure `.scratchpad/` is ignored; create `.scratchpad/<slug>/progress.md` with the phase table.
 4. If the user gives working rules in the chat (language, branch names, commit style), propose to write them in AGENTS.md, outside the YesYak block (`customize-yak` rewrites that block). A rule that stays only in the chat is lost in the next session.

@@ -2,6 +2,14 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.3.0 · 2026-10-17
+
+From benchmark run 0002 (a Go library, a bug, a weak model) and the findings it confirmed from run 0001.
+
+- `customize-yak` detects the project's commit convention and writes it to the AGENTS.md block, and commits its own files apart from feature work.
+- `session-retrospective-rules` starts from a list of every user message of the session, marked as request, answer, approval, nudge or correction.
+- `write-visual-pr` owns the short body for a bug fix, and stops at the body when there is no remote. `bug-intake` points to it and checks the git host when it creates the branch.
+
 ## 0.2.0 · 2026-10-17
 
 From benchmark run 0001 (a Python library, a feature, a weak model).

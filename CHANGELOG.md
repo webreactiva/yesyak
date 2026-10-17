@@ -2,6 +2,14 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.3.9 · 2026-10-17
+
+From benchmark runs 0013 (Claude Code with Sonnet, a bug with a design choice) and 0014 (Sonnet as a user who does not know YesYak).
+
+- `feature-delivery-pipeline`: the description triggers on any feature request or change in behavior, in any words, not only on "end to end" or "the full process". Phase 0 says when AGENTS.md has no YesYak block and offers `customize-yak` first. Without the block, two models did not start the process.
+- `ask-yak`, `bug-intake`, `customize-yak`, `feature-walkthrough`, `handoff-and-resume`, `unattended-run`: the trigger phrases in the descriptions are English only. AGENTS.md says skills hold no words in another language.
+- Benchmark: Claude Code puppets may use web tools; `report.py` reads every Claude Code stream event.
+
 ## 0.3.8 · 2026-10-17
 
 From benchmark run 0012 (a Python library, a bug, unattended; the first use of `unattended-run`, which held), and an `unslop` review of every skill.

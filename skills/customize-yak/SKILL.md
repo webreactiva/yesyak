@@ -22,7 +22,7 @@ Read before you ask. Show what you detected in one table and do not ask for it a
 | The YesYak block | AGENTS.md, between `<!-- yesyak:start -->` and `<!-- yesyak:end -->` |
 | Which file the agent reads | AGENTS.md, or the agent's own file (CLAUDE.md, GEMINI.md, `.github/copilot-instructions.md`) and whether it imports AGENTS.md |
 
-Use commands that only check. A script that fixes files in place is not a check. Run the full check once on the default branch and write down the failures that are already there, so later steps compare against them.
+Use commands that only check. A script that fixes files in place is not a check. Run the full check once on the default branch and write down the failures that are already there, so later steps compare against them. If a command chains several steps (for example `a && b`) and one step already fails, the steps after it never run: run each step on its own, and name the steps in the block.
 
 Stop and ask if the markers are broken: a start without an end, two blocks, or a marker inside a code fence. Change no file until the user says how to fix it.
 

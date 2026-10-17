@@ -51,7 +51,7 @@ Steps in parentheses are optional. Offer them; do not run them by default.
 1. Ask for the branch name if the user did not give one; derive the slug. If the branch name is fixed and not descriptive, choose the slug separately (`git-commit-organizer`).
 2. Create the branch from the default branch, or from the base branch the user names. Record the base branch in `progress.md`: the pull request targets it. If the project has a git host, check now that the branch can reach it (a remote, signed-in tools), not at the end.
 3. Make sure `.scratchpad/` is ignored; create `.scratchpad/<slug>/progress.md` with the phase table.
-4. If the user gives working rules in the chat (language, branch names, commit style), propose to write them in AGENTS.md. A rule that stays only in the chat is lost in the next session.
+4. If the user gives working rules in the chat (language, branch names, commit style), propose to write them in AGENTS.md, outside the YesYak block (`customize-yak` rewrites that block). A rule that stays only in the chat is lost in the next session.
 5. Fix obvious inconsistencies you find in AGENTS.md only if the user agrees.
 
 ### Does it fit in one iteration?

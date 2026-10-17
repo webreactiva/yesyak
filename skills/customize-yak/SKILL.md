@@ -1,6 +1,6 @@
 ---
 name: customize-yak
-description: Adapts the YesYak process to a project or a person without editing any skill. It detects what the project already has, asks only what is missing, and after a preview and a yes writes adjustments (add, replace, off) to .agents/yesyak.json or ~/.agents/yesyak.json and a short YesYak block between markers in AGENTS.md that tells every agent to apply them. Use it on the first install of the skills in a project, and whenever the user wants another process, for example "use my spec template", "verify with Playwright too", "skip work items", "change how the skills work here", "personaliza el proceso", "adapta las skills"; run again, it audits the block and keeps it short ("clean up the YesYak block").
+description: Adapts the YesYak process to a project or a person without editing any skill. It detects what the project already has, asks only what is missing, and after a preview and a yes writes adjustments (add, replace, off) to .agents/yesyak.json or ~/.agents/yesyak.json and a short YesYak block between markers in AGENTS.md that tells every agent to apply them. Use it on the first install of the skills in a project, and whenever the user wants another process, for example "use my spec template", "verify with Playwright too", "skip work items", "change how the skills work here"; run again, it audits the block and keeps it short ("clean up the YesYak block").
 ---
 
 # Customize Yak

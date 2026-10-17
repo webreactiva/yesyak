@@ -45,5 +45,5 @@ python3 skills/feature-walkthrough/scripts/check_walkthrough.py <walkthrough.md>
 - For every new rule, remove or merge one that is obsolete or duplicated.
 - The `description` in the frontmatter must not contain `<` or `>`, and must not contain `: ` (it breaks the YAML).
 - Before you commit skill text, review it with the `unslop` skill if it is installed (user level). Review scripts with `deslop`.
-- Skills are written in English, ASD-STE100 Simplified Technical English. The document language rule of the skills lives only in `simplified-technical-language`: documents in English unless the project names another language; the conversation in the user's language.
+- Skills are written in English, ASD-STE100 Simplified Technical English. No words in another language, also not in the trigger phrases of a `description`: the agent matches a request in any language against the English text. The document language rule of the skills lives only in `simplified-technical-language`: documents in English unless the project names another language; the conversation in the user's language.
 - Commits: Conventional Commits with gitmoji, in English, scope `skills` for skill changes, kept apart from other changes.

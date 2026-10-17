@@ -1,6 +1,6 @@
 ---
 name: feature-walkthrough
-description: Writes a walkthrough of a feature branch for a reader who did not build it. It follows the real code path end to end with file:line stops verified at one commit, draws the structure with ASCII trees and validated Mermaid diagrams (plain-visual-docs), uses the feature's domain terms, and stays short. The writing can go to a read-only subagent when the environment has one; the citations and diagrams are checked before delivery. Use it whenever the user asks for a walkthrough, a code tour, "recorrido", "explícame la feature", "cómo funciona lo que hemos hecho", "enséñame el código de la rama", an onboarding explanation of a branch or pull request, or wants to understand a feature before a review or a merge.
+description: Writes a walkthrough of a feature branch for a reader who did not build it. It follows the real code path end to end with file:line stops verified at one commit, draws the structure with ASCII trees and validated Mermaid diagrams (plain-visual-docs), uses the feature's domain terms, and stays short. The writing can go to a read-only subagent when the environment has one; the citations and diagrams are checked before delivery. Use it whenever the user asks for a walkthrough, a code tour, "explain the feature", "how does what we built work", "show me the code of the branch", an onboarding explanation of a branch or pull request, or wants to understand a feature before a review or a merge.
 ---
 
 # Feature walkthrough

@@ -1,6 +1,6 @@
 ---
 name: ask-yak
-description: Tells the user where their work is in the YesYak process and what comes next. It reads the branch, the progress file, specs, plans, reports, handoffs and pull requests, shows a map of the whole process with the current position marked, names the next skill and the rest of the way to the pull request, and waits. It never writes and never starts a skill alone. Use it whenever the user asks "what now", "what next", "where am I", "where are we", "which skill do I use", "what is left", "qué hago ahora", "por dónde voy", is new to the skills, or seems lost between phases.
+description: Tells the user where their work is in the YesYak process and what comes next. It reads the branch, the progress file, specs, plans, reports, handoffs and pull requests, shows a map of the whole process with the current position marked, names the next skill and the rest of the way to the pull request, and waits. It never writes and never starts a skill alone. Use it whenever the user asks "what now", "what next", "where am I", "where are we", "which skill do I use", "what is left", is new to the skills, or seems lost between phases.
 ---
 
 # Ask Yak

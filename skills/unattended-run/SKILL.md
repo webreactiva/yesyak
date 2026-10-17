@@ -1,6 +1,6 @@
 ---
 name: unattended-run
-description: Lets the feature-delivery-pipeline and its phase skills run from start to end without the user. The agent answers every checkpoint, interview round and "which option?" question with the recommended option and logs it with its reason. The run only stops for actions the user did not authorize. Use it whenever the user says "do not ask me", "answer the questions yourself", "take the best decisions", "run it to the end without me", "no me preguntes", "hasta terminar sin interactuar conmigo", or starts the pipeline and then leaves.
+description: Lets the feature-delivery-pipeline and its phase skills run from start to end without the user. The agent answers every checkpoint, interview round and "which option?" question with the recommended option and logs it with its reason. The run only stops for actions the user did not authorize. Use it whenever the user says "do not ask me", "answer the questions yourself", "take the best decisions", "run it to the end without me", "do not ask me", or starts the pipeline and then leaves.
 ---
 
 # Unattended run

@@ -21,10 +21,10 @@ Ask only for what is missing and needed to reproduce. In an unattended run, reco
 
 Read the report and the code it needs. Change nothing yet: no file, no test, no branch. Give:
 
-1. **Severity**: a light with `traffic-light-findings`, impact and likelihood together, and why in one sentence.
-2. **Owner**: which area of the project takes care of it, if the project has areas or teams (for example data, backend, frontend, product).
-3. **Layers**: which layers of the architecture it crosses (for example source data, import, storage, API, interface), each with `file:line`.
-4. **Kind**: for example a code bug, a data bug, a missing requirement, an interface problem, legacy code or performance.
+1. **Severity.** A light with `traffic-light-findings`, impact and likelihood together, and why in one sentence.
+2. **Owner.** The area of the project takes care of it, if the project has areas or teams (for example data, backend, frontend, product).
+3. **Layers.** The layers of the architecture it crosses (for example source data, import, storage, API, interface), each with `file:line`.
+4. **Kind.** For example a code bug, a data bug, a missing requirement, an interface problem, legacy code or performance.
 
 A report can be partly wrong, whoever wrote it: a user, a teammate or an agent. Say which parts of it the code confirms, which parts it contradicts, and which parts you cannot check yet. Show the triage and ask before you go on. In an unattended run, log it as a `Q-` entry and go on.
 

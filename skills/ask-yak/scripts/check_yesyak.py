@@ -159,6 +159,9 @@ def check_dev(cards, problems):
     for folder in sorted(p.parent.name for p in SKILLS_DIR.glob("*/SKILL.md")):
         if folder not in cards:
             problems.append(f"missing card: {folder}")
+        description = re.search(r"^description: (.*)$", (SKILLS_DIR / folder / "SKILL.md").read_text(encoding="utf-8"), re.M)
+        if not description or re.search(r"[<>]|: ", description.group(1)):
+            problems.append(f"description missing, or with < > or ': ' (breaks YAML): {folder}")
     for skill, card in cards.items():
         skill_file = SKILLS_DIR / skill / "SKILL.md"
         headings = headings_outside_code(skill) if skill_file.is_file() else set()

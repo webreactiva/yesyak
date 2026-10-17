@@ -1,6 +1,6 @@
 ---
 name: agent-hook-guard
-description: Turns one problem that the reviews found into one hook of the agent - a check that the agent's harness runs by itself before or after a tool call or at the end of a turn - shown first with a diagram, written only after a yes, tested by forcing the error and then shown in a real run. Use it whenever the user asks for a hook, an automatic guard, "something that stops this from happening again" while the agent works, or wants a red team, verification or retrospective finding enforced by the machine instead of by a rule the model must remember.
+description: Turns one problem that the reviews found into one hook of the agent. A hook is a check that the agent's harness runs by itself before or after a tool call or at the end of a turn. The hook is shown first with a diagram, written only after a yes, tested by forcing the error and then shown in a real run. Use it whenever the user asks for a hook, an automatic guard, "something that stops this from happening again" while the agent works, or wants a red team, verification or retrospective finding enforced by the machine instead of by a rule the model must remember.
 ---
 
 # Agent hook guard

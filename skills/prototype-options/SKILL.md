@@ -1,6 +1,6 @@
 ---
 name: prototype-options
-description: Builds a few navigable prototypes of what the interview decided, each in a different style or approach, with one subagent per option, a time limit and shared sample data, so the user chooses by looking instead of by reading - then records the choice with the interview decisions. Use it whenever the user asks for prototypes, mockups, sketches, "show me how it will look", several visual styles or design options, or wants to compare approaches before the spec.
+description: Builds a few navigable prototypes of what the interview decided, each in a different style or approach, with one subagent per option, a time limit and shared sample data, so the user chooses by looking instead of by reading. It then records the choice with the interview decisions. Use it whenever the user asks for prototypes, mockups, sketches, "show me how it will look", several visual styles or design options, or wants to compare approaches before the spec.
 ---
 
 # Prototype options

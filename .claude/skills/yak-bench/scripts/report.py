@@ -215,7 +215,10 @@ def run(run_dir):
         if session.get("harness") == "claude":
             source = claude_transcript(repo, session["id"])
             target = run_dir / f"session-{session['id']}.jsonl"
-            target.write_text(source.read_text() if source.exists() else "")
+            if source.exists():  # after archive.sh the clone has moved; keep the copy saved before
+                target.write_text(source.read_text())
+            elif not target.exists():
+                target.write_text("")
             if source.with_suffix("").is_dir():  # the puppet's subagents
                 shutil.copytree(source.with_suffix(""), target.with_suffix(""), dirs_exist_ok=True)
             m = claude_session_metrics(target, run_dir, data) if target.stat().st_size else None

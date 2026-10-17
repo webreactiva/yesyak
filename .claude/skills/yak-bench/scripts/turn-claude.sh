@@ -22,6 +22,8 @@ bench=${YAKBENCH_DIR:-$yesyak/.scratchpad/bench}
 run="$bench/$run_id"
 meta="$run/run.json"
 [ -f "$meta" ] || { echo "no run: $run" >&2; exit 1; }
+# The real path of the clone: through the link in this repository the puppet would see the run folder and its notes.
+repo=$(cd "$run/repo" && pwd -P)
 
 read_meta() { python3 -c "import json,sys;d=json.load(open('$meta'));print(eval(sys.argv[1]))" "$1"; }
 [ -z "$model" ] && model=$(read_meta "(d['model'] or '').removeprefix('anthropic/')")
@@ -54,7 +56,7 @@ driver_vars=$(env | grep -oE '^(CLAUDE[A-Z_]*|AI_AGENT)=' | tr -d = | sed 's/^/-
 env_vars="env $driver_varsGIT_AUTHOR_NAME=yak-puppet GIT_AUTHOR_EMAIL=puppet@yak-bench GIT_COMMITTER_NAME=yak-puppet GIT_COMMITTER_EMAIL=puppet@yak-bench"
 
 # The message goes through a file, so quotes in it never reach the shell.
-tmux new-window -d -t yak-bench -n "$window" -c "$run/repo" \
+tmux new-window -d -t yak-bench -n "$window" -c "$repo" \
   "$env_vars claude $(printf '%q ' "${args[@]}") \"\$(cat '$run/turns/$n-human.md')\" > '$run/turns/$n.jsonl' 2> '$run/turns/$n.stderr'; \
    echo \$? > '$done_file'"
 

@@ -26,6 +26,7 @@ All in `scripts/`. Runs live in `.scratchpad/bench/<run-id>/` of this repository
 | `turn.sh <run-id> <message-file> [--model m] [--new-session]` | Sends one human message in tmux session `yak-bench`, waits, prints the answer, keeps every session id in `run.json`. Starts one isolated, password-protected `opencode serve` per run, so background subagents survive between turns |
 | `turn-claude.sh <run-id> <message-file> [--model m] [--new-session]` | The same for Claude Code: `--setting-sources project` and `--strict-mcp-config` hide the user's skills, hooks, plugins, MCP servers and CLAUDE.md; HOME stays real for the sign-in. Its models are over the price cap: run it with `YAKBENCH_ALLOW_EXPENSIVE=1` only when the user asks |
 | `report.py run <run-dir>` | Facts of the run: sessions, time, model steps, tokens, equivalent cost, skills loaded, commits, artifacts, tool errors. Saves each session export (the full transcript) in the run folder |
+| `archive.sh <run-id>` | Moves a scored run's clone into its run folder, so the next puppet cannot read it next to its own clone. Run it after the report |
 | `report.py metrics <bench-dir> [transcript]` | One row per run: turns, steps, wall and agent time, tokens, cost. With your own session transcript (`~/.claude/projects/<project>/<session>.jsonl`), also what you spent as the driver in each run's window |
 
 Run `turn.sh` in the background and wait for it to finish; one turn can take many minutes.

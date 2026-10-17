@@ -22,6 +22,8 @@ bench=${YAKBENCH_DIR:-$yesyak/.scratchpad/bench}
 run="$bench/$run_id"
 meta="$run/run.json"
 [ -f "$meta" ] || { echo "no run: $run" >&2; exit 1; }
+# The real path of the clone: through the link in this repository the puppet would see the run folder and its notes.
+repo=$(cd "$run/repo" && pwd -P)
 
 read_meta() { python3 -c "import json,sys;d=json.load(open('$meta'));print(eval(sys.argv[1]))" "$1"; }
 [ -z "$model" ] && model=$(read_meta "d['model'] or ''")
@@ -41,7 +43,7 @@ done_file="$run/turns/$n.done"
 mkdir -p "$bench/home"
 # A developer works with the project's virtual environment active; give the puppet the same PATH.
 venv_path=""
-[ -d "$run/repo/.venv/bin" ] && venv_path="PATH='$run/repo/.venv/bin':\$PATH VIRTUAL_ENV='$run/repo/.venv' "
+[ -d "$repo/.venv/bin" ] && venv_path="PATH='$repo/.venv/bin':\$PATH VIRTUAL_ENV='$repo/.venv' "
 # The fake HOME hides rustup's toolchains; keep them, with a per-run cargo cache. RUSTUP_TOOLCHAIN passes through.
 [ -d "$HOME/.rustup" ] && venv_path+="RUSTUP_HOME='$HOME/.rustup' CARGO_HOME='$run/cargo-home' ${RUSTUP_TOOLCHAIN:+RUSTUP_TOOLCHAIN='$RUSTUP_TOOLCHAIN' }"
 password=$(read_meta "d.get('password') or ''")
@@ -62,7 +64,7 @@ port=$(read_meta "d.get('port') or ''")
 if [ -z "$port" ] || ! nc -z 127.0.0.1 "$port" 2>/dev/null; then
   port=$(python3 -c "import socket;s=socket.socket();s.bind(('127.0.0.1',0));print(s.getsockname()[1])")
   tmux kill-window -t "yak-bench:srv-$run_id" 2>/dev/null || true
-  tmux new-window -d -t yak-bench -n "srv-$run_id" -c "$run/repo" \
+  tmux new-window -d -t yak-bench -n "srv-$run_id" -c "$repo" \
     "$env_vars opencode serve --hostname 127.0.0.1 --port $port 2> '$run/server.log'"
   for _ in $(seq 60); do nc -z 127.0.0.1 "$port" 2>/dev/null && break; sleep 1; done
   python3 -c "import json;p='$meta';d=json.load(open(p));d['port']=$port;json.dump(d,open(p,'w'),indent=2)"
@@ -72,7 +74,7 @@ args=(run --server "http://127.0.0.1:$port" -m "$model" --auto --format json)
 [ -n "$session" ] && args+=(-s "$session") || args+=(--title "yak-bench $run_id")
 
 # The message goes through a file, so quotes in it never reach the shell.
-tmux new-window -d -t yak-bench -n "$window" -c "$run/repo" \
+tmux new-window -d -t yak-bench -n "$window" -c "$repo" \
   "$env_vars opencode $(printf '%q ' "${args[@]}") \"\$(cat '$run/turns/$n-human.md')\" > '$run/turns/$n.jsonl' 2> '$run/turns/$n.stderr'; \
    echo \$? > '$done_file'"
 

@@ -14,6 +14,7 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0005](runs/0005-vivid-theme-panic.md) | 2026-10-17 | v0.3.2 | sharkdp/vivid · bug #242 (panic on malformed theme values) | ollama-cloud/deepseek-v4.1-flash | `ses_eb5f1ed03ffeR1Tj8yGoAeajlI` (work), 1 probe session | fix route complete | 0/0/0 | 0.05 $ |
 | [0006](runs/0006-serialize-nonobject.md) | 2026-10-17 | v0.3.2 | sindresorhus/serialize-error · feature #25 (`onNonObject` option) | ollama-cloud/minimax-m2.7 | `ses_eb5c24a03ffe5wm2uvRxCQ3cDl` (work), 1 probe session | 6 Retrospective (all phases) | 1/4/0 | 0.29 $ |
 | [0007](runs/0007-filenamify-entry.md) | 2026-10-17 | v0.3.3 | sindresorhus/filenamify · feature #43 (`filenamify/path` entry) | ollama-cloud/deepseek-v4.1-flash | `ses_eb5a30ed1ffefpJkQlv7BzSrLr` (work), 1 probe session | 6 Retrospective (all phases) | 0/1/0 | 0.12 $ |
+| [0008](runs/0008-retry-novice.md) | 2026-10-17 | v0.3.4 | avast/retry-go · feature #107 (retry on a rejected value), devil's advocate user | ollama-cloud/deepseek-v4.1-flash | `ses_eb591dddfffes1fAciXxlNwClE` (work), 1 probe session | feature built; process never started | 6 user mistakes: 🟢1 🟠2 🔴3 | 0.05 $ |
 
 ## Metrics
 
@@ -29,6 +30,7 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0005-vivid-theme-panic | ollama-cloud/deepseek-v4.1-flash | 7 | 74 | 7 min | 5 min | 85386 | 50313 | 3847946 | 0.05 | 21 | 1843729 (8667) | 0.66 |
 | 0006-serialize-nonobject | ollama-cloud/minimax-m2.7 | 13 | 103 | 11 min | 8 min | 123495 | 28417 | 3700423 | 0.29 | 17 | 2353051 (9774) | 0.78 |
 | 0007-filenamify-entry | ollama-cloud/deepseek-v4.1-flash | 15 | 103 | 16 min | 13 min | 171722 | 113137 | 9395826 | 0.12 | 20 | 3254531 (8285) | 1.16 |
+| 0008-retry-novice | ollama-cloud/deepseek-v4.1-flash | 5 | 27 | 5 min | 4 min | 152304 | 35841 | 1367424 | 0.05 | 6 | 1513658 (3899) | 0.42 |
 
 ## Findings
 
@@ -80,3 +82,7 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-042 | Skill | fixed in v0.3.4 | The coverage check of walking-skeleton-plan used `seq -w 1 NN`, which does not pad below 10 on macOS, so it printed every criterion as missing | 0007 retrospective; reproduced |
 | F-043 | Skill | watch | A red-team probe subagent left a symlink loop in the working tree that broke the suite; the orchestrator did not check the tree after the missions | 0007 turn 11 |
 | F-044 | Bench | fixed in bench tools | With no bench commit, `prepare.sh` recorded `HEAD~1` as the base ref | 0007 setup |
+| F-045 | Skill | watch | Skills installed but no YesYak block: a plain feature request never engaged the process (no ask-yak, no phase 0, no PR body, no retrospective). The pipeline description triggers on "end to end", and no skill checks for a missing block. `install.sh` now prints the next step | 0008 turns 2-5 |
+| F-046 | Skill | watch | The user's uncommitted changes went into the new branch without a question (phase 0 did not run) | 0008 turn 3 |
+| F-047 | Skill | watch | "Just code it, no spec" followed without one line on the risk or a short safe route | 0008 turn 3 |
+| F-048 | Skill | watch | The user left early; the agent did not say which steps were left | 0008 turn 5 |

@@ -2,6 +2,14 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.4.2 · 2026-10-17
+
+From benchmark run 0018 (a large app, one piece of work over four sessions with forced cuts, and one unattended delivery).
+
+- `session-retrospective-rules`: the review covers the whole piece of work, not only the current session. When a handoff or `progress.md` shows earlier steps, it reads the earlier transcripts. Two runs reviewed only the last session after a resume.
+- `unattended-run`: never end a turn to wait for a test run, a build or a subagent; nobody sends the next message. An unattended run stalled while its browser tests ran in the background.
+- Benchmark: a turn keeps the model of its session; the puppet finds Playwright's browsers.
+
 ## 0.4.1 · 2026-10-17
 
 From benchmark run 0017 (a small HTTP service that deploys a Docker image; the first use in this series of `work-items-breakdown`, `feature-walkthrough` and `production-readiness-review`).

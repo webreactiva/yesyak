@@ -23,6 +23,7 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0014](runs/0014-inflect-novice-claude.md) | 2026-10-17 | v0.3.8 | jaraco/inflect · #266 (user acronyms), devil's advocate user | anthropic/claude-sonnet-5-5 (Claude Code) | `f65d1a58-7ebf-4a16-b4f6-a3270a1cf096` (work), 1 probe session | feature built; process never started | 6 user mistakes: 🟢2 🟠2 🔴1, 1 not reached | 0.29 $ |
 | [0015](runs/0015-gomodifytags-lowercase-claude.md) | 2026-10-17 | v0.3.9 | fatih/gomodifytags · #95 (lowercase transform), no setup | anthropic/claude-sonnet-5-5 (Claude Code) | `db73a511-7101-4b6b-96d8-4ad27e9fda93` (work), 1 probe session | code on main; process never started | 0/0/0 | 0.12 $ |
 | [0016](runs/0016-gomodifytags-install-claude.md) | 2026-10-17 | v0.4.0 | fatih/gomodifytags · #95, same as 0015, installed with the new install.sh | anthropic/claude-sonnet-5-5 (Claude Code) | `fb8ef5a9-cb87-4371-ae2a-0a6e25232446` (work), 1 probe session | 6 Retrospective (all phases) | 0/1/0 | 1.07 $ |
+| [0017](runs/0017-mcu-health-readiness.md) | 2026-10-17 | v0.4.0 | DiljotSG/MCU-Countdown · feature (named lists as JSON, health endpoint), forced work items, walkthrough, production readiness | ollama-cloud/deepseek-v4.1-flash | `ses_eb50723a6ffetf83ihd3WNF4Un` (work), 1 probe session | 6 Retrospective + 7 Later | 0/0/0 | 0.32 $ |
 
 ## Metrics
 
@@ -47,6 +48,7 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0014-inflect-novice-claude | anthropic/claude-sonnet-5-5 | 6 | 25 | 3 min | 2 min | 46 | 10149 | 772857 | 0.29 | 8 | 3784872 (5591) | 0.92 |
 | 0015-gomodifytags-lowercase-claude | anthropic/claude-sonnet-5-5 | 3 | 7 | 1 min | 1 min | 14 | 3706 | 167110 | 0.12 | 1 | 518555 (1083) | 0.13 |
 | 0016-gomodifytags-install-claude | anthropic/claude-sonnet-5-5 | 14 | 63 | 14 min | 9 min | 126 | 44909 | 3709666 | 1.07 | 15 | 8286632 (9088) | 1.92 |
+| 0017-mcu-health-readiness | ollama-cloud/deepseek-v4.1-flash | 20 | 226 | 46 min | 33 min | 407901 | 225576 | 39820556 | 0.32 | 72 | 8254467 (22323) | 2.94 |
 
 ## Findings
 
@@ -54,7 +56,7 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 
 | Id | Class | Status | Finding | Evidence |
 | --- | --- | --- | --- | --- |
-| F-001 | Skill | fixed in v0.3.4 | A spec of 146 lines for one CLI flag: write-acceptance-spec does not scale the spec to the size of the change (no-slop-code says a spec longer than the code is suspect) | 0000: `docs/json-output-spec.md`; 0001: 207-line spec for about 60 lines of code; 0003: 230-line spec for 37 lines of `src`, after the v0.2.0 rule (second model). The rule became a count reported at the checkpoint; 0004 reported 160 vs about 110 and cut; 0006: counted, did not cut until told (minimax); 0006 and 0007 (deepseek): counted and cut a little, then argued for a long spec; the rule now names the sections that stay; 0010 (Sonnet, v0.3.4 rule): 119 for about 45, with a reason, three extra sections |
+| F-001 | Skill | fixed in v0.3.4 | A spec of 146 lines for one CLI flag: write-acceptance-spec does not scale the spec to the size of the change (no-slop-code says a spec longer than the code is suspect) | 0000: `docs/json-output-spec.md`; 0001: 207-line spec for about 60 lines of code; 0003: 230-line spec for 37 lines of `src`, after the v0.2.0 rule (second model). The rule became a count reported at the checkpoint; 0004 reported 160 vs about 110 and cut; 0006: counted, did not cut until told (minimax); 0006 and 0007 (deepseek): counted and cut a little, then argued for a long spec; the rule now names the sections that stay; 0010 (Sonnet, v0.3.4 rule): 119 for about 45, with a reason, three extra sections; 0017 (deepseek): 258 for about 200, counted and cut a little, kept every section |
 | F-002 | Bench | fixed in bench tools | The pilot ran with the user's global OpenCode config (other skills, a browser MCP server) and symlinked skills | 0000: `opencode.json` of the user; now `turn.sh` isolates the config and `prepare.sh` copies the skills |
 | F-003 | Bench | fixed in bench tools | The clone kept `origin` pointing to the original repository | 0000; now `prepare.sh` removes the remote |
 | F-004 | Skill | verified in runs 0002 and 0003 (baseline held at every commit) | customize-yak detected only the test command, so AGENTS.md named pytest alone; the loop, verify-against-spec and red-team-review never ran lint or types, and the branch added 13 ruff errors that only the human found. The command it later wrote fixed files in place | 0001 turns 16, 24, 28, 30, 31 |
@@ -114,3 +116,6 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-058 | Bench | fixed in bench tools | `turn-claude.sh` did not allow WebFetch or WebSearch, so a project rule that needs a web page blocked the puppet; `report.py` crashed on a stream event whose `message` is a string | 0014 turn 2 |
 | F-059 | Model | watch | The check line says `go test -race ./...` (the CI form) but the agent ran `go test ./...`; the v0.3.8 rule asks for the commands as they ran | 0016 turn 5 |
 | F-060 | Skill | won't fix: user decision | After "go", Sonnet wrote a short spec and the code in one step and said the user had chosen the short route; the block rule "ask before you skip a phase" did not hold. Its retrospective proposes an agent hook (no code commit on a feat branch without the spec) | 0016 turns 6-7; the user decided to leave it: when a capable model skips a step, it may be right. No skill change |
+| F-061 | Skill | fixed in v0.4.1 | The user keeps a task list for the project; work-items-breakdown wrote it only to `.scratchpad/` (gitignored). The step "save the mapping to `.scratchpad/`" read as applying to a local list too | 0017 turn 9 |
+| F-062 | Model | watch | production-readiness-review wrote the verdict first and asked the target questions after, without options | 0017 turn 17 |
+| F-063 | Skill | watch | The walkthrough subagent wrote wrong counts (criteria, risks); `check_walkthrough.py` checks citations and diagrams, not numbers. The agent caught them by hand | 0017 turn 16, from the puppet's retrospective |

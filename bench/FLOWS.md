@@ -2,7 +2,7 @@
 
 How each run went through the YesYak process, and which skills the puppet used, in order. Regenerate the skills column with `python3 .claude/skills/yak-bench/scripts/report.py flows .scratchpad/bench`. It reads the turns of the work session (not the isolation probe). A skill counts when the puppet loads it with the skill tool, or reads its `SKILL.md` by hand (marked `*`). The number is the turn of first use.
 
-Last update: run 0016, YesYak v0.4.0.
+Last update: run 0017, YesYak v0.4.0.
 
 ## The runs
 
@@ -25,6 +25,7 @@ Last update: run 0016, YesYak v0.4.0.
 | 0014 | Claude Code, Sonnet | feature, no setup | none | feature built, no process | The novice with a strong model: same result as 0008 |
 | 0015 | Claude Code, Sonnet | feature, no setup | none | code on main, no process | The v0.3.9 trigger did not start the pipeline for a strong model |
 | 0016 | Claude Code, Sonnet | feature, after the new install | feature | 6 Retrospective | The minimal block started the process; one correction after a self-chosen short route |
+| 0017 | OpenCode, deepseek-v4.1-flash | feature, after `install.sh` | feature + 7 Later | 6 Retrospective + production readiness | Zero interventions; first runs of work items, walkthrough and readiness in this series; a local task list landed in the gitignored folder |
 
 ## Skills used, in order
 
@@ -47,6 +48,7 @@ Last update: run 0016, YesYak v0.4.0.
 | 0014-inflect-novice-claude | customize-yak (4) |
 | 0015-gomodifytags-lowercase-claude | none |
 | 0016-gomodifytags-install-claude | customize-yak (3) → feature-delivery-pipeline (7) → scratchpad-working-files (7) → git-commit-organizer (7) → simplified-technical-language (7) → on-the-spot (8) → domain-language (9) → write-acceptance-spec (10) → walking-skeleton-plan (11) → execute-plan-loop (12) → verify-against-spec (13) → write-visual-pr (13) → session-retrospective-rules (13) |
+| 0017-mcu-health-readiness | customize-yak (2) → feature-delivery-pipeline (5) → git-commit-organizer (5) → simplified-technical-language (5) → scratchpad-working-files (5) → on-the-spot (6) → write-acceptance-spec (9) → plain-visual-docs (9) → domain-language (9) → walking-skeleton-plan (10) → work-items-breakdown (10) → execute-plan-loop (11) → decision-record-log (11) → verify-against-spec (12) → red-team-review (13) → traffic-light-findings (13) → triage-findings-list (14) → write-visual-pr (16) → feature-walkthrough (17) → production-readiness-review (18) → session-retrospective-rules (19) → handoff-and-resume (19) |
 
 ## The usual order
 

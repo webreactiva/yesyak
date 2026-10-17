@@ -2,6 +2,15 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.3.8 · 2026-10-17
+
+From benchmark run 0012 (a Python library, a bug, unattended; the first use of `unattended-run`, which held), and an `unslop` review of every skill.
+
+- `bug-intake`: step 1 of the fix route saves `bug-report.md` and starts `progress.md` before any code change. Two runs wrote them after the fix.
+- `customize-yak`: the check line of the block holds the check commands exactly as they ran (for example through a tool runner when the tool is not installed).
+- All skills: an `unslop` review removed dashes and colons that joined sentences, passive voice where the actor matters, arrows in prose and "harness" as a metaphor. No heading, skill name or card line changed.
+- Benchmark: the puppet starts in the real path of its clone, and `archive.sh` moves a scored clone out of the way.
+
 ## 0.3.7 · 2026-10-17
 
 From benchmark run 0011 (a request too big for one iteration, and a session cut), which exercised the "Split" verdict and `handoff-and-resume` for the first time; both held.

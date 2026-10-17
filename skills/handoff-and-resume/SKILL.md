@@ -42,7 +42,9 @@ Save `docs/handoffs/handoff-YYYY-MM-DD-<slug>.md`, with the date of today and th
 ## Decisions             decision | taken by (user or agent) | where recorded (ADR, PR, log)
 ## Standing instructions what the user asked for the whole work, in their words
 ## Open questions        what nobody decided yet, and who should decide
-## Next steps            numbered; step 1 can start without asking anything
+## Next steps            numbered; step 1 can start without asking anything; on the
+                         pipeline or the fix route, every phase still to run, up to
+                         the retrospective
 ## Check the state       commands that show the state is as described (tests, build, git)
 ## Where things are      files and reports; copy into this note what lives outside the
                          repository (for example `.scratchpad/`), because it may be lost

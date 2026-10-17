@@ -10,7 +10,7 @@ description: Lets the feature-delivery-pipeline and its phase skills run from st
 Read the request once and write down, in the first lines of `.scratchpad/<slug>/unattended-decisions.md`:
 
 - **Start point**: the base branch and the branch you must work on.
-- **End point**: for example "open the PR, do not approve, do not merge".
+- **End point**: for example "open the PR, do not approve, do not merge". It includes every phase of the pipeline still to run, up to the retrospective; a project step such as a merge comes after it. A phase you skip is a `Q-` entry.
 - **Outward actions allowed**: push, PR, issues, comments. Only what the request names or clearly implies.
 - **Skills allowed**: for example "only the YesYak skills".
 - **Skill feedback wanted**: should you note problems in the skills while you use them?

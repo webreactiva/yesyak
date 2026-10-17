@@ -24,6 +24,7 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0015](runs/0015-gomodifytags-lowercase-claude.md) | 2026-10-17 | v0.3.9 | fatih/gomodifytags · #95 (lowercase transform), no setup | anthropic/claude-sonnet-5-5 (Claude Code) | `db73a511-7101-4b6b-96d8-4ad27e9fda93` (work), 1 probe session | code on main; process never started | 0/0/0 | 0.12 $ |
 | [0016](runs/0016-gomodifytags-install-claude.md) | 2026-10-17 | v0.4.0 | fatih/gomodifytags · #95, same as 0015, installed with the new install.sh | anthropic/claude-sonnet-5-5 (Claude Code) | `fb8ef5a9-cb87-4371-ae2a-0a6e25232446` (work), 1 probe session | 6 Retrospective (all phases) | 0/1/0 | 1.07 $ |
 | [0017](runs/0017-mcu-health-readiness.md) | 2026-10-17 | v0.4.0 | DiljotSG/MCU-Countdown · feature (named lists as JSON, health endpoint), forced work items, walkthrough, production readiness | ollama-cloud/deepseek-v4.1-flash | `ses_eb50723a6ffetf83ihd3WNF4Un` (work), 1 probe session | 6 Retrospective + 7 Later | 0/0/0 | 0.32 $ |
+| [0018](runs/0018-packbeat-ux-sessions.md) | 2026-10-17 | v0.4.1 | packbeat (the user's app) · owner UX request, 2 of 5 deliveries over 4 sessions with 3 forced cuts, one unattended | ollama-cloud/deepseek-v4.1-flash, minimax-m2.7 (session 3) | 4 work sessions (`ses_eb4d524b…`, `ses_eb4d43a2…`, `ses_eb4b735e…`, `ses_eb46fbf7…`), 1 probe session | 6 Retrospective, twice | 0/2/1 | 2.58 $ |
 
 ## Metrics
 
@@ -49,6 +50,7 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0015-gomodifytags-lowercase-claude | anthropic/claude-sonnet-5-5 | 3 | 7 | 1 min | 1 min | 14 | 3706 | 167110 | 0.12 | 1 | 518555 (1083) | 0.13 |
 | 0016-gomodifytags-install-claude | anthropic/claude-sonnet-5-5 | 14 | 63 | 14 min | 9 min | 126 | 44909 | 3709666 | 1.07 | 15 | 8286632 (9088) | 1.92 |
 | 0017-mcu-health-readiness | ollama-cloud/deepseek-v4.1-flash | 20 | 226 | 46 min | 33 min | 407901 | 225576 | 39820556 | 0.32 | 72 | 8254467 (22323) | 2.94 |
+| 0018-packbeat-ux-sessions | ollama-cloud/deepseek-v4.1-flash | 30 | 764 | 164 min | 131 min | 1349426 | 565622 | 120534888 | 2.58 | 83 | 20899006 (37747) | 5.43 |
 
 ## Findings
 
@@ -108,7 +110,7 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-050 | Bench | fixed in bench tools | The bench drove only OpenCode. `turn-claude.sh` drives Claude Code, `prepare.sh` copies the skills to `.claude/skills` too, `report.py` reads Claude Code's stream JSON and transcripts | 0009 setup |
 | F-051 | Skill | verified in run 0011 | Sonnet skipped step 4 of phase 0 (propose the chat rules for AGENTS.md); the phase 0 checkpoint question now asks about them | 0010 turn 4; the retrospective found it; verified in 0011 |
 | F-052 | Bench | fixed in bench tools | The puppet inherited the driver's Claude Code variables through tmux (`CLAUDECODE`, `CLAUDE_CODE_SESSION_ID`, a messaging token); the turn scripts now remove every `CLAUDE*` and `AI_AGENT` variable | 0011 turn 10 |
-| F-053 | Skill | watch | After a resume, the retrospective covered only the current session, not the whole piece of work | 0011 turn 12 |
+| F-053 | Skill | fixed in v0.4.2 | After a resume, the retrospective covered only the current session, not the whole piece of work. The skill said "every message of the user in this session"; now "in this piece of work", with the earlier transcripts | 0011 turn 12; 0018: the P15 retrospective covered only session 3, and added two messages never sent |
 | F-054 | Bench | fixed in bench tools | The puppet listed the run folder in this repository (where `notes.md` holds the expected behaviour) because tmux started it in the link, not the real clone path; earlier clones also sat next to the active one. Turn scripts use the real path; `archive.sh` moves scored clones into their run folder. No earlier run read outside its clone | 0012 turn 6 |
 | F-055 | Skill | verified in run 0013 | customize-yak wrote `ruff check` in the block but had run `uvx ruff@0.15.4 check` (ruff not installed); the template now asks for the commands exactly as they ran | 0012 turn 3; verified in 0013 |
 | F-056 | Model | watch | Sonnet wrote the PR text by hand as `pr.md`, without write-visual-pr (ask-yak looks for `pr-body.md`); its own retrospective found it | 0013 turn 6 |
@@ -119,3 +121,8 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-061 | Skill | fixed in v0.4.1 | The user keeps a task list for the project; work-items-breakdown wrote it only to `.scratchpad/` (gitignored). The step "save the mapping to `.scratchpad/`" read as applying to a local list too | 0017 turn 9 |
 | F-062 | Model | watch | production-readiness-review wrote the verdict first and asked the target questions after, without options | 0017 turn 17 |
 | F-063 | Skill | watch | The walkthrough subagent wrote wrong counts (criteria, risks); `check_walkthrough.py` checks citations and diagrams, not numbers. The agent caught them by hand | 0017 turn 16, from the puppet's retrospective |
+| F-064 | Bench | fixed in bench tools | `turn.sh` without `--model` used the run's first model, not the current session's, so a session changed model after one turn; the fake HOME hid Playwright's browsers | 0018 session 3 |
+| F-065 | Skill | fixed in v0.4.2 | Unattended run: the agent ended its turn to wait for a background e2e run ("I'll resume automatically"); nobody sends the next message, so the run stalled | 0018 session 4 turn 1 |
+| F-066 | Model | watch | minimax resumed without any skill (the start-up check failed on a malformed tool call), called a new e2e failure pre-existing, rewrote `progress.md` and lost the step table, tagged before the last commits | 0018 session 3 |
+| F-067 | Skill | watch | After the demo the agent merged and tagged without asking and skipped red team, PR body and retrospective; it followed the project's "merge and tag per phase" rule in a session that never loaded the pipeline | 0018 session 3 turn 7 |
+| F-068 | Model | watch | A retrospective proposed a `pre-merge` git hook as a guard; git runs no hook on a fast-forward merge, so it could never fire | 0018 session 3 turn 13 |

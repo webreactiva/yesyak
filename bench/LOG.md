@@ -28,6 +28,7 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0019](runs/0019-packbeat-reactions-claude.md) | 2026-10-18 | v0.4.2 | packbeat · delivery 3 (Reactions), one cut, then unattended | anthropic/claude-sonnet-5-5 (Claude Code) | `449f00be…` (setup and session 1), `902de219…` (session 2), 1 probe session | 3 Make it work + merge (phases 4-6 skipped, unattended) | 0/0/0 | 3.85 $ |
 | [0020](runs/0020-packbeat-wordcloud.md) | 2026-10-18 | v0.4.3 | packbeat · delivery 4 (Word cloud), one cut, then unattended | ollama-cloud/deepseek-v4.1-flash | `ses_eb3a10a1…` (session 1), `ses_eb3989d7…` (session 2), 1 probe session | 6 Retrospective (all phases, merge left to the user) | 0/0/0 | 0.45 $ |
 | [0021](runs/0021-linkify-parens.md) | 2026-10-18 | v0.4.3 | sindresorhus/linkify-urls · bug #28 (parentheses in URLs) | ollama-cloud/deepseek-v4.1-flash | `ses_eb343039…` (work), 1 probe session | fix route complete | 0/0/0 | 0.04 $ |
+| [0022](runs/0022-packbeat-ranking-claude.md) | 2026-10-18 | v0.4.3 | packbeat · delivery 5 (competition ranking), YesYak already set up, one cut | anthropic/claude-sonnet-5-5 (Claude Code) | `9c24f2d8…` (session 1), `302f0ab3…` (session 2), 1 probe session | 6 Retrospective (after a request) | 0/0/0 | 2.34 $ |
 
 ## Metrics
 
@@ -57,6 +58,7 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0019-packbeat-reactions-claude | anthropic/claude-sonnet-5-5 | 12 | 154 | 40 min | 36 min | 310 | 124330 | 16860967 | 3.85 | 16 | 5853234 (6989) | 1.40 |
 | 0020-packbeat-wordcloud | ollama-cloud/deepseek-v4.1-flash | 14 | 338 | 100 min | 99 min | 371889 | 294410 | 72004608 | 0.45 | 22 | 9122010 (7200) | 2.07 |
 | 0021-linkify-parens | ollama-cloud/deepseek-v4.1-flash | 7 | 49 | 5 min | 4 min | 44260 | 37943 | 2235392 | 0.04 | 4 | 1746179 (2327) | 0.43 |
+| 0022-packbeat-ranking-claude | anthropic/claude-sonnet-5-5 | 7 | 115 | 23 min | 22 min | 230 | 66651 | 9078200 | 2.34 | 8 | 3600033 (3421) | 0.83 |
 
 ## Findings
 
@@ -116,7 +118,7 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-050 | Bench | fixed in bench tools | The bench drove only OpenCode. `turn-claude.sh` drives Claude Code, `prepare.sh` copies the skills to `.claude/skills` too, `report.py` reads Claude Code's stream JSON and transcripts | 0009 setup |
 | F-051 | Skill | verified in run 0011 | Sonnet skipped step 4 of phase 0 (propose the chat rules for AGENTS.md); the phase 0 checkpoint question now asks about them | 0010 turn 4; the retrospective found it; verified in 0011 |
 | F-052 | Bench | fixed in bench tools | The puppet inherited the driver's Claude Code variables through tmux (`CLAUDECODE`, `CLAUDE_CODE_SESSION_ID`, a messaging token); the turn scripts now remove every `CLAUDE*` and `AI_AGENT` variable | 0011 turn 10 |
-| F-053 | Skill | fixed in v0.4.2, not held in 0020 (deepseek) | After a resume, the retrospective covered only the current session, not the whole piece of work. The skill said "every message of the user in this session"; now "in this piece of work", with the earlier transcripts | 0011 turn 12; 0018: the P15 retrospective covered only session 3, and added two messages never sent |
+| F-053 | Skill | verified in run 0022 (Sonnet); not held in 0020 (deepseek) | After a resume, the retrospective covered only the current session, not the whole piece of work. The skill said "every message of the user in this session"; now "in this piece of work", with the earlier transcripts | 0011 turn 12; 0018: the P15 retrospective covered only session 3, and added two messages never sent |
 | F-054 | Bench | fixed in bench tools | The puppet listed the run folder in this repository (where `notes.md` holds the expected behaviour) because tmux started it in the link, not the real clone path; earlier clones also sat next to the active one. Turn scripts use the real path; `archive.sh` moves scored clones into their run folder. No earlier run read outside its clone | 0012 turn 6 |
 | F-055 | Skill | verified in run 0013 | customize-yak wrote `ruff check` in the block but had run `uvx ruff@0.15.4 check` (ruff not installed); the template now asks for the commands exactly as they ran | 0012 turn 3; verified in 0013 |
 | F-056 | Model | watch | Sonnet wrote the PR text by hand as `pr.md`, without write-visual-pr (ask-yak looks for `pr-body.md`); its own retrospective found it | 0013 turn 6 |

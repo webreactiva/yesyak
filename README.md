@@ -137,16 +137,16 @@ All figures are from 2026-10-17 and 2026-10-18, versions v0.1.0 to v0.4.3.
 
 | | |
 | --- | --- |
-| Runs | 20 (0000 to 0019) |
-| Agents | OpenCode (13 runs), Claude Code (7 runs) |
+| Runs | 23 (0000 to 0022) |
+| Agents | OpenCode (15 runs), Claude Code (8 runs) |
 | Models | 6: deepseek-v4.1-flash, claude-sonnet-5-5, gpt-6-luna, gpt-5.6-sol, glm-5.3, minimax-m2.7 |
 | Languages | Python, Go, TypeScript and JavaScript, PHP, Rust |
-| Routes | 14 features, 4 bugs, 2 runs as a user who does not know YesYak |
-| Findings | 69: skill, model, agent and benchmark defects |
+| Routes | 16 features, 5 bugs, 2 runs as a user who does not know YesYak |
+| Findings | 70: skill, model, agent and benchmark defects |
 | Releases | 16 tags, v0.1.0 to v0.4.3 |
-| Puppet time | 378 minutes of model work, 2,829 model steps, 254 human turns |
-| Puppet cost | 21.43 $ for all runs |
-| Driver cost | 51.25 $ for Claude Code (Opus) as the human, in the time of the runs |
+| Puppet time | 503 minutes of model work, 3,331 model steps, 282 human turns |
+| Puppet cost | 24.26 $ for all runs |
+| Driver cost | 54.58 $ for Claude Code (Opus) as the human, in the time of the runs |
 
 Costs are the equivalent at the prices of the [models.dev API](https://models.dev/api.json). The Claude Code runs used a subscription. The driver cost does not include the time spent writing the skills.
 
@@ -154,13 +154,13 @@ Costs are the equivalent at the prices of the [models.dev API](https://models.de
 
 | Model | Agent | Runs | Turns | Model steps | Model time | Output tokens | Cache read | Cost $ | $ per run |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| deepseek-v4.1-flash | OpenCode | 8 | 112 | 1,590 | 221 min | 1,329k | 213.4M | 3.56 | 0.45 |
-| claude-sonnet-5-5 | Claude Code | 7 | 67 | 423 | 62 min | 279k | 30.2M | 8.14 | 1.16 |
+| deepseek-v4.1-flash | OpenCode | 10 | 133 | 1,977 | 324 min | 1,661k | 287.6M | 4.05 | 0.41 |
+| claude-sonnet-5-5 | Claude Code | 8 | 74 | 538 | 84 min | 346k | 39.3M | 10.48 | 1.31 |
 | gpt-6-luna | OpenCode | 2 | 45 | 517 | 39 min | 224k | 56.5M | 0.78 | 0.39 |
 | glm-5.3 | OpenCode | 1 | 15 | 140 | 32 min | 158k | 17.6M | 5.63 | 5.63 |
 | gpt-5.6-sol | OpenCode | 1 | 2 | 56 | 16 min | 35k | 4.5M | 3.03 | 3.03 |
 | minimax-m2.7 | OpenCode | 1 | 13 | 103 | 8 min | 28k | 3.7M | 0.29 | 0.29 |
-| **All** | | **20** | **254** | **2,829** | **378 min** | **2,054k** | **326.0M** | **21.43** | **1.07** |
+| **All** | | **23** | **282** | **3,331** | **503 min** | **2,453k** | **409.3M** | **24.26** | **1.05** |
 
 Run 0018 also used minimax-m2.7 for part of one session; its figures count under deepseek-v4.1-flash.
 
@@ -196,6 +196,9 @@ What the models did with the same process:
 | 0017 | OpenCode · deepseek-v4.1-flash | MCU-Countdown (Python, Docker) · feature, work items, walkthrough, production readiness | all phases + production review | 0 / 0 / 0 | 33 min | 0.32 |
 | 0018 | OpenCode · deepseek-v4.1-flash, minimax-m2.7 | a large web app · 2 of 5 deliveries, 4 sessions, 3 forced cuts, one unattended | 2 deliveries, all phases | 0 / 2 / 1 | 131 min | 2.58 |
 | 0019 | Claude Code · claude-sonnet-5-5 | the same app · delivery 3, one cut, then unattended | built and merged, review phases replaced by a code review | 0 / 0 / 0 | 36 min | 3.85 |
+| 0020 | OpenCode · deepseek-v4.1-flash | the same app · delivery 4, one cut, then unattended | all phases, merge left to the user | 0 / 0 / 0 | 99 min | 0.45 |
+| 0021 | OpenCode · deepseek-v4.1-flash | linkify-urls (JavaScript) · bug | fix route | 0 / 0 / 0 | 4 min | 0.04 |
+| 0022 | Claude Code · claude-sonnet-5-5 | the same app · delivery 5, YesYak already set up | built in one turn after "go ahead", retrospective over both sessions | 0 / 0 / 0 | 22 min | 2.34 |
 
 A nudge means the user told the agent something that a skill should have told it; a correction stopped a wrong action; a rescue unblocked a stuck agent.
 
@@ -206,4 +209,5 @@ A nudge means the user told the agent something that a skill should have told it
 - **Specs stay short.** Four runs wrote specs several times longer than the code. The spec skill now keeps only what a reviewer needs.
 - **Retrospectives turn corrections into guards.** They start from every user message, and prefer a test, a command or an agent hook to a written rule.
 - **Work survives a cut.** A handoff in git and `progress.md` carried one piece of work across four sessions and two models. The retrospective now covers the whole piece of work, and an unattended run never ends a turn to wait.
+- **Three runs in a row with no new skill finding** (0019 to 0021, one of them with Sonnet), and a fourth (0022). This was the goal of the series.
 - **Every skill has been used in at least one run.** Run 0017 was the first to use `work-items-breakdown`, `feature-walkthrough` and `production-readiness-review` in this series.

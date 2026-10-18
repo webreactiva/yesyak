@@ -2,7 +2,7 @@
 
 How each run went through the YesYak process, and which skills the puppet used, in order. Regenerate the skills column with `python3 .claude/skills/yak-bench/scripts/report.py flows .scratchpad/bench`. It reads the turns of the work session (not the isolation probe). A skill counts when the puppet loads it with the skill tool, or reads its `SKILL.md` by hand (marked `*`). The number is the turn of first use.
 
-Last update: run 0019, YesYak v0.4.2.
+Last update: run 0020, YesYak v0.4.3.
 
 ## The runs
 
@@ -28,6 +28,7 @@ Last update: run 0019, YesYak v0.4.2.
 | 0017 | OpenCode, deepseek-v4.1-flash | feature, after `install.sh` | feature + 7 Later | 6 Retrospective + production readiness | Zero interventions; first runs of work items, walkthrough and readiness in this series; a local task list landed in the gitignored folder |
 | 0018 | OpenCode, deepseek-v4.1-flash and minimax-m2.7 | feature split in 5, four sessions | feature, twice | 6 Retrospective for 2 deliveries | Handoff and resume held for deepseek; the other model resumed without skills; an unattended run stalled on a background wait |
 | 0019 | Claude Code, Sonnet | feature after a handoff | feature, unattended after a cut | 3 Make it work + merge | The handoff left out phases 4-6, and the unattended session merged with a code review in their place |
+| 0020 | OpenCode, deepseek-v4.1-flash | feature after a handoff | feature, unattended after a cut | 6 Retrospective | The handoff carried every phase; the unattended session ran them all and left the merge to the user |
 
 ## Skills used, in order
 
@@ -53,6 +54,7 @@ Last update: run 0019, YesYak v0.4.2.
 | 0017-mcu-health-readiness | customize-yak (2) → feature-delivery-pipeline (5) → git-commit-organizer (5) → simplified-technical-language (5) → scratchpad-working-files (5) → on-the-spot (6) → write-acceptance-spec (9) → plain-visual-docs (9) → domain-language (9) → walking-skeleton-plan (10) → work-items-breakdown (10) → execute-plan-loop (11) → decision-record-log (11) → verify-against-spec (12) → red-team-review (13) → traffic-light-findings (13) → triage-findings-list (14) → write-visual-pr (16) → feature-walkthrough (17) → production-readiness-review (18) → session-retrospective-rules (19) → handoff-and-resume (19) |
 | 0018-packbeat-ux-sessions | customize-yak (2) → feature-delivery-pipeline (4) → on-the-spot (5) → domain-language (9) → write-acceptance-spec (10) → handoff-and-resume (11) → walking-skeleton-plan (13) → git-commit-organizer* (13) → verify-against-spec (19) → simplified-technical-language (23) → scratchpad-working-files (23) → traffic-light-findings (23) → red-team-review (23) → triage-findings-list (26) → write-visual-pr (27) → pr-reviewer-guide (27) → session-retrospective-rules (27) → unattended-run (29) → decision-record-log (29) → execute-plan-loop (29) |
 | 0019-packbeat-reactions-claude | customize-yak (2) → feature-delivery-pipeline (4) → simplified-technical-language (4) → scratchpad-working-files (4) → git-commit-organizer (4) → on-the-spot (5) → domain-language (8) → write-acceptance-spec (8) → walking-skeleton-plan (9) → handoff-and-resume (10) → unattended-run (11) → execute-plan-loop* (11) |
+| 0020-packbeat-wordcloud | customize-yak (2) → feature-delivery-pipeline (4) → scratchpad-working-files* (4) → on-the-spot (5) → domain-language (10) → write-acceptance-spec (10) → plain-visual-docs (11) → walking-skeleton-plan (12) → handoff-and-resume (13) → execute-plan-loop (14) → unattended-run (14) → git-commit-organizer (14) → decision-record-log (14) → no-slop-code (14) → simplified-technical-language (14) → verify-against-spec (14) → red-team-review (14) → pr-reviewer-guide (14) → write-visual-pr (14) → session-retrospective-rules (14) |
 
 ## The usual order
 

@@ -27,6 +27,7 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0018](runs/0018-packbeat-ux-sessions.md) | 2026-10-17 | v0.4.1 | packbeat (the user's app) · owner UX request, 2 of 5 deliveries over 4 sessions with 3 forced cuts, one unattended | ollama-cloud/deepseek-v4.1-flash, minimax-m2.7 (session 3) | 4 work sessions (`ses_eb4d524b…`, `ses_eb4d43a2…`, `ses_eb4b735e…`, `ses_eb46fbf7…`), 1 probe session | 6 Retrospective, twice | 0/2/1 | 2.58 $ |
 | [0019](runs/0019-packbeat-reactions-claude.md) | 2026-10-18 | v0.4.2 | packbeat · delivery 3 (Reactions), one cut, then unattended | anthropic/claude-sonnet-5-5 (Claude Code) | `449f00be…` (setup and session 1), `902de219…` (session 2), 1 probe session | 3 Make it work + merge (phases 4-6 skipped, unattended) | 0/0/0 | 3.85 $ |
 | [0020](runs/0020-packbeat-wordcloud.md) | 2026-10-18 | v0.4.3 | packbeat · delivery 4 (Word cloud), one cut, then unattended | ollama-cloud/deepseek-v4.1-flash | `ses_eb3a10a1…` (session 1), `ses_eb3989d7…` (session 2), 1 probe session | 6 Retrospective (all phases, merge left to the user) | 0/0/0 | 0.45 $ |
+| [0021](runs/0021-linkify-parens.md) | 2026-10-18 | v0.4.3 | sindresorhus/linkify-urls · bug #28 (parentheses in URLs) | ollama-cloud/deepseek-v4.1-flash | `ses_eb343039…` (work), 1 probe session | fix route complete | 0/0/0 | 0.04 $ |
 
 ## Metrics
 
@@ -55,6 +56,7 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0018-packbeat-ux-sessions | ollama-cloud/deepseek-v4.1-flash | 30 | 764 | 164 min | 131 min | 1349426 | 565622 | 120534888 | 2.58 | 83 | 20899006 (37747) | 5.43 |
 | 0019-packbeat-reactions-claude | anthropic/claude-sonnet-5-5 | 12 | 154 | 40 min | 36 min | 310 | 124330 | 16860967 | 3.85 | 16 | 5853234 (6989) | 1.40 |
 | 0020-packbeat-wordcloud | ollama-cloud/deepseek-v4.1-flash | 14 | 338 | 100 min | 99 min | 371889 | 294410 | 72004608 | 0.45 | 22 | 9122010 (7200) | 2.07 |
+| 0021-linkify-parens | ollama-cloud/deepseek-v4.1-flash | 7 | 49 | 5 min | 4 min | 44260 | 37943 | 2235392 | 0.04 | 4 | 1746179 (2327) | 0.43 |
 
 ## Findings
 

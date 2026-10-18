@@ -40,3 +40,7 @@
 ## Cost
 
 ≈ 2.34 $ at models.dev prices (paid by the subscription that runs Claude Code).
+
+## Pull request
+
+https://github.com/delineas/packbeat/pull/4, stacked on #3. Branch `pr/p19-competition-ranking`, 5 commits, authored by the user. `pnpm check` 225 pass.

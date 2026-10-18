@@ -36,3 +36,7 @@
 ## Cost
 
 ≈ 0.45 $ at models.dev prices for the puppet.
+
+## Pull request
+
+https://github.com/delineas/packbeat/pull/3, stacked on #2. Branch `pr/p18-word-cloud`, 22 commits (without the bench commit, the YesYak setup, the local-PR rule and the two handoffs), authored by the user. `pnpm check` 209 pass.

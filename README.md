@@ -4,7 +4,20 @@
 
 YesYak is a set of agent skills that takes a feature from a vague request, or a bug from a report, to a reviewed pull request. The agent asks before it builds, writes the contract before the code, builds in small integrated steps, tries to break its own work, and ends with a retrospective that turns your corrections into guards.
 
-The skills follow the open SKILL.md format. They are tested with Claude Code and OpenCode (see [the benchmark](#benchmark)). Each skill works on its own, except `customize-yak`, which needs `ask-yak` (its skill cards and its check script).
+**100% tested with AI agents.** Every skill ran in at least one of 23 benchmark runs on real projects, with Claude Code and OpenCode and six models. In each run one agent did the work and another agent played the human user. Every place where the agent failed became a skill change and a release (see [the benchmark](#benchmark)).
+
+**Please break it.** YesYak gets better each time it fails. Use it on your project, with your agent and your model, and find where it goes wrong (see [Break it](#break-it)).
+
+The skills follow the open SKILL.md format. Each skill works on its own, except `customize-yak`, which needs `ask-yak` (its skill cards and its check script).
+
+## Quick start
+
+1. In the root of your project: `npx skills add delineas/yesyak`. Take all the skills.
+2. Start a new agent session and say "set up YesYak". Answer its questions once.
+3. Ask for work in your own words, for example "Let customers cancel an order before it ships" or "Cancelling a shipped order returns a 500". Answer at each checkpoint.
+4. When you are lost, ask "what now?".
+
+The [use cases](#use-cases) show what to say for each kind of work. The [user journey](#user-journey) explains each step.
 
 ## Install
 
@@ -117,6 +130,17 @@ Do not copy a skill to change it. Put the change in a settings file, and every a
 | `~/.agents/yesyak.json` | Only you, in every project whose instructions run the check: a project with the YesYak block, or every project when your personal instructions file has the same line (`customize-yak` proposes it) |
 
 Each entry names a skill and a mode: `add` (extra instructions), `replace` (one section that the skill card lists), or `off` (skip an optional step). At the start of a session the agent runs `check_yesyak.py` and applies only the `active:` lines it prints; if the check fails, no adjustment applies. The project wins when both files change the same skill. Settings files are instructions for the agent. Review a change to them like a change to code. `customize-yak` asks what you want, shows a diff and writes the files; run it again to audit the block. The skill cards in `ask-yak/references/process.md` list what each skill allows.
+
+## Break it
+
+The goal of opening YesYak is to find where it fails. The benchmark tests a few projects and models; your project and your agent test more. When an agent skips a step, takes a wrong action, or you must correct it, open an issue with:
+
+- the agent and the model;
+- what you asked, and the phase or skill where it went wrong;
+- what the agent did, and what you expected;
+- your correction, if you made one.
+
+The output of `ask-yak` or the retrospective of `session-retrospective-rules` is a good start for the issue. Do not paste code or data that you cannot share. Each confirmed failure becomes a skill change, like the findings in [`bench/LOG.md`](bench/LOG.md).
 
 ## Contributing
 

@@ -12,7 +12,7 @@ The skills follow the open SKILL.md format. Each skill works on its own, except 
 
 ## Quick start
 
-1. In the root of your project: `npx skills add delineas/yesyak`. Take all the skills.
+1. In the root of your project: `npx skills add webreactiva/yesyak`. Take all the skills.
 2. Start a new agent session and say "set up YesYak". Answer its questions once.
 3. Ask for work in your own words, for example "Let customers cancel an order before it ships" or "Cancelling a shipped order returns a 500". Answer at each checkpoint.
 4. When you are lost, ask "what now?".
@@ -24,13 +24,13 @@ The [use cases](#use-cases) show what to say for each kind of work. The [user jo
 In the root of your project:
 
 ```bash
-npx skills add delineas/yesyak
+npx skills add webreactiva/yesyak
 ```
 
 The command asks which skills and which agents. Take all the skills. To install everything for one agent without questions:
 
 ```bash
-npx skills add delineas/yesyak --skill '*' --agent claude-code -y
+npx skills add webreactiva/yesyak --skill '*' --agent claude-code -y
 ```
 
 Use the project scope (the default inside a project), so the skills go to the project's skills folder (for example `.claude/skills/`) and the team gets the same process. `npx skills update` updates them later. After an update, run `python3 <skills folder>/ask-yak/scripts/check_yesyak.py`. It reports adjustments that the new version breaks, for example a section that was renamed.
@@ -41,7 +41,7 @@ Alternative: clone this repository and run `./install.sh -t /path/to/project`. I
 
 ## User journey
 
-1. **Install the skills** with `npx skills add delineas/yesyak` (see [Install](#install)).
+1. **Install the skills** with `npx skills add webreactiva/yesyak` (see [Install](#install)).
 2. **Set up YesYak.** Start a new session in the project and say "set up YesYak". `customize-yak` detects the check commands (tests, lint, types), the commit convention, the docs folder and the agent's instructions file. It asks only what it cannot detect, shows a preview, and after your yes it writes the YesYak block in AGENTS.md (and `@AGENTS.md` in CLAUDE.md for Claude Code) in its own commit. You do this once per project.
 3. **Ask for work in your own words.**
    - A feature: "Let customers cancel an order before it ships." The agent runs `feature-delivery-pipeline`.

@@ -2,6 +2,11 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.4.5 · 2026-10-19
+
+- The repository moved to the `webreactiva` organization. Install with `npx skills add webreactiva/yesyak`.
+- README: a quick start, a "Break it" section that asks for issues when an agent fails, and the benchmark coverage at the top.
+
 ## 0.4.4 · 2026-10-19
 
 - YesYak is under the MIT license (`LICENSE`).

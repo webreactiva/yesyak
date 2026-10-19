@@ -1,6 +1,6 @@
 # Run 0018-packbeat-ux-sessions
 
-- Source: /Users/daniel/Sites/lab/packbeat @ a51e7fde8
+- Source: local copy of `packbeat` @ a51e7fde8
 - YesYak: v0.4.1 (bench fixes in the working tree) · model: ollama-cloud/deepseek-v4.1-flash · turns: 30
 - Sessions: `ses_eb4d524bfffe6J6QGTBpf1eFPO` (ollama-cloud/deepseek-v4.1-flash, from turn 1), `ses_eb4d43a20ffe3q3lzEhRA3PbZm` (ollama-cloud/deepseek-v4.1-flash, from turn 2), `ses_eb4c5a9b9ffetW63IeGV4ErZVX` (ollama-cloud/deepseek-v4.1-flash, from turn 12), `ses_eb4b735edffeSQszijYZ7KvGFg` (ollama-cloud/minimax-m2.7, from turn 14), `ses_eb46fbf7dffeBvOxvKUSoqLINW` (ollama-cloud/deepseek-v4.1-flash, from turn 29)
 - Tokens: input 1349426, output 565622, cache_read 120534888, cache_write 0 · ≈ 2.5839 $ (models.dev prices)
@@ -104,4 +104,4 @@ Both reach a similar size and pace per phase. YesYak asked the owner more in the
 
 ## Pull request
 
-The user allowed a real PR on this project: https://github.com/delineas/packbeat/pull/1. Branch `pr/p15-p16-ux` from the project's `main`, 21 commits (without the bench commit, the YesYak setup, the YesYak guard line and the two handoffs), authored by the user. `pnpm check` 165 pass and `pnpm e2e` 186 pass on the branch.
+The user allowed a real PR on this project (in a private repository). Branch `pr/p15-p16-ux` from the project's `main`, 21 commits (without the bench commit, the YesYak setup, the YesYak guard line and the two handoffs), authored by the user. `pnpm check` 165 pass and `pnpm e2e` 186 pass on the branch.

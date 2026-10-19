@@ -1,6 +1,6 @@
 # Run 0019-packbeat-reactions-claude
 
-- Source: https://github.com/delineas/packbeat.git @ 80489a574
+- Source: local copy of `packbeat` @ 80489a574
 - YesYak: v0.4.2-2-g733681b · model: anthropic/claude-sonnet-5-5 · turns: 11
 - Sessions: `449f00be-e8b9-4c91-bf9e-e04357710bb9` (anthropic/claude-sonnet-5-5, from turn 1), `9b7f2435-42d7-42f1-b707-78cbc38d9810` (anthropic/claude-sonnet-5-5, from turn 2), `902de219-e0d9-4c81-82d4-d0bdd0775ec1` (anthropic/claude-sonnet-5-5, from turn 11)
 - Tokens: input 310, output 124330, cache_read 16860967, cache_write 367603 · ≈ 3.8490 $ (models.dev prices)
@@ -70,4 +70,4 @@
 
 ## Pull request
 
-The user allowed a real PR: https://github.com/delineas/packbeat/pull/2, stacked on #1. Branch `pr/p17-reactions`, 13 commits (without the bench commit, the YesYak setup and the handoff), authored by the user; the body was written by the driver because the run skipped phase 5. `pnpm check` 195 pass on the branch.
+The user allowed a real PR (in a private repository), stacked on the PR of run 0018. Branch `pr/p17-reactions`, 13 commits (without the bench commit, the YesYak setup and the handoff), authored by the user; the body was written by the driver because the run skipped phase 5. `pnpm check` 195 pass on the branch.

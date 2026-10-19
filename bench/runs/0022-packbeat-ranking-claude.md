@@ -43,4 +43,4 @@
 
 ## Pull request
 
-https://github.com/delineas/packbeat/pull/4, stacked on #3. Branch `pr/p19-competition-ranking`, 5 commits, authored by the user. `pnpm check` 225 pass.
+A real PR in a private repository, stacked on the PR of run 0020. Branch `pr/p19-competition-ranking`, 5 commits, authored by the user. `pnpm check` 225 pass.

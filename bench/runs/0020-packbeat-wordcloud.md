@@ -1,6 +1,6 @@
 # Run 0020-packbeat-wordcloud
 
-- Source: https://github.com/delineas/packbeat.git @ 43ec895a5
+- Source: local copy of `packbeat` @ 43ec895a5
 - YesYak: v0.4.3-1-gb19666c · model: ollama-cloud/deepseek-v4.1-flash · turns: 14
 - Sessions: `ses_eb3a11e77ffeTFbpV7QeahcHM7` (ollama-cloud/deepseek-v4.1-flash, from turn 1), `ses_eb3a10a17ffefKAc7bsplEPp5T` (ollama-cloud/deepseek-v4.1-flash, from turn 2), `ses_eb3989d77ffekYZa1ulvgV5mYm` (ollama-cloud/deepseek-v4.1-flash, from turn 14)
 - Tokens: input 371889, output 294410, cache_read 72004608, cache_write 0 · ≈ 0.4484 $ (models.dev prices)
@@ -39,4 +39,4 @@
 
 ## Pull request
 
-https://github.com/delineas/packbeat/pull/3, stacked on #2. Branch `pr/p18-word-cloud`, 22 commits (without the bench commit, the YesYak setup, the local-PR rule and the two handoffs), authored by the user. `pnpm check` 209 pass.
+A real PR in a private repository, stacked on the PR of run 0019. Branch `pr/p18-word-cloud`, 22 commits (without the bench commit, the YesYak setup, the local-PR rule and the two handoffs), authored by the user. `pnpm check` 209 pass.

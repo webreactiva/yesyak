@@ -2,6 +2,12 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.4.4 · 2026-10-19
+
+- YesYak is under the MIT license (`LICENSE`).
+- README: a Contributing section that points to AGENTS.md and to `check_yesyak.py --dev`, and a License section.
+- Benchmark: the run files no longer link to a private repository.
+
 ## 0.4.3 · 2026-10-18
 
 From benchmark run 0019 (Claude Code with Sonnet, one cut, then an unattended session).

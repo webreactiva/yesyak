@@ -4,6 +4,12 @@
 
 YesYak is a set of agent skills that takes a feature from a vague request, or a bug from a report, to a reviewed pull request. The agent asks before it builds, writes the contract before the code, builds in small integrated steps, tries to break its own work, and ends with a retrospective that turns your corrections into guards.
 
+
+
+https://github.com/user-attachments/assets/ff93a755-f03a-414a-b94b-6545d0f5622f
+
+
+
 **100% tested with AI agents.** Every skill ran in at least one of 23 benchmark runs on real projects, with Claude Code and OpenCode and six models. In each run one agent did the work and another agent played the human user. Every place where the agent failed became a skill change and a release (see [the benchmark](#benchmark)).
 
 **Please break it.** YesYak gets better each time it fails. Use it on your project, with your agent and your model, and find where it goes wrong (see [Break it](#break-it)).

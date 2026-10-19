@@ -63,10 +63,29 @@ Alternative: clone this repository and run `./install.sh -t /path/to/project`. I
    | 4 Break it | A verification against the spec, an optional red team | Choose the fixes |
    | 5 Sign your work | A pull request with a plain-language summary and diagrams | Review it |
    | 6 Retrospective | What you corrected, and a guard for each (test, hook, rule) | Approve the guards |
+   | 7 Later (optional) | A production readiness review, when you prepare a deploy | Ask for it, then choose the fixes |
 
 5. **When you are lost**, ask "what now?". `ask-yak` shows where the work is and the next step.
 6. **When you stop**, say "we stop here". `handoff-and-resume` writes a dated note in `docs/handoffs/`. In the next session, say "let's continue" and the agent checks the note against the repository before it goes on.
 7. **When the process does not fit your team**, ask `customize-yak` to change it ("we never test in a browser", "use my spec template"). It writes the change to `.agents/yesyak.json`; no skill is edited.
+
+A pause and a resume (step 6):
+
+```mermaid
+sequenceDiagram
+    actor U as You
+    participant A as Agent
+    participant R as Repository
+    U->>A: We stop here
+    A->>R: Commit a note in docs/handoffs/
+    Note over U,R: Next session
+    U->>A: Let's continue
+    A->>R: Read the newest note
+    A->>R: Check branch, commits, PRs, clean tree, skills
+    A->>U: What matches, what changed, the next step
+    U->>A: Yes
+    A->>R: Go on with the work
+```
 
 ## Use cases
 
@@ -82,9 +101,40 @@ Alternative: clone this repository and run `./install.sh -t /path/to/project`. I
 | A mistake that must not happen again | "How do we avoid this next time?" | `session-retrospective-rules` proposes the cheapest guard that a machine can check: a test, a command or an agent hook (`agent-hook-guard`) |
 | A different process for your team | "Skip work items here." "Verify with Playwright too." | `customize-yak` writes an adjustment that every agent applies; `python3 <skills folder>/ask-yak/scripts/check_yesyak.py` validates it |
 
+The bug route of `bug-intake`:
+
+```mermaid
+flowchart LR
+    C[Capture the report] --> T[Triage, read-only<br/>severity, layers, kind]
+    T --> K[Find the contract]
+    K --> P{Reproduces with<br/>a failing test?}
+    P -- no --> D[Stop and ask]
+    P -- yes --> RC[Root cause<br/>every caller]
+    RC --> Q{Route}
+    Q -- contract broken --> FIX
+    Q -- no contract --> W[Write the contract] --> FIX
+    Q -- nobody promised it --> FE[Feature pipeline]
+    FIX[Fix route<br/>branch, fix, checks by risk] --> PR[Short PR] --> RE[Retrospective<br/>why did nothing catch it?]
+```
+
 A user skill with the same name as a project skill can shadow it. If the skill tool prints a base directory that is neither in the project's skills folder nor the target of a symlink there, read the project `SKILL.md` directly (`feature-delivery-pipeline` checks this). If it happens often, rename your own skill, not the YesYak one, because settings files use the YesYak names.
 
 ## Entry points
+
+```mermaid
+flowchart TD
+    Q([What do you say?])
+    Q -->|set up YesYak, change the process| CY[customize-yak]
+    Q -->|a feature request| FP[feature-delivery-pipeline]
+    Q -->|a bug report| BI[bug-intake]
+    Q -->|what now?| AY[ask-yak]
+    Q -->|we stop here, let's continue| HR[handoff-and-resume]
+    Q -->|one task only| PS[the phase skill]
+    U[unattended-run] -. answers the checkpoints of .-> FP
+    U -.-> BI
+    AY -. points to .-> FP
+    AY -.-> BI
+```
 
 | Start from | Skill |
 | --- | --- |
@@ -150,16 +200,7 @@ The output of `ask-yak` or the retrospective of `session-retrospective-rules` is
 
 ## Contributing
 
-Issues and pull requests are welcome. [AGENTS.md](AGENTS.md) has the rules for every change, for people and agents. Run `python3 skills/ask-yak/scripts/check_yesyak.py --dev` after each skill change; it must exit 0.
-
-## Changing a skill
-
-- Keep each skill usable on its own and free of facts of one repository (an ADR number, a function name, a local path).
-- For every new rule in a skill, remove or merge one that is obsolete or duplicated.
-- The description must not contain `<` or `>`, because the skill format rejects them.
-- Commit skill changes apart from feature changes, with the scope `skills`.
-- Keep `ask-yak/references/process.md` in step: `check_yesyak.py --dev` checks that every skill has a card and that the map follows the pipeline.
-- Skill names and the sections that a card lists as Replaceable are a contract with the settings files of other projects. Do not rename them. If you must, say it in the release notes, because `check_yesyak.py` reports the old names as problems after an update.
+Issues and pull requests are welcome. [AGENTS.md](AGENTS.md) has the rules for every change, for people and agents: keep each skill usable on its own, remove one rule for each new rule, and do not rename skills or the sections that a card lists as Replaceable, because settings files in other projects use those names. Run `python3 skills/ask-yak/scripts/check_yesyak.py --dev` after each skill change; it must exit 0.
 
 ## Benchmark
 
@@ -186,6 +227,25 @@ Costs are the equivalent at the prices of the [models.dev API](https://models.de
 
 ### By model
 
+```mermaid
+xychart-beta horizontal
+    title "Runs per model"
+    x-axis ["deepseek-v4.1-flash", "claude-sonnet-5-5", "gpt-6-luna", "glm-5.3", "gpt-5.6-sol", "minimax-m2.7"]
+    y-axis "Runs" 0 --> 10
+    bar [10, 8, 2, 1, 1, 1]
+```
+
+```mermaid
+xychart-beta horizontal
+    title "Cost per run by model ($)"
+    x-axis ["deepseek-v4.1-flash", "claude-sonnet-5-5", "gpt-6-luna", "glm-5.3", "gpt-5.6-sol", "minimax-m2.7"]
+    y-axis "$ per run" 0 --> 6
+    bar [0.41, 1.31, 0.39, 5.63, 3.03, 0.29]
+```
+
+<details>
+<summary>The full table by model</summary>
+
 | Model | Agent | Runs | Turns | Model steps | Model time | Output tokens | Cache read | Cost $ | $ per run |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | deepseek-v4.1-flash | OpenCode | 10 | 133 | 1,977 | 324 min | 1,661k | 287.6M | 4.05 | 0.41 |
@@ -195,6 +255,8 @@ Costs are the equivalent at the prices of the [models.dev API](https://models.de
 | gpt-5.6-sol | OpenCode | 1 | 2 | 56 | 16 min | 35k | 4.5M | 3.03 | 3.03 |
 | minimax-m2.7 | OpenCode | 1 | 13 | 103 | 8 min | 28k | 3.7M | 0.29 | 0.29 |
 | **All** | | **23** | **282** | **3,331** | **503 min** | **2,453k** | **409.3M** | **24.26** | **1.05** |
+
+</details>
 
 Run 0018 also used minimax-m2.7 for part of one session; its figures count under deepseek-v4.1-flash.
 
@@ -207,6 +269,19 @@ What the models did with the same process:
 - **minimax-m2.7** needed four corrections and one nudge, in setup, in the spec and at the pull request. In 0018 it resumed a cut session without any skill and called a new test failure pre-existing.
 
 ### By run
+
+```mermaid
+xychart-beta
+    title "Model time per run (min), runs 0000 to 0022"
+    x-axis ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22"]
+    y-axis "Minutes" 0 --> 140
+    bar [16, 35, 4, 18, 32, 5, 8, 13, 4, 3, 7, 12, 5, 4, 2, 1, 9, 33, 131, 36, 99, 4, 22]
+```
+
+Runs 0018 to 0020 and 0022 were on a large web app, with several sessions each.
+
+<details>
+<summary>The full table by run</summary>
 
 | Run | Agent · model | Project · task | Result | Nudges / corrections / rescues | Model time | Cost $ |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -233,6 +308,8 @@ What the models did with the same process:
 | 0020 | OpenCode · deepseek-v4.1-flash | the same app · delivery 4, one cut, then unattended | all phases, merge left to the user | 0 / 0 / 0 | 99 min | 0.45 |
 | 0021 | OpenCode · deepseek-v4.1-flash | linkify-urls (JavaScript) · bug | fix route | 0 / 0 / 0 | 4 min | 0.04 |
 | 0022 | Claude Code · claude-sonnet-5-5 | the same app · delivery 5, YesYak already set up | built in one turn after "go ahead", retrospective over both sessions | 0 / 0 / 0 | 22 min | 2.34 |
+
+</details>
 
 A nudge means the user told the agent something that a skill should have told it; a correction stopped a wrong action; a rescue unblocked a stuck agent.
 

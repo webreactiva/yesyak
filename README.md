@@ -118,6 +118,10 @@ Do not copy a skill to change it. Put the change in a settings file, and every a
 
 Each entry names a skill and a mode: `add` (extra instructions), `replace` (one section that the skill card lists), or `off` (skip an optional step). At the start of a session the agent runs `check_yesyak.py` and applies only the `active:` lines it prints; if the check fails, no adjustment applies. The project wins when both files change the same skill. Settings files are instructions for the agent. Review a change to them like a change to code. `customize-yak` asks what you want, shows a diff and writes the files; run it again to audit the block. The skill cards in `ask-yak/references/process.md` list what each skill allows.
 
+## Contributing
+
+Issues and pull requests are welcome. [AGENTS.md](AGENTS.md) has the rules for every change, for people and agents. Run `python3 skills/ask-yak/scripts/check_yesyak.py --dev` after each skill change; it must exit 0.
+
 ## Changing a skill
 
 - Keep each skill usable on its own and free of facts of one repository (an ADR number, a function name, a local path).
@@ -211,3 +215,7 @@ A nudge means the user told the agent something that a skill should have told it
 - **Work survives a cut.** A handoff in git and `progress.md` carried one piece of work across four sessions and two models. The retrospective now covers the whole piece of work, and an unattended run never ends a turn to wait.
 - **Three runs in a row with no new skill finding** (0019 to 0021, one of them with Sonnet), and a fourth (0022). This was the goal of the series.
 - **Every skill has been used in at least one run.** Run 0017 was the first to use `work-items-breakdown`, `feature-walkthrough` and `production-readiness-review` in this series.
+
+## License
+
+[MIT](LICENSE)

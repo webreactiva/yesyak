@@ -69,23 +69,7 @@ Alternative: clone this repository and run `./install.sh -t /path/to/project`. I
 6. **When you stop**, say "we stop here". `handoff-and-resume` writes a dated note in `docs/handoffs/`. In the next session, say "let's continue" and the agent checks the note against the repository before it goes on.
 7. **When the process does not fit your team**, ask `customize-yak` to change it ("we never test in a browser", "use my spec template"). It writes the change to `.agents/yesyak.json`; no skill is edited.
 
-A pause and a resume (step 6):
-
-```mermaid
-sequenceDiagram
-    actor U as You
-    participant A as Agent
-    participant R as Repository
-    U->>A: We stop here
-    A->>R: Commit a note in docs/handoffs/
-    Note over U,R: Next session
-    U->>A: Let's continue
-    A->>R: Read the newest note
-    A->>R: Check branch, commits, PRs, clean tree, skills
-    A->>U: What matches, what changed, the next step
-    U->>A: Yes
-    A->>R: Go on with the work
-```
+<img width="1400" height="1350" alt="phases" src="https://github.com/user-attachments/assets/adbea095-92be-44bd-8600-e7296651a1d2" />
 
 ## Use cases
 

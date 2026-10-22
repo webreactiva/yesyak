@@ -35,6 +35,8 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0026](runs/0026-tabulate-floatfmt-pilot.md) | 2026-10-22 | v0.4.5 + yak-pilot (branch) | astanin/python-tabulate · feature #297 (function for `floatfmt`), yak-pilot, approver | ollama-cloud/deepseek-v4.1-flash | see run file | 6 Retrospective (all phases) | 1/0/1 | 0.17 $ |
 | [0027](runs/0027-humanize-locale-pilot.md) | 2026-10-22 | v0.4.5 + yak-pilot (branch) | python-humanize/humanize · bug #460 (locale separator, hot path), yak-pilot, approver | ollama-cloud/deepseek-v4.1-flash | see run file | fix route complete | 0/0/0 | 0.10 $ |
 | [0028](runs/0028-tabulate-stralign-pilot2.md) | 2026-10-22 | v0.4.5 + yak-pilot (branch) | python-tabulate (0026 result) · bug #294 (`stralign=None`), second session after a profile change | ollama-cloud/deepseek-v4.1-flash | see run file | fix route complete | 0/0/0 | 0.06 $ |
+| [0031](runs/0031-sopravolare-goals-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | sopravolare (user's app) · weekly learning goals for subscribers, yak-pilot, approver | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 5.32 $ |
+| [0032](runs/0032-webfront-cookies-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | web-reactiva-2244 webfront (user's app) · #27 cookie consent, yak-pilot, default profile | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 2.90 $ |
 
 ## Metrics
 
@@ -71,6 +73,8 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0026-tabulate-floatfmt-pilot | ollama-cloud/deepseek-v4.1-flash | 9 | 140 | 37 min | 31 min | 326088 | 115442 | 17206616 | 0.17 | 30 | 7655226 (18340) | 2.07 |
 | 0027-humanize-locale-pilot | ollama-cloud/deepseek-v4.1-flash | 7 | 109 | 15 min | 9 min | 85013 | 97763 | 10276992 | 0.10 | 21 | 5257768 (14460) | 1.47 |
 | 0028-tabulate-stralign-pilot2 | ollama-cloud/deepseek-v4.1-flash | 4 | 85 | 5 min | 5 min | 113141 | 41786 | 5847296 | 0.06 | 17 | 4778027 (7808) | 1.18 |
+| 0031-sopravolare-goals-claude | anthropic/claude-sonnet-5-5 | 11 | 205 | 27 min | 20 min | 413 | 166376 | 20616521 | 5.32 | 27 | 11218551 (15199) | 2.70 |
+| 0032-webfront-cookies-claude | anthropic/claude-sonnet-5-5 | 8 | 110 | 27 min | 11 min | 220 | 109057 | 8802531 | 2.90 | (shared with 0031) | | |
 
 ## Findings
 
@@ -156,3 +160,11 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-076 | Skill | fixed on branch feat/autopilot-plan | yak-pilot asked every preset to approve the plan; the presets table says observer stops only at profile rules | 0025 |
 | F-077 | Skill | fixed on branch feat/autopilot-plan | A yak-pilot run never loaded unattended-run, started red team subagents in the background and ended its turn twice to wait (F-065 pattern). A turn now ends only at a gate or the end point | 0026 turns 6-8 |
 | F-078 | Skill | watch | A profile change said in the chat was written before a preview (customize-yak: preview, then write after a yes); it narrowed autonomy and the words were explicit | 0028 turn 2 |
+| F-079 | Bench | fixed in bench tools | `prepare.sh` with a commit ref left a detached HEAD; the puppet noticed and branched off it | 0029 setup |
+| F-080 | Bench | fixed in bench tools (pitfall) | A `.env` copied from `.env.example` carried a live error-tracker DSN, so baseline and puppet test runs could send events to the real service | 0029, user report |
+| F-081 | Skill | verified in run 0032 | Setup created AGENTS.md in a project that keeps its rules in CLAUDE.md; an agent that reads only AGENTS.md lost them and ran a forbidden build (twice) and a `git stash`. A new AGENTS.md now points to the rules file | 0030 turn 10; verified 0032 |
+| F-082 | Harness | recorded (pitfall) | `OPENCODE_DISABLE_CLAUDE_CODE=1` in turn.sh also hides the project's own CLAUDE.md | 0030 |
+| F-083 | Skill | fixed on branch feat/autopilot-plan | The setup skipped the pilot profile round when the user asked for one change, and yak-pilot used the default profile without asking | 0030 (MiniMax), 0032 (Sonnet) |
+| F-084 | Skill | fixed on branch feat/autopilot-plan | A new table and index went in without a gate; the plan said no contract changed. The plan now lists data changes, each a gate | 0031 |
+| F-085 | Skill | fixed on branch feat/autopilot-plan | A skill the plan marked yes did not load (spec in 0031, triage in 0032); a Loaded column is now filled only after the skill tool loads it | 0031, 0032 (Sonnet) |
+| F-086 | Skill | watch | The conversation switched from the user's language (Spanish) to English mid-answer | 0029 (GLM) |

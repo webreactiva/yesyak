@@ -2,7 +2,7 @@
 
 How each run went through the YesYak process, and which skills the puppet used, in order. Regenerate the skills column with `python3 .claude/skills/yak-bench/scripts/report.py flows .scratchpad/bench`. It reads the turns of the work session (not the isolation probe). A skill counts when the puppet loads it with the skill tool, or reads its `SKILL.md` by hand (marked `*`). The number is the turn of first use.
 
-Last update: run 0028, YesYak v0.4.5 + yak-pilot (branch).
+Last update: run 0032, YesYak v0.4.5 + yak-pilot (branch). Runs 0029 and 0030 wait for the provider quota.
 
 ## The runs
 
@@ -37,6 +37,8 @@ Last update: run 0028, YesYak v0.4.5 + yak-pilot (branch).
 | 0026 | OpenCode, deepseek-v4.1-flash | feature, yak-pilot, approver | feature, plan + contract gate | 6 Retrospective | Every skill of the plan loaded; it ended its turn to wait for subagents (fixed) |
 | 0027 | OpenCode, deepseek-v4.1-flash | bug, yak-pilot, approver | fix, plan + output gate | complete | Measured the performance risk before planning; gate on output the request did not name |
 | 0028 | OpenCode, deepseek-v4.1-flash | bug, second session, profile change | fix, gate from the new profile entry | complete | A rule said in the chat went to the profile and stopped the next change of that kind |
+| 0031 | Claude Code, Sonnet | feature on the user's app, yak-pilot | feature, plan gate only | 6 Retrospective | Strong run alone; a new table and a product rule decided without a gate; the spec skill skipped |
+| 0032 | Claude Code, Sonnet | feature on the user's app, yak-pilot | feature, plan + metrics + spec gates | 6 Retrospective | Found that the existing banner gated nothing; kept the project's build/jest ban; red team caught a button in a dead footer |
 
 ## Skills used, in order
 
@@ -71,6 +73,8 @@ Last update: run 0028, YesYak v0.4.5 + yak-pilot (branch).
 | 0026-tabulate-floatfmt-pilot | customize-yak (2) → no-slop-code* (4) → yak-pilot (5) → write-acceptance-spec (6) → red-team-review (6) → execute-plan-loop (6) → decision-record-log (6) → git-commit-organizer (6) → verify-against-spec (6) → triage-findings-list (8) → traffic-light-findings (8) → write-visual-pr (8) → pr-reviewer-guide (8) → session-retrospective-rules (8) |
 | 0027-humanize-locale-pilot | customize-yak (2) → decision-record-log* (3) → git-commit-organizer (4) → ask-yak* (4) → yak-pilot (5) → bug-intake (5) → execute-plan-loop (6) → unattended-run (6) → write-visual-pr (6) → pr-reviewer-guide (6) → session-retrospective-rules (6) |
 | 0028-tabulate-stralign-pilot2 | yak-pilot (2) → customize-yak (2) → bug-intake (2) → git-commit-organizer (3) → execute-plan-loop (3) → decision-record-log (3) → write-visual-pr (3) → session-retrospective-rules (3) |
+| 0031-sopravolare-goals-claude | customize-yak (2) → yak-pilot (5) → unattended-run* (6) → feature-delivery-pipeline (7) → simplified-technical-language (7) → scratchpad-working-files (7) → git-commit-organizer (7) → no-slop-code (7) → decision-record-log (7) → traffic-light-findings (7) → plain-visual-docs (7) → execute-plan-loop (7) → verify-against-spec (7) → red-team-review (7) → triage-findings-list (7) → write-visual-pr (7) → pr-reviewer-guide (7) → session-retrospective-rules (7) |
+| 0032-webfront-cookies-claude | customize-yak (2) → yak-pilot (4) → feature-delivery-pipeline (6) → unattended-run (6) → simplified-technical-language (6) → scratchpad-working-files (6) → git-commit-organizer (6) → no-slop-code (6) → decision-record-log (6) → traffic-light-findings (6) → plain-visual-docs (6) → write-acceptance-spec (6) → walking-skeleton-plan (7) → execute-plan-loop (7) → verify-against-spec (7) → red-team-review (7) → write-visual-pr (7) → session-retrospective-rules (7) |
 
 ## The usual order
 
@@ -108,7 +112,7 @@ The convention skills (`simplified-technical-language`, `scratchpad-working-file
 | `agent-hook-guard` | 1: 0004 |
 | `ask-yak` | 3: 0001, 0002, 0011 |
 | `autopilot-plan` | 2: 0023, 0024 (renamed `yak-pilot`) |
-| `yak-pilot` | 4: 0025, 0026, 0027, 0028 |
+| `yak-pilot` | 6: 0025, 0026, 0027, 0028, 0031, 0032 |
 | `browser-acceptance-testing` | 0: none (off in every run on purpose) |
 | `bug-intake` | 5: 0001, 0002, 0005, 0012, 0013 |
 | `customize-yak` | 14: 0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0010, 0011, 0012, 0013, 0014 |

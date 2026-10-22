@@ -37,7 +37,8 @@ session=""
 n=$(printf '%02d' $(( $(read_meta "d['turns']") + 1 )))
 cp "$message" "$run/turns/$n-human.md"
 
-tmux has-session -t yak-bench 2>/dev/null || tmux new-session -d -s yak-bench -x 200 -y 50
+# Two runs started together race to create the session; the loser finds it made.
+tmux has-session -t yak-bench 2>/dev/null || tmux new-session -d -s yak-bench -x 200 -y 50 2>/dev/null || tmux has-session -t yak-bench
 window="$run_id-$n"
 done_file="$run/turns/$n.done"
 # Isolation: the puppet never uses the shared background service (it runs with the user's config). A fake HOME

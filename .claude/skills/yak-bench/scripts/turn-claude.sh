@@ -47,7 +47,8 @@ else
   args+=(--session-id "$session")
 fi
 
-tmux has-session -t yak-bench 2>/dev/null || tmux new-session -d -s yak-bench -x 200 -y 50
+# Two runs started together race to create the session; the loser finds it made.
+tmux has-session -t yak-bench 2>/dev/null || tmux new-session -d -s yak-bench -x 200 -y 50 2>/dev/null || tmux has-session -t yak-bench
 window="$run_id-$n"
 done_file="$run/turns/$n.done"
 # The tmux server may come from the driver's Claude Code session; its variables (session id, messaging token)

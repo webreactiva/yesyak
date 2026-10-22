@@ -123,7 +123,7 @@ Load the route skill and `unattended-run`, and start.
 - **Load each skill of the plan when its step comes**, with the skill tool. Do not do a step's work from memory: the skill holds checks that memory loses. At each phase end, compare the skills you loaded with the plan. A skill not loaded is loaded now, or its skip is a gate (it cuts the scope) or a logged `Q-` decision with the reason.
 - **At a gate**: stop. Show a short summary, the evidence (diff, test output), and the options, the recommended one first. Also offer "do not ask me this again". Wait. Log the answer as a `Q-` entry with "Chosen by: user", and the gate's status in the plan.
 - **Dynamic gate**: before `unattended-run` answers a question or takes an action alone, check it against the gate rules. If it matches, add a row `G-NN (dynamic)` to the plan, stop and ask. Do not guess to keep the run going.
-- **Between gates**: send the status line of `unattended-run` at each phase end, so the user can interrupt.
+- **Between gates**: send the status line of `unattended-run` at each phase end, so the user can interrupt. A turn ends only at a gate or at the end point: wait for subagents, test runs and builds in the same turn (`unattended-run`, step 4).
 
 ## At the end
 

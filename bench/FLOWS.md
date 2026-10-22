@@ -2,7 +2,7 @@
 
 How each run went through the YesYak process, and which skills the puppet used, in order. Regenerate the skills column with `python3 .claude/skills/yak-bench/scripts/report.py flows .scratchpad/bench`. It reads the turns of the work session (not the isolation probe). A skill counts when the puppet loads it with the skill tool, or reads its `SKILL.md` by hand (marked `*`). The number is the turn of first use.
 
-Last update: run 0024, YesYak v0.4.5 + autopilot-plan (branch).
+Last update: run 0028, YesYak v0.4.5 + yak-pilot (branch).
 
 ## The runs
 
@@ -33,6 +33,10 @@ Last update: run 0024, YesYak v0.4.5 + autopilot-plan (branch).
 | 0022 | Claude Code, Sonnet | feature, YesYak already set up | feature, run alone after "go ahead" | 6 Retrospective after a request | Sonnet built the whole delivery in one turn; the retrospective covered both sessions |
 | 0023 | OpenCode, deepseek-v4.1-flash | bug, autopilot | fix, alone after the plan approval | complete | A clear bug: 0 questions, 1 gate, ran to the local PR in one turn |
 | 0024 | OpenCode, deepseek-v4.1-flash | feature, autopilot | feature, alone after the spec gate | 6 Retrospective | An ambiguous API change: the plan stopped at the spec with real choices; five phase skills done by hand without loading them |
+| 0025 | OpenCode, deepseek-v4.1-flash | bug, yak-pilot, observer | fix, no stop | complete | Observer ran to the end in one turn; the retrospective proposed a profile change and waited |
+| 0026 | OpenCode, deepseek-v4.1-flash | feature, yak-pilot, approver | feature, plan + contract gate | 6 Retrospective | Every skill of the plan loaded; it ended its turn to wait for subagents (fixed) |
+| 0027 | OpenCode, deepseek-v4.1-flash | bug, yak-pilot, approver | fix, plan + output gate | complete | Measured the performance risk before planning; gate on output the request did not name |
+| 0028 | OpenCode, deepseek-v4.1-flash | bug, second session, profile change | fix, gate from the new profile entry | complete | A rule said in the chat went to the profile and stopped the next change of that kind |
 
 ## Skills used, in order
 
@@ -63,6 +67,10 @@ Last update: run 0024, YesYak v0.4.5 + autopilot-plan (branch).
 | 0022-packbeat-ranking-claude | feature-delivery-pipeline (2) → unattended-run (3) → session-retrospective-rules (5) |
 | 0023-humanize-bytes-autopilot | customize-yak (2) → autopilot-plan (5) → bug-intake (5) → unattended-run (5) → execute-plan-loop (6) → git-commit-organizer (6) → write-visual-pr (6) → session-retrospective-rules (6) |
 | 0024-tabulate-colsep-autopilot | customize-yak (2) → decision-record-log* (3) → ask-yak* (3) → autopilot-plan (4) → feature-delivery-pipeline (4) → git-commit-organizer (4) → unattended-run (4) → domain-language (5) → on-the-spot (5) → execute-plan-loop (6) → write-visual-pr (6) → plain-visual-docs (6) → pr-reviewer-guide (6) → session-retrospective-rules (6) |
+| 0025-tabulate-rowalign-pilot | customize-yak (2) → ask-yak* (2) → yak-pilot* (2) → unattended-run (5) → bug-intake (5) → execute-plan-loop (5) → git-commit-organizer (5) → scratchpad-working-files (5) → write-visual-pr (5) → simplified-technical-language (5) → no-slop-code (5) → plain-visual-docs (5) → session-retrospective-rules (5) |
+| 0026-tabulate-floatfmt-pilot | customize-yak (2) → no-slop-code* (4) → yak-pilot (5) → write-acceptance-spec (6) → red-team-review (6) → execute-plan-loop (6) → decision-record-log (6) → git-commit-organizer (6) → verify-against-spec (6) → triage-findings-list (8) → traffic-light-findings (8) → write-visual-pr (8) → pr-reviewer-guide (8) → session-retrospective-rules (8) |
+| 0027-humanize-locale-pilot | customize-yak (2) → decision-record-log* (3) → git-commit-organizer (4) → ask-yak* (4) → yak-pilot (5) → bug-intake (5) → execute-plan-loop (6) → unattended-run (6) → write-visual-pr (6) → pr-reviewer-guide (6) → session-retrospective-rules (6) |
+| 0028-tabulate-stralign-pilot2 | yak-pilot (2) → customize-yak (2) → bug-intake (2) → git-commit-organizer (3) → execute-plan-loop (3) → decision-record-log (3) → write-visual-pr (3) → session-retrospective-rules (3) |
 
 ## The usual order
 
@@ -91,6 +99,7 @@ The convention skills (`simplified-technical-language`, `scratchpad-working-file
 - **Optional steps run when the user or the size asks.** `red-team-review` ran in 3 runs, each time with real findings. `pr-reviewer-guide` ran in 4. `agent-hook-guard` ran once (0004), when the retrospective chose a hook.
 - **Weak models load skills they do not need** (0001: `bug-intake`, `production-readiness-review` and `prototype-options` in a feature run), and sometimes read a `SKILL.md` by hand instead of loading it (0007, 0008, 0011).
 - **On autopilot, the plan is followed but its skills are not always loaded (0024).** The run reached every phase and its red team found real defects, yet the spec, plan, verification, red team and triage were done without their skills. A plan of skills must name each skill and check that it ran (issue #1).
+- **A plan of skills is loaded when it names them (0026).** With each skill in the plan table, every planned skill loaded. The user named no skill in 0025-0028; `yak-pilot` loaded on a plain request in all four.
 
 ## Coverage
 
@@ -98,7 +107,8 @@ The convention skills (`simplified-technical-language`, `scratchpad-working-file
 | --- | --- |
 | `agent-hook-guard` | 1: 0004 |
 | `ask-yak` | 3: 0001, 0002, 0011 |
-| `autopilot-plan` | 2: 0023, 0024 |
+| `autopilot-plan` | 2: 0023, 0024 (renamed `yak-pilot`) |
+| `yak-pilot` | 4: 0025, 0026, 0027, 0028 |
 | `browser-acceptance-testing` | 0: none (off in every run on purpose) |
 | `bug-intake` | 5: 0001, 0002, 0005, 0012, 0013 |
 | `customize-yak` | 14: 0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0010, 0011, 0012, 0013, 0014 |

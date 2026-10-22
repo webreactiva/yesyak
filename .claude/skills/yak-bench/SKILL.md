@@ -52,6 +52,7 @@ Each one cost a run. The scripts handle them; check them again when you change a
 | A strong model is over the price cap | Only when the user asks, with `YAKBENCH_ALLOW_EXPENSIVE=1` |
 | A `.env` copied from `.env.example` sends telemetry (an error tracker DSN) from the clone to the real service | After `prepare.sh`, switch the telemetry variables off in the clone's `.env` before the first test run |
 | `OPENCODE_DISABLE_CLAUDE_CODE=1` hides the project's own CLAUDE.md, so the puppet misses its rules (for example a forbidden command) | Check the probe turn lists the project's rule files; if the rules live only in CLAUDE.md, record it and expect the setup to point AGENTS.md to them |
+| An edit to `turn.sh` or `turn-claude.sh` while a turn runs: bash reads the script in parts, so the running turn fails after the agent ends (no `run.json` update, no answer file) | Edit the turn scripts only when no turn runs; repair a broken turn with `report.py turn` and the counter in `run.json` |
 | A provider quota cuts a turn (for example a 5-hour limit) | The turn ends with a rate-limit error: record it as a harness interruption and resume later in the same session |
 
 ## 1. Read the log

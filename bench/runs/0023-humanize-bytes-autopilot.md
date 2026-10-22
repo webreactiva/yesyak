@@ -26,6 +26,14 @@
 | Extra messages after the plan approval | 0 |
 | Plan shown before work | yes: route, gates, hands-off point, end point |
 
+## HIL stops
+
+| Turn | Where | Kind | Question | My answer |
+| --- | --- | --- | --- | --- |
+| 1 | customize-yak, setup | setup | scope of the change, decision records, commit style | "A, A, A. Go ahead." |
+| 2 | customize-yak, setup preview | setup | write the three setup files? | "Yes, write them." |
+| 4 | autopilot-plan, after the plan | plan approval (G-01) | approve the plan: fix route, 1 gate, hands-off after it? | "Approved." |
+
 ## Fix route
 
 | Step | Reached | As the skill asks |

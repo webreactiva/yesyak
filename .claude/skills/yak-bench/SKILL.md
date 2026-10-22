@@ -113,7 +113,7 @@ Cover these requirements before an autopilot finding is confirmed: a clear bug, 
 ## 5. Score
 
 1. Run the tests yourself. Run `report.py run`.
-2. Write `bench/runs/<run-id>.md` (committed): the report, then a table per phase of the process map: reached or not, the artifacts, and whether each one does what its skill asks. Then the interventions, the findings and the cost. For an autopilot run, add a table: skills the user named (target 0), blocking questions, spec and plan sized as, planned gates, dynamic gates, decisions taken alone, missed gates, gates too many, approvals without a change per gate kind, skills planned but not loaded, extra messages after the plan approval, and profile changes proposed.
+2. Write `bench/runs/<run-id>.md` (committed): the report, then a table per phase of the process map: reached or not, the artifacts, and whether each one does what its skill asks. Then the interventions, the findings and the cost. For an autopilot run, add a table: skills the user named (target 0), blocking questions, spec and plan sized as, planned gates, dynamic gates, decisions taken alone, missed gates, gates too many, approvals without a change per gate kind, skills planned but not loaded, extra messages after the plan approval, and profile changes proposed. Then an "HIL stops" table with one row per stop where the run waited for the human, also when you answered it: turn, where, kind (plan approval, planned gate, dynamic gate, profile rule, setup), the question, your answer.
 
 ## 6. Turn findings into changes
 

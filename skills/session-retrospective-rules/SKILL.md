@@ -54,6 +54,10 @@ In an unattended run (`unattended-run`), apply only the guards that the user all
 
 Save the answer to `.scratchpad/<slug>/retrospective.md` when the user asks, or at the end of the session.
 
+## Gates review
+
+When `yak-pilot` planned the run, read the `## Plan` of `progress.md` and the `Q-` entries. Count, by kind of gate: answers that only approved, answers that changed the recommendation, decisions taken alone that the user reverted (missed gates), and "do not ask me this again". Propose profile changes for `customize-yak` to write, for example "you approved this kind of gate five times without a change: remove it?" or "you corrected this kind of decision twice: always ask?". A change that removes a gate needs a yes that names it; a change that adds one is easy.
+
 ## 4. Archive transcripts (on request)
 
 Find where your agent keeps its sessions before you say there is no transcript. It can be a folder of files, a database or an export command. For example: Claude Code keeps JSONL files under `~/.claude/projects/<project-folder>/` (subagents in `<session-id>/subagents/`), Codex under `~/.codex/sessions/`, and OpenCode exports a session with `opencode session export <id>`. Say where you looked.

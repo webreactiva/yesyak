@@ -53,7 +53,7 @@ Stop and wait only when:
 - The next action is outside what the user authorized.
 - The action cannot be undone and the request does not cover it.
 - Two sources the user gave contradict each other and each choice loses something the user asked for.
-- The point is a gate of an `autopilot-plan`, planned or dynamic.
+- The point is a gate of the `yak-pilot` plan, planned or dynamic.
 
 ## Skill feedback
 

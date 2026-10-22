@@ -11,7 +11,7 @@ This skill runs the other skills in order. Each phase ends at a checkpoint: a sh
 
 Load these first and keep them active: `simplified-technical-language`, `scratchpad-working-files`, `git-commit-organizer`, `no-slop-code`, `decision-record-log`, `traffic-light-findings`, `plain-visual-docs`.
 
-If the user asks you to run without them ("do not ask me", "take the decisions yourself"), also load `unattended-run`. It turns every checkpoint below into a logged decision and a status line, and it says which actions still need the user. If the user wants the run alone but with a stop where a human must decide, start with `autopilot-plan`: it plans the run and the gates, then loads `unattended-run`.
+If the user asks you to run without them ("do not ask me", "take the decisions yourself"), also load `unattended-run`. It turns every checkpoint below into a logged decision and a status line, and it says which actions still need the user. When `yak-pilot` started the run, its plan says which checkpoints are gates; the others become logged decisions of `unattended-run`.
 
 ## Phases
 

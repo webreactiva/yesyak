@@ -12,7 +12,7 @@ This skill plans and keeps the run on its plan. The phase skills do the work. `u
 ## 1. Read the request, the state and the profile
 
 1. Find the position with the state signals of `ask-yak` (`references/process.md`). If work for this slug has started, plan only the steps that are still to run.
-2. Read the profile: the `pilot:` lines that `check_yesyak.py` prints. If there are none, the project has no profile: run the onboarding of `customize-yak` ("Pilot profile") first. It asks one short round and writes the profile. If the user does not want to answer, use the default preset and go on.
+2. Read the profile: the `pilot:` lines that `check_yesyak.py` prints. No `pilot:` line means no profile. Then the first message of the run asks the round of `customize-yak` ("Pilot profile") together with the blocking questions of section 2, and says that the run uses the default profile until the answer. `customize-yak` writes the answer.
 3. Choose the route: a feature request goes to `feature-delivery-pipeline`, a bug report to `bug-intake`.
 4. Read the code that the request touches, and give the "does it fit in one iteration?" verdict of the pipeline. A split is a gate: the user chooses the first delivery.
 

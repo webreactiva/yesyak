@@ -43,7 +43,7 @@ Ask with the `on-the-spot` rules: rounds of up to four questions, the recommende
 
 ### Pilot profile
 
-`yak-pilot` reads the `pilot` key to decide where a run stops for the user. On the first install, and when `yak-pilot` finds no profile, ask one round:
+`yak-pilot` reads the `pilot` key to decide where a run stops for the user. A first install always asks this round, also when the user asked for one change only, and the preview always writes a `pilot` key, also with the default answers. Ask it again when `yak-pilot` finds no profile:
 
 1. How much do you want to take part? `approver` (recommended): approve the plan and the risky decisions. `collaborator`: decide at every phase. `observer`: only watch.
 2. What must the agent always ask you? Offer the default entries (push, publish or merge; open a browser; apply a retrospective guard) and let the user add or remove.

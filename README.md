@@ -20,7 +20,7 @@ The skills follow the open SKILL.md format. Each skill works on its own, except 
 
 1. In the root of your project: `npx skills add webreactiva/yesyak`. Take all the skills.
 2. Start a new agent session and say "set up YesYak". Answer its questions once.
-3. Ask for work in your own words, for example "Let customers cancel an order before it ships" or "Cancelling a shipped order returns a 500". Answer at each checkpoint.
+3. Ask for work in your own words, for example "Let customers cancel an order before it ships" or "Cancelling a shipped order returns a 500". `yak-pilot` shows a short plan; approve it, then answer only where it stops for you.
 4. When you are lost, ask "what now?".
 
 The [use cases](#use-cases) show what to say for each kind of work. The [user journey](#user-journey) explains each step.
@@ -50,9 +50,11 @@ Alternative: clone this repository and run `./install.sh -t /path/to/project`. I
 1. **Install the skills** with `npx skills add webreactiva/yesyak` (see [Install](#install)).
 2. **Set up YesYak.** Start a new session in the project and say "set up YesYak". `customize-yak` detects the check commands (tests, lint, types), the commit convention, the docs folder and the agent's instructions file. It asks only what it cannot detect, shows a preview, and after your yes it writes the YesYak block in AGENTS.md (and `@AGENTS.md` in CLAUDE.md for Claude Code) in its own commit. You do this once per project.
 3. **Ask for work in your own words.**
-   - A feature: "Let customers cancel an order before it ships." The agent runs `feature-delivery-pipeline`.
-   - A bug: "Cancelling a shipped order returns a 500." The agent runs `bug-intake`.
-4. **Answer at each checkpoint.** The agent stops after every phase with a short summary, the file it wrote, the defaults it took and one question. Each question has a recommended option.
+   - A feature: "Let customers cancel an order before it ships."
+   - A bug: "Cancelling a shipped order returns a 500."
+
+   You do not choose skills. `yak-pilot` reads the request, the project and your profile, and shows a plan: the skills it will run, whether a spec and a plan are needed, and where it will stop for you (gates), each with a reason. After your yes it runs alone and stops only at those gates: a decision that changes a contract, security, the scope, a check, or something no source decides. Your profile says how much you take part: `approver` (default), `collaborator` (a checkpoint after every phase) or `observer`, plus what it must always ask and never do. The retrospective proposes profile changes from the answers you gave.
+4. **Answer at each gate.** Each gate has a short summary, the evidence and the options, the recommended one first. With the `collaborator` preset you get a checkpoint after every phase:
 
    | Phase | What you get | Your part |
    | --- | --- | --- |
@@ -79,7 +81,7 @@ Alternative: clone this repository and run `./install.sh -t /path/to/project`. I
 | A bug fixed | "Cancelling a shipped order returns a 500." | Read-only triage first (severity, layers with file and line, root cause), a failing test, the fix, a short PR |
 | More than one thing at once | "Add cancellation, refunds and an order export." | Phase 0 says "split", proposes deliveries and their order, and starts with the first |
 | Work done while you are away | "I am away this afternoon, do it without me." | `unattended-run` answers each checkpoint with the recommended option and logs every decision with its reason in the PR |
-| Work done alone, with a stop only where it matters | "Do it on autopilot; stop where you need me." | `autopilot-plan` asks only the questions that block the run, decides the human-in-the-loop gates with a reason for each, and after one approval runs alone up to the PR |
+| Work done alone, with a stop only where it matters | Any request; "always ask me before a merge" sets the profile | `yak-pilot` asks only the questions that block the run, plans the skills and the human-in-the-loop gates with a reason for each, and after one approval runs alone up to the PR |
 | A pause and a resume | "We stop here." Next day: "Let's continue." | A handoff note with the decisions and who took them; the next session resumes at the right step |
 | A teammate takes over | "Prepare this for a colleague." | The same handoff note, plus a reviewer guide for the pull request (`pr-reviewer-guide`) |
 | Only one step | "Write a spec for this." "Review this branch like an attacker." "Write the PR description." | The skill for that step alone (`write-acceptance-spec`, `red-team-review`, `write-visual-pr`) |
@@ -117,7 +119,9 @@ flowchart TD
     Q -->|one task only| PS[the phase skill]
     U[unattended-run] -. answers the checkpoints of .-> FP
     U -.-> BI
-    AP[autopilot-plan] -. plans the gates, then loads .-> U
+    Q -->|any feature or bug| YP[yak-pilot]
+    YP -. plans the skills and gates, then runs .-> FP
+    YP -.-> BI
     AY -. points to .-> FP
     AY -.-> BI
 ```
@@ -129,7 +133,7 @@ flowchart TD
 | A feature request | `feature-delivery-pipeline` |
 | A bug report | `bug-intake` |
 | A run without questions | `unattended-run`, together with one of the two above |
-| A run alone that stops only where a human must decide | `autopilot-plan`, which loads the route skill and `unattended-run` |
+| Any feature or bug, when you do not want to choose the skills | `yak-pilot`, which plans the skills and the stops, then runs one of the two above |
 | A pause, or work that passes to someone else | `handoff-and-resume` (writes `docs/handoffs/`, and resumes from it) |
 | One task only | the phase skill for it, for example `write-visual-pr` or `red-team-review` |
 

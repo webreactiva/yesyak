@@ -35,6 +35,8 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0026](runs/0026-tabulate-floatfmt-pilot.md) | 2026-10-22 | v0.4.5 + yak-pilot (branch) | astanin/python-tabulate · feature #297 (function for `floatfmt`), yak-pilot, approver | ollama-cloud/deepseek-v4.1-flash | see run file | 6 Retrospective (all phases) | 1/0/1 | 0.17 $ |
 | [0027](runs/0027-humanize-locale-pilot.md) | 2026-10-22 | v0.4.5 + yak-pilot (branch) | python-humanize/humanize · bug #460 (locale separator, hot path), yak-pilot, approver | ollama-cloud/deepseek-v4.1-flash | see run file | fix route complete | 0/0/0 | 0.10 $ |
 | [0028](runs/0028-tabulate-stralign-pilot2.md) | 2026-10-22 | v0.4.5 + yak-pilot (branch) | python-tabulate (0026 result) · bug #294 (`stralign=None`), second session after a profile change | ollama-cloud/deepseek-v4.1-flash | see run file | fix route complete | 0/0/0 | 0.06 $ |
+| [0029](runs/0029-sopravolare-notes.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | sopravolare (user's app) · private notes for subscribers, yak-pilot, approver | ollama-cloud/glm-5.3, then ollama-cloud/deepseek-v4.1-flash | see run file | 6 Retrospective (all phases) | 0/0/0 (2 harness resumes) | GLM part ≈ 8.72 $ |
+| [0030](runs/0030-webfront-structured-data.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | web-reactiva-2244 webfront (user's app) · #32 structured data, yak-pilot | ollama-cloud/minimax-m2.7 | see run file | build + verification; red team, triage, guide, retrospective never ran | 0/0/0 (1 harness resume) | 0.43 $ |
 | [0031](runs/0031-sopravolare-goals-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | sopravolare (user's app) · weekly learning goals for subscribers, yak-pilot, approver | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 5.32 $ |
 | [0032](runs/0032-webfront-cookies-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | web-reactiva-2244 webfront (user's app) · #27 cookie consent, yak-pilot, default profile | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 2.90 $ |
 
@@ -73,6 +75,8 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0026-tabulate-floatfmt-pilot | ollama-cloud/deepseek-v4.1-flash | 9 | 140 | 37 min | 31 min | 326088 | 115442 | 17206616 | 0.17 | 30 | 7655226 (18340) | 2.07 |
 | 0027-humanize-locale-pilot | ollama-cloud/deepseek-v4.1-flash | 7 | 109 | 15 min | 9 min | 85013 | 97763 | 10276992 | 0.10 | 21 | 5257768 (14460) | 1.47 |
 | 0028-tabulate-stralign-pilot2 | ollama-cloud/deepseek-v4.1-flash | 4 | 85 | 5 min | 5 min | 113141 | 41786 | 5847296 | 0.06 | 17 | 4778027 (7808) | 1.18 |
+| 0029-sopravolare-notes | glm-5.3, then deepseek-v4.1-flash | 11 | 321 | 157 min | 96 min | 1013589 | 243856 | 76455296 | (mixed models) | 142 | 60392925 (95876) | 14.76 |
+| 0030-webfront-structured-data | ollama-cloud/minimax-m2.7 | 11 | 110 | 104 min | 13 min | 322980 | 29319 | 4904091 | 0.43 | 107 | 43209336 (70690) | 10.62 |
 | 0031-sopravolare-goals-claude | anthropic/claude-sonnet-5-5 | 11 | 205 | 27 min | 20 min | 413 | 166376 | 20616521 | 5.32 | 27 | 11218551 (15199) | 2.70 |
 | 0032-webfront-cookies-claude | anthropic/claude-sonnet-5-5 | 8 | 110 | 27 min | 11 min | 220 | 109057 | 8802531 | 2.90 | (shared with 0031) | | |
 
@@ -168,3 +172,7 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-084 | Skill | fixed on branch feat/autopilot-plan | A new table and index went in without a gate; the plan said no contract changed. The plan now lists data changes, each a gate | 0031 |
 | F-085 | Skill | fixed on branch feat/autopilot-plan | A skill the plan marked yes did not load (spec in 0031, triage in 0032); a Loaded column is now filled only after the skill tool loads it | 0031, 0032 (Sonnet) |
 | F-086 | Skill | watch | The conversation switched from the user's language (Spanish) to English mid-answer | 0029 (GLM) |
+| F-087 | Model | watch | GLM reran the full suites after each small change (16 runs) and spent the whole provider budget by phase 3; the user stopped it | 0029 |
+| F-088 | Bench | fixed in bench tools | A killed turn left the counter unchanged, so the next turn wrote over its files | 0029 |
+| F-089 | Skill | fixed on branch feat/autopilot-plan | The plan table copied the short example and left out red team, triage, reviewer guide and retrospective, which then never ran; the plan now has one row per route step | 0030 (MiniMax) |
+| F-090 | Model | watch | A setup answer (decision records off) never reached the settings file | 0030 (MiniMax) |

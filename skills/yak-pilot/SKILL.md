@@ -114,7 +114,7 @@ Write the plan to `.scratchpad/<slug>/progress.md`, under `## Plan`, above the p
 
 Copy the start point, end point and outward actions to the top of `unattended-decisions.md`, where `unattended-run` expects them.
 
-Show the user the plan in five lines or fewer: route, artifacts, number of gates and where, hands-off point, end point. Ask one question: approve the plan? A change from the user changes the plan; show it again.
+Show the user the plan in five lines or fewer: route, artifacts, number of gates and where, hands-off point, end point. With `collaborator` and `approver`, ask one question: approve the plan? A change from the user changes the plan; show it again. With `observer`, the plan is a status line: start at once.
 
 ## 5. Run the plan
 

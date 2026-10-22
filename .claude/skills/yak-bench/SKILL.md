@@ -95,13 +95,25 @@ Write every intervention in `notes.md`, with the turn number, the kind and your 
 | nudge | You told it something the skills should have told it |
 | correction | It did something wrong and you stopped it |
 | rescue | It was stuck and you unblocked it |
+| gate | An autopilot run stopped at a gate and you answered: expected |
 
 Nudges, corrections and rescues are findings. Stop at the end of the Retrospective phase, after the turn limit (default 30), or when the equivalent cost passes the budget the user set.
+
+### Autopilot runs
+
+An autopilot run tests `autopilot-plan`. Replace step 3 above:
+
+1. Send the request with one line: "Do it on autopilot; stop only where you need me."
+2. Answer its blocking questions and approve or correct the plan. After that, answer only at the gates it opens. Any other message is a nudge, a correction or a rescue, and it is a finding.
+3. Let the run go to its end point. Do not answer a status line.
+4. At the end, read `unattended-decisions.md` and `autopilot-plan.md` as a reviewer. Mark each decision taken alone that you would revert: each one is a missed gate. Mark each gate that no criterion justifies: each one is a gate too many.
+
+Alternate the requirement: one clear enough that the plan needs no blocking question, and one ambiguous or risky. Both kinds are needed before an autopilot finding is confirmed.
 
 ## 5. Score
 
 1. Run the tests yourself. Run `report.py run`.
-2. Write `bench/runs/<run-id>.md` (committed): the report, then a table per phase of the process map: reached or not, the artifacts, and whether each one does what its skill asks. Then the interventions, the findings and the cost.
+2. Write `bench/runs/<run-id>.md` (committed): the report, then a table per phase of the process map: reached or not, the artifacts, and whether each one does what its skill asks. Then the interventions, the findings and the cost. For an autopilot run, add a table: blocking questions, planned gates, dynamic gates, decisions taken alone, missed gates, gates too many, and extra messages after the plan approval.
 
 ## 6. Turn findings into changes
 

@@ -27,7 +27,7 @@ Ask all blocking questions in one round, in the format of `on-the-spot` ("How to
 
 ## 3. Make the plan of skills
 
-Start from the route and its process map. For each step, decide if it runs, and write the skill that does it.
+Start from the route and its process map. The plan table has one row for every step of the route, the required ones too (the example below shows only a few rows). For each step, decide if it runs, and write the skill that does it.
 
 **Size the artifacts.** Unless the user or the profile asks for them:
 

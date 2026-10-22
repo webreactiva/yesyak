@@ -79,6 +79,7 @@ Alternative: clone this repository and run `./install.sh -t /path/to/project`. I
 | A bug fixed | "Cancelling a shipped order returns a 500." | Read-only triage first (severity, layers with file and line, root cause), a failing test, the fix, a short PR |
 | More than one thing at once | "Add cancellation, refunds and an order export." | Phase 0 says "split", proposes deliveries and their order, and starts with the first |
 | Work done while you are away | "I am away this afternoon, do it without me." | `unattended-run` answers each checkpoint with the recommended option and logs every decision with its reason in the PR |
+| Work done alone, with a stop only where it matters | "Do it on autopilot; stop where you need me." | `autopilot-plan` asks only the questions that block the run, decides the human-in-the-loop gates with a reason for each, and after one approval runs alone up to the PR |
 | A pause and a resume | "We stop here." Next day: "Let's continue." | A handoff note with the decisions and who took them; the next session resumes at the right step |
 | A teammate takes over | "Prepare this for a colleague." | The same handoff note, plus a reviewer guide for the pull request (`pr-reviewer-guide`) |
 | Only one step | "Write a spec for this." "Review this branch like an attacker." "Write the PR description." | The skill for that step alone (`write-acceptance-spec`, `red-team-review`, `write-visual-pr`) |
@@ -116,6 +117,7 @@ flowchart TD
     Q -->|one task only| PS[the phase skill]
     U[unattended-run] -. answers the checkpoints of .-> FP
     U -.-> BI
+    AP[autopilot-plan] -. plans the gates, then loads .-> U
     AY -. points to .-> FP
     AY -.-> BI
 ```
@@ -127,6 +129,7 @@ flowchart TD
 | A feature request | `feature-delivery-pipeline` |
 | A bug report | `bug-intake` |
 | A run without questions | `unattended-run`, together with one of the two above |
+| A run alone that stops only where a human must decide | `autopilot-plan`, which loads the route skill and `unattended-run` |
 | A pause, or work that passes to someone else | `handoff-and-resume` (writes `docs/handoffs/`, and resumes from it) |
 | One task only | the phase skill for it, for example `write-visual-pr` or `red-team-review` |
 

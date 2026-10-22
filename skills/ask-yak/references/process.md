@@ -25,7 +25,7 @@ bug-intake (triage, then contract and reproduction) → branch fix/<slug> → ex
 → write-visual-pr (short) → session-retrospective-rules
 ```
 
-Conventions that every phase loads: `simplified-technical-language`, `scratchpad-working-files`, `git-commit-organizer`, `no-slop-code`, `decision-record-log`, `traffic-light-findings`, `plain-visual-docs`. Modes: `unattended-run` (no questions), `ask-yak` (where am I), `customize-yak` (change the process).
+Conventions that every phase loads: `simplified-technical-language`, `scratchpad-working-files`, `git-commit-organizer`, `no-slop-code`, `decision-record-log`, `traffic-light-findings`, `plain-visual-docs`. Modes: `unattended-run` (no questions), `autopilot-plan` (no questions except at the gates it decides), `ask-yak` (where am I), `customize-yak` (change the process).
 
 ## State signals
 
@@ -76,6 +76,7 @@ On a conflict, name both signals, ask which one is right, and show no next step.
 | A feature request | `feature-delivery-pipeline` |
 | A bug report | `bug-intake` |
 | A run without questions | `unattended-run`, with one of the two above |
+| A run alone that stops only where a human must decide | `autopilot-plan`, which loads the route skill and `unattended-run` |
 | A pause, or work that passes to someone else | `handoff-and-resume` |
 | One task only | the skill of that step |
 
@@ -235,6 +236,13 @@ Each card says when to use the skill, what it makes, what comes next, the sectio
 - Makes: `.scratchpad/<slug>/bug-report.md`, a failing test
 - Next: the fix route
 - Replaceable: none
+- Off: not allowed
+
+### autopilot-plan
+- When: the user wants the run alone, with stops only where a human must decide
+- Makes: `.scratchpad/<slug>/autopilot-plan.md`
+- Next: `feature-delivery-pipeline` or `bug-intake`, with `unattended-run`
+- Replaceable: Gate criteria
 - Off: not allowed
 
 ### unattended-run

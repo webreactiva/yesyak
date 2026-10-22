@@ -30,9 +30,9 @@
 
 | Turn | Where | Kind | Question | My answer |
 | --- | --- | --- | --- | --- |
-| 1 | customize-yak, setup | setup | scope, decision records, other steps to change | "1A 2A 3A, go ahead." |
-| 4 | autopilot-plan, after the plan | plan approval | approve the plan: feature route, G-01 at the spec, red team skipped as "optional"? | "Approved, with one change: keep the red team review after the build. Skipping the spec challenge is fine." (correction) |
-| 5 | write-acceptance-spec approval | planned gate G-01 | which formats show group separators; which characters; `showindex` | "1A 2A 3A." |
+| 3 | customize-yak, setup | setup | scope, decision records, other steps to change | "1A 2A 3A, go ahead." |
+| 5 | autopilot-plan, after the plan | plan approval | approve the plan: feature route, G-01 at the spec, red team skipped as "optional"? | "Approved, with one change: keep the red team review after the build. Skipping the spec challenge is fine." (correction) |
+| 6 | write-acceptance-spec approval | planned gate G-01 | which formats show group separators; which characters; `showindex` | "1A 2A 3A." |
 
 ## Phases
 

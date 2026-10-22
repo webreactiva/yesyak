@@ -30,9 +30,9 @@
 
 | Turn | Where | Kind | Question | My answer |
 | --- | --- | --- | --- | --- |
-| 1 | customize-yak, setup | setup | scope of the change, decision records, commit style | "A, A, A. Go ahead." |
-| 2 | customize-yak, setup preview | setup | write the three setup files? | "Yes, write them." |
-| 4 | autopilot-plan, after the plan | plan approval (G-01) | approve the plan: fix route, 1 gate, hands-off after it? | "Approved." |
+| 3 | customize-yak, setup | setup | scope of the change, decision records, commit style | "A, A, A. Go ahead." |
+| 4 | customize-yak, setup preview | setup | write the three setup files? | "Yes, write them." |
+| 6 | autopilot-plan, after the plan | plan approval (G-01) | approve the plan: fix route, 1 gate, hands-off after it? | "Approved." |
 
 ## Fix route
 

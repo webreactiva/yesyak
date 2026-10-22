@@ -26,7 +26,7 @@ Use commands that only check. A script that fixes files in place is not a check.
 
 Stop and ask if the markers are broken: a start without an end, two blocks, or a marker inside a code fence. Change no file until the user says how to fix it.
 
-If the agent reads its own file and that file does not import AGENTS.md (for example `@AGENTS.md` in CLAUDE.md), every preview adds the import, also in an audit. The preview also creates AGENTS.md if it is missing. Say why before the preview. If the agent cannot import files, put the block in its own file.
+If the agent reads its own file and that file does not import AGENTS.md (for example `@AGENTS.md` in CLAUDE.md), every preview adds the import, also in an audit. The preview also creates AGENTS.md if it is missing. Say why before the preview. A new AGENTS.md also points to the file that holds the project's rules, outside the block (for example "Project rules: read CLAUDE.md first"): an agent that reads only AGENTS.md would lose them, such as a command the project forbids. If the agent cannot import files, put the block in its own file.
 
 If a block exists and the user asks for no change ("audit", "clean up the YesYak block", or a run with nothing to change), go to section 5.
 

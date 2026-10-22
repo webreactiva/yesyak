@@ -2,7 +2,9 @@
 
 # YesYak
 
-YesYak is a set of agent skills that takes a feature from a vague request, or a bug from a report, to a reviewed pull request. The agent asks before it builds, writes the contract before the code, builds in small integrated steps, tries to break its own work, and ends with a retrospective that turns your corrections into guards.
+YesYak is a set of agent skills that takes a feature from a vague request, or a bug from a report, to a reviewed pull request. You ask for the result in your own words. YesYak chooses the skills, shows you a short plan, and then works alone: it writes the contract before the code, builds in small integrated steps, tries to break its own work, and ends with a retrospective that turns your corrections into guards. It stops for you only where a human must decide, and it says why.
+
+You do not need to learn the skills. One entry point, `yak-pilot`, knows them.
 
 
 
@@ -53,8 +55,9 @@ Alternative: clone this repository and run `./install.sh -t /path/to/project`. I
    - A feature: "Let customers cancel an order before it ships."
    - A bug: "Cancelling a shipped order returns a 500."
 
-   You do not choose skills. `yak-pilot` reads the request, the project and your profile, and shows a plan: the skills it will run, whether a spec and a plan are needed, and where it will stop for you (gates), each with a reason. After your yes it runs alone and stops only at those gates: a decision that changes a contract, security, the scope, a check, or something no source decides. Your profile says how much you take part: `approver` (default), `collaborator` (a checkpoint after every phase) or `observer`, plus what it must always ask and never do. The retrospective proposes profile changes from the answers you gave.
-4. **Answer at each gate.** Each gate has a short summary, the evidence and the options, the recommended one first. With the `collaborator` preset you get a checkpoint after every phase:
+   You do not choose skills. `yak-pilot` reads the request, the code and your profile. If something blocks the work, it asks one round of questions, each with a recommended option. Then it shows a plan of five lines: the route, whether a spec and a plan are needed, the data changes, where it will stop for you, and the end point.
+4. **Approve the plan once.** From there the agent runs alone: spec, build, verification, red team, fixes, pull request text and retrospective. You see one status line per phase and can interrupt at any time.
+5. **Answer at each gate.** A gate is a decision that a human must take (see [When it asks you](#when-it-asks-you)). It comes with a short summary, the evidence and the options, the recommended one first. With the `collaborator` preset you also get a checkpoint after every phase:
 
    | Phase | What you get | Your part |
    | --- | --- | --- |
@@ -67,20 +70,36 @@ Alternative: clone this repository and run `./install.sh -t /path/to/project`. I
    | 6 Retrospective | What you corrected, and a guard for each (test, hook, rule) | Approve the guards |
    | 7 Later (optional) | A production readiness review, when you prepare a deploy | Ask for it, then choose the fixes |
 
-5. **When you are lost**, ask "what now?". `ask-yak` shows where the work is and the next step.
-6. **When you stop**, say "we stop here". `handoff-and-resume` writes a dated note in `docs/handoffs/`. In the next session, say "let's continue" and the agent checks the note against the repository before it goes on.
-7. **When the process does not fit your team**, ask `customize-yak` to change it ("we never test in a browser", "use my spec template"). It writes the change to `.agents/yesyak.json`; no skill is edited.
+6. **When you are lost**, ask "what now?". `ask-yak` shows where the work is and the next step.
+7. **When you stop**, say "we stop here". `handoff-and-resume` writes a dated note in `docs/handoffs/`. In the next session, say "let's continue" and the agent checks the note against the repository before it goes on.
+8. **When the process does not fit your team**, ask `customize-yak` to change it ("we never test in a browser", "use my spec template"). It writes the change to `.agents/yesyak.json`; no skill is edited.
 
 <img width="1400" height="1350" alt="phases" src="https://github.com/user-attachments/assets/adbea095-92be-44bd-8600-e7296651a1d2" />
+
+## When it asks you
+
+`yak-pilot` checks every decision against three rules, in this order. The first rule that matches decides.
+
+1. **Your profile.** An "always ask" entry stops the run; a "never" entry is a limit the agent does not cross.
+2. **The gate criteria.** The agent stops when a decision changes a contract or behavior that already exists, security or private data, the data schema, or the scope; when it would weaken a check (a test, a timeout, "the failure was already there"); when no source decides it and the options give users different results; when it costs money or time over what you set; or when the agent cannot classify it.
+3. **Your preset.**
+
+| Preset | Your role | It stops for you |
+| --- | --- | --- |
+| `approver` (default) | You approve the plan and the risky decisions | At the plan, and at the gate criteria |
+| `collaborator` | You decide with it at each phase | At every phase checkpoint, and at the gate criteria |
+| `observer` | You watch and can interrupt | Only at your profile's rules |
+
+Every other decision the agent takes alone, and logs with its reason in the pull request. Your profile lives in `.agents/yesyak.json` (`customize-yak` asks for it on the first setup). Say a rule in the chat, for example "always ask me before you change output that users already get", and it goes to the file. At the end of each run the retrospective counts your answers per kind of gate and proposes profile changes, for example to drop a gate you always approve. A change that gives the agent more freedom needs your explicit yes.
 
 ## Use cases
 
 | You want | Say | What happens |
 | --- | --- | --- |
-| A new feature from a vague idea | "Customers should be able to cancel an order." | The full pipeline: questions, spec, plan, steps, verification, PR, retrospective |
+| A new feature from a vague idea | "Customers should be able to cancel an order." | `yak-pilot` asks what blocks the work, shows a plan, then runs the full pipeline alone: spec, plan, steps, verification, red team, PR, retrospective |
 | A bug fixed | "Cancelling a shipped order returns a 500." | Read-only triage first (severity, layers with file and line, root cause), a failing test, the fix, a short PR |
 | More than one thing at once | "Add cancellation, refunds and an order export." | Phase 0 says "split", proposes deliveries and their order, and starts with the first |
-| Work done while you are away | "I am away this afternoon, do it without me." | `unattended-run` answers each checkpoint with the recommended option and logs every decision with its reason in the PR |
+| Work done while you are away | "I am away this afternoon, do it without me." | The `observer` preset: no stop except your profile's rules; `unattended-run` answers each question with the recommended option and logs every decision with its reason in the PR |
 | Work done alone, with a stop only where it matters | Any request; "always ask me before a merge" sets the profile | `yak-pilot` asks only the questions that block the run, plans the skills and the human-in-the-loop gates with a reason for each, and after one approval runs alone up to the PR |
 | A pause and a resume | "We stop here." Next day: "Let's continue." | A handoff note with the decisions and who took them; the next session resumes at the right step |
 | A teammate takes over | "Prepare this for a colleague." | The same handoff note, plus a reviewer guide for the pull request (`pr-reviewer-guide`) |
@@ -112,28 +131,22 @@ A user skill with the same name as a project skill can shadow it. If the skill t
 flowchart TD
     Q([What do you say?])
     Q -->|set up YesYak, change the process| CY[customize-yak]
-    Q -->|a feature request| FP[feature-delivery-pipeline]
-    Q -->|a bug report| BI[bug-intake]
+    Q -->|a feature or a bug| YP[yak-pilot]
+    YP -->|plan approved| FP[feature-delivery-pipeline]
+    YP -->|plan approved| BI[bug-intake]
+    U[unattended-run] -. answers every question that is not a gate .-> FP
+    U -.-> BI
     Q -->|what now?| AY[ask-yak]
     Q -->|we stop here, let's continue| HR[handoff-and-resume]
     Q -->|one task only| PS[the phase skill]
-    U[unattended-run] -. answers the checkpoints of .-> FP
-    U -.-> BI
-    Q -->|any feature or bug| YP[yak-pilot]
-    YP -. plans the skills and gates, then runs .-> FP
-    YP -.-> BI
-    AY -. points to .-> FP
-    AY -.-> BI
 ```
 
 | Start from | Skill |
 | --- | --- |
 | "What now?", "where am I?", "which skill?" | `ask-yak` |
 | Change the process, or a first install | `customize-yak` |
-| A feature request | `feature-delivery-pipeline` |
-| A bug report | `bug-intake` |
-| A run without questions | `unattended-run`, together with one of the two above |
-| Any feature or bug, when you do not want to choose the skills | `yak-pilot`, which plans the skills and the stops, then runs one of the two above |
+| A feature request or a bug report | `yak-pilot`, which plans the skills and the stops, then runs `feature-delivery-pipeline` or `bug-intake` |
+| A run without questions | the `observer` preset; `unattended-run` answers the questions |
 | A pause, or work that passes to someone else | `handoff-and-resume` (writes `docs/handoffs/`, and resumes from it) |
 | One task only | the phase skill for it, for example `write-visual-pr` or `red-team-review` |
 
@@ -151,6 +164,7 @@ Each topic has one owner skill. It keeps the full rule, even when the project's 
 | Plain-language openings and diagrams | `plain-visual-docs` |
 | The process map, skill cards and state signals | `ask-yak` (`references/process.md`); the pipeline's phase block lists the same skills |
 | Slop in code, tests and docs | `no-slop-code` |
+| The plan of skills, gates and presets | `yak-pilot`; `customize-yak` writes the profile |
 
 ## What the skills expect from the project
 

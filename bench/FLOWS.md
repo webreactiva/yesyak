@@ -2,7 +2,7 @@
 
 How each run went through the YesYak process, and which skills the puppet used, in order. Regenerate the skills column with `python3 .claude/skills/yak-bench/scripts/report.py flows .scratchpad/bench`. It reads the turns of the work session (not the isolation probe). A skill counts when the puppet loads it with the skill tool, or reads its `SKILL.md` by hand (marked `*`). The number is the turn of first use.
 
-Last update: run 0022, YesYak v0.4.3.
+Last update: run 0024, YesYak v0.4.5 + autopilot-plan (branch).
 
 ## The runs
 
@@ -31,6 +31,8 @@ Last update: run 0022, YesYak v0.4.3.
 | 0020 | OpenCode, deepseek-v4.1-flash | feature after a handoff | feature, unattended after a cut | 6 Retrospective | The handoff carried every phase; the unattended session ran them all and left the merge to the user |
 | 0021 | OpenCode, deepseek-v4.1-flash | bug | fix | complete | Triage found a second copy of the pattern and a test that ruled out the naive fix |
 | 0022 | Claude Code, Sonnet | feature, YesYak already set up | feature, run alone after "go ahead" | 6 Retrospective after a request | Sonnet built the whole delivery in one turn; the retrospective covered both sessions |
+| 0023 | OpenCode, deepseek-v4.1-flash | bug, autopilot | fix, alone after the plan approval | complete | A clear bug: 0 questions, 1 gate, ran to the local PR in one turn |
+| 0024 | OpenCode, deepseek-v4.1-flash | feature, autopilot | feature, alone after the spec gate | 6 Retrospective | An ambiguous API change: the plan stopped at the spec with real choices; five phase skills done by hand without loading them |
 
 ## Skills used, in order
 
@@ -59,6 +61,8 @@ Last update: run 0022, YesYak v0.4.3.
 | 0020-packbeat-wordcloud | customize-yak (2) → feature-delivery-pipeline (4) → scratchpad-working-files* (4) → on-the-spot (5) → domain-language (10) → write-acceptance-spec (10) → plain-visual-docs (11) → walking-skeleton-plan (12) → handoff-and-resume (13) → execute-plan-loop (14) → unattended-run (14) → git-commit-organizer (14) → decision-record-log (14) → no-slop-code (14) → simplified-technical-language (14) → verify-against-spec (14) → red-team-review (14) → pr-reviewer-guide (14) → write-visual-pr (14) → session-retrospective-rules (14) |
 | 0021-linkify-parens | customize-yak* (2) → on-the-spot* (2) → bug-intake (5) → git-commit-organizer (6) → execute-plan-loop (6) → write-visual-pr (6) → session-retrospective-rules (6) |
 | 0022-packbeat-ranking-claude | feature-delivery-pipeline (2) → unattended-run (3) → session-retrospective-rules (5) |
+| 0023-humanize-bytes-autopilot | customize-yak (2) → autopilot-plan (5) → bug-intake (5) → unattended-run (5) → execute-plan-loop (6) → git-commit-organizer (6) → write-visual-pr (6) → session-retrospective-rules (6) |
+| 0024-tabulate-colsep-autopilot | customize-yak (2) → decision-record-log* (3) → ask-yak* (3) → autopilot-plan (4) → feature-delivery-pipeline (4) → git-commit-organizer (4) → unattended-run (4) → domain-language (5) → on-the-spot (5) → execute-plan-loop (6) → write-visual-pr (6) → plain-visual-docs (6) → pr-reviewer-guide (6) → session-retrospective-rules (6) |
 
 ## The usual order
 
@@ -86,6 +90,7 @@ The convention skills (`simplified-technical-language`, `scratchpad-working-file
 - **`ask-yak` is rarely loaded (3 of 14 runs).** Agents go from skill to skill through the "Next" of each card. `ask-yak` came in only for "what now?" or a resume (0011). In 0009 "what now?" got an answer without it.
 - **Optional steps run when the user or the size asks.** `red-team-review` ran in 3 runs, each time with real findings. `pr-reviewer-guide` ran in 4. `agent-hook-guard` ran once (0004), when the retrospective chose a hook.
 - **Weak models load skills they do not need** (0001: `bug-intake`, `production-readiness-review` and `prototype-options` in a feature run), and sometimes read a `SKILL.md` by hand instead of loading it (0007, 0008, 0011).
+- **On autopilot, the plan is followed but its skills are not always loaded (0024).** The run reached every phase and its red team found real defects, yet the spec, plan, verification, red team and triage were done without their skills. A plan of skills must name each skill and check that it ran (issue #1).
 
 ## Coverage
 
@@ -93,6 +98,7 @@ The convention skills (`simplified-technical-language`, `scratchpad-working-file
 | --- | --- |
 | `agent-hook-guard` | 1: 0004 |
 | `ask-yak` | 3: 0001, 0002, 0011 |
+| `autopilot-plan` | 2: 0023, 0024 |
 | `browser-acceptance-testing` | 0: none (off in every run on purpose) |
 | `bug-intake` | 5: 0001, 0002, 0005, 0012, 0013 |
 | `customize-yak` | 14: 0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0010, 0011, 0012, 0013, 0014 |

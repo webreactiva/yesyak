@@ -29,6 +29,8 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0020](runs/0020-packbeat-wordcloud.md) | 2026-10-18 | v0.4.3 | packbeat · delivery 4 (Word cloud), one cut, then unattended | ollama-cloud/deepseek-v4.1-flash | `ses_eb3a10a1…` (session 1), `ses_eb3989d7…` (session 2), 1 probe session | 6 Retrospective (all phases, merge left to the user) | 0/0/0 | 0.45 $ |
 | [0021](runs/0021-linkify-parens.md) | 2026-10-18 | v0.4.3 | sindresorhus/linkify-urls · bug #28 (parentheses in URLs) | ollama-cloud/deepseek-v4.1-flash | `ses_eb343039…` (work), 1 probe session | fix route complete | 0/0/0 | 0.04 $ |
 | [0022](runs/0022-packbeat-ranking-claude.md) | 2026-10-18 | v0.4.3 | packbeat · delivery 5 (competition ranking), YesYak already set up, one cut | anthropic/claude-sonnet-5-5 (Claude Code) | `9c24f2d8…` (session 1), `302f0ab3…` (session 2), 1 probe session | 6 Retrospective (after a request) | 0/0/0 | 2.34 $ |
+| [0023](runs/0023-humanize-bytes-autopilot.md) | 2026-10-22 | v0.4.5 + autopilot-plan (branch) | python-humanize/humanize · bug #459 (fraction below the base), autopilot, clear | ollama-cloud/deepseek-v4.1-flash | `ses_e9aeea63affeaRLTsRW4HxgLJb` (work), 1 probe session | fix route complete, alone after one gate | 0/0/0 | 0.05 $ |
+| [0024](runs/0024-tabulate-colsep-autopilot.md) | 2026-10-22 | v0.4.5 + autopilot-plan (branch) | astanin/python-tabulate · feature #357 (column group separators), autopilot, ambiguous | ollama-cloud/deepseek-v4.1-flash | `ses_e9aeea63cffe2yFarjf0KRDf33` (work), 1 probe session | 6 Retrospective (all phases), alone after G-01 | 0/1/0 | 0.19 $ |
 
 ## Metrics
 
@@ -59,6 +61,8 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0020-packbeat-wordcloud | ollama-cloud/deepseek-v4.1-flash | 14 | 338 | 100 min | 99 min | 371889 | 294410 | 72004608 | 0.45 | 22 | 9122010 (7200) | 2.07 |
 | 0021-linkify-parens | ollama-cloud/deepseek-v4.1-flash | 7 | 49 | 5 min | 4 min | 44260 | 37943 | 2235392 | 0.04 | 4 | 1746179 (2327) | 0.43 |
 | 0022-packbeat-ranking-claude | anthropic/claude-sonnet-5-5 | 7 | 115 | 23 min | 22 min | 230 | 66651 | 9078200 | 2.34 | 8 | 3600033 (3421) | 0.83 |
+| 0023-humanize-bytes-autopilot | ollama-cloud/deepseek-v4.1-flash | 6 | 79 | 6 min | 5 min | 94153 | 37100 | 3780480 | 0.05 | 20 | 2558952 (11691) | 0.86 |
+| 0024-tabulate-colsep-autopilot | ollama-cloud/deepseek-v4.1-flash | 6 | 168 | 31 min | 28 min | 143628 | 151351 | 24732160 | 0.19 | 65 | 7735362 (48905) | 3.77 |
 
 ## Findings
 
@@ -136,3 +140,8 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-068 | Model | watch | A retrospective proposed a `pre-merge` git hook as a guard; git runs no hook on a fast-forward merge, so it could never fire | 0018 session 3 turn 13 |
 | F-069 | Skill | verified in run 0020 | A handoff listed "build, e2e, merge and tag" as next steps and left out phases 4-6; the unattended session took it as its end point and merged, with the built-in code review in place of verification and red team. Same gap as F-067 with another model. The user decided a stronger model may do this; the skills now carry every remaining phase in a handoff and in the end point of an unattended run | 0019 session 2 |
 | F-070 | Model | watch | An unattended run raised the e2e global timeout from 5 to 6 min with a reason in the commit but no logged decision; the project says not to weaken a test to pass a check | 0020 session 2 |
+| F-071 | Skill | fixed on branch feat/autopilot-plan | Autopilot plan called the phase 4 red team "optional" and skipped it without a gate; the criterion named only optional phases. Now any step that the process map does not put in brackets, left out, is a gate | 0024 turn 3; caught at the plan approval |
+| F-072 | Skill | fixed on branch feat/autopilot-plan | autopilot-plan asked to list the gates (user decisions) inside "Decisions taken without the user"; the PR body of 0023 had no gate line, 0024 had one. Now a "Gates" line before that section | 0023, 0024 |
+| F-073 | Skill | watch | No dynamic gate when an autopilot run changed existing output outside the request (a fix to flat tables); the same run deferred another visible change for that reason | 0024 Q-09 |
+| F-074 | Skill | open in #1 | Phase skills done by hand without loading them (write-acceptance-spec, walking-skeleton-plan, verify-against-spec, red-team-review, triage-findings-list); the reports exist and found real defects. Same pattern as F-056/F-057 with Sonnet. The plan of skills must name each skill and check that it was loaded | 0024 turns 4-6 |
+| F-075 | Bench | fixed in bench tools | Two runs started together raced to create the tmux session; one failed with `duplicate session` | 0023/0024 probe |

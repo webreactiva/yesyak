@@ -32,7 +32,7 @@ The stop rules of `unattended-run` ("When to stop anyway") always apply. A decis
 | --- | --- |
 | It changes a contract that other people or programs use | a public API, a file format, a data schema, command options |
 | It changes security, access or private data | permissions, secrets, what a log keeps |
-| It cuts the scope or changes the requirement | a dropped acceptance criterion, a split, an optional phase skipped against the request |
+| It cuts the scope or changes the requirement | a dropped acceptance criterion, a split, a step that the process map does not put in brackets left out |
 | No source decides it, and the options give users different results | the behavior in an edge case that the requirement does not name |
 | It costs money or time over what the user set | a paid service, a long job |
 
@@ -85,5 +85,5 @@ Load the route skill and `unattended-run`, and start.
 ## At the end
 
 - Tell the user: planned gates, dynamic gates, decisions taken alone, and where the logs are.
-- In the "Decisions taken without the user" section of the pull request (`unattended-run`), add one line per gate with who decided.
+- In the pull request body, put a "Gates" line before "Decisions taken without the user" (`unattended-run`): each gate, its answer and who gave it.
 - A decision taken alone that the user later reverts is a missed gate. Give it to `session-retrospective-rules`; the guard can be an `add` entry for this skill (`customize-yak`) with the criterion that was missing.

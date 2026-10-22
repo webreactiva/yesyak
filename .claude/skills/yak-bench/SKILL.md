@@ -101,19 +101,19 @@ Nudges, corrections and rescues are findings. Stop at the end of the Retrospecti
 
 ### Autopilot runs
 
-An autopilot run tests `autopilot-plan`. Replace step 3 above:
+An autopilot run tests `yak-pilot`: the user gets the work done without naming any skill. Replace step 3 above:
 
-1. Send the request with one line: "Do it on autopilot; stop only where you need me."
+1. Send the request in plain words, with no skill, phase or mode name and no magic phrase. On the first run in a project, answer the profile round as a real user would; in a later session, change the profile in plain words (for example "always ask me before you change existing output").
 2. Answer its blocking questions and approve or correct the plan. After that, answer only at the gates it opens. Any other message is a nudge, a correction or a rescue, and it is a finding.
 3. Let the run go to its end point. Do not answer a status line.
-4. At the end, read `unattended-decisions.md` and `autopilot-plan.md` as a reviewer. Mark each decision taken alone that you would revert: each one is a missed gate. Mark each gate that no criterion justifies: each one is a gate too many.
+4. At the end, read the `## Plan` of `progress.md` and `unattended-decisions.md` as a reviewer. Mark each decision taken alone that you would revert (a missed gate) and each gate that no rule justifies (a gate too many). Compare the skills in the plan with the skills loaded (`report.py run`): a skill in the plan that never loaded is a finding.
 
-Alternate the requirement: one clear enough that the plan needs no blocking question, and one ambiguous or risky. Both kinds are needed before an autopilot finding is confirmed.
+Cover these requirements before an autopilot finding is confirmed: a clear bug, an ambiguous feature, a risky change (a contract or security), and a second session in the same project after a profile change.
 
 ## 5. Score
 
 1. Run the tests yourself. Run `report.py run`.
-2. Write `bench/runs/<run-id>.md` (committed): the report, then a table per phase of the process map: reached or not, the artifacts, and whether each one does what its skill asks. Then the interventions, the findings and the cost. For an autopilot run, add a table: blocking questions, planned gates, dynamic gates, decisions taken alone, missed gates, gates too many, and extra messages after the plan approval.
+2. Write `bench/runs/<run-id>.md` (committed): the report, then a table per phase of the process map: reached or not, the artifacts, and whether each one does what its skill asks. Then the interventions, the findings and the cost. For an autopilot run, add a table: skills the user named (target 0), blocking questions, spec and plan sized as, planned gates, dynamic gates, decisions taken alone, missed gates, gates too many, approvals without a change per gate kind, skills planned but not loaded, extra messages after the plan approval, and profile changes proposed.
 
 ## 6. Turn findings into changes
 

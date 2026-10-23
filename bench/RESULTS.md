@@ -18,7 +18,7 @@ These runs test `yak-pilot` (issue #1): the user asks for the result, approves o
 | [0030](runs/0030-webfront-structured-data.md) | OpenCode · minimax-m2.7 | the user's Next.js app · ambiguous feature | default | 3 | 0 | 0 | 1 | 1 provider resume | 4 required steps left out of the plan |
 | [0031](runs/0031-sopravolare-goals-claude.md) | Claude Code · claude-sonnet-5-5 | the user's Laravel app · subscriber feature | approver | 1 | 1 | 2 | 0 | 0 | 1 |
 | [0032](runs/0032-webfront-cookies-claude.md) | Claude Code · claude-sonnet-5-5 | the user's Next.js app · cookie consent | default | 2 | 1 | 0 | 0 | 0 | 1 |
-| [0033](runs/0033-sopravolare-reminders-claude.md) | Claude Code · claude-sonnet-5-5 | the user's Laravel app · subscriber email | approver | 1 (with the schema gate) | pending | pending | pending | pending | pending |
+| [0033](runs/0033-sopravolare-reminders-claude.md) | Claude Code · claude-sonnet-5-5 | the user's Laravel app · subscriber email | approver | 1 (with the schema gate) | 1 | 1 | 0 | 0 | 0 |
 | [0034](runs/0034-webfront-structured-data-claude.md) | Claude Code · claude-sonnet-5-5 | the user's Next.js app · same task as 0030 | approver | 1 | 1 | 0 | 0 | 0 | 0 |
 
 Plan gates count the plan approval. Profile stops come from "always ask" entries, for example "apply a retrospective guard". A missed gate is a decision the agent took alone that the reviewer would revert or that a gate criterion covers.

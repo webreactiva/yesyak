@@ -39,6 +39,8 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0030](runs/0030-webfront-structured-data.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | web-reactiva-2244 webfront (user's app) · #32 structured data, yak-pilot | ollama-cloud/minimax-m2.7 | see run file | build + verification; red team, triage, guide, retrospective never ran | 0/0/0 (1 harness resume) | 0.43 $ |
 | [0031](runs/0031-sopravolare-goals-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | sopravolare (user's app) · weekly learning goals for subscribers, yak-pilot, approver | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 5.32 $ |
 | [0032](runs/0032-webfront-cookies-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | web-reactiva-2244 webfront (user's app) · #27 cookie consent, yak-pilot, default profile | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 2.90 $ |
+| [0033](runs/0033-sopravolare-reminders-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | sopravolare (user's app) · weekly reminder mail for subscribers, yak-pilot, approver | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 5.80 $ |
+| [0034](runs/0034-webfront-structured-data-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | web-reactiva-2244 webfront (user's app) · #32 structured data, same task as 0030 | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 6.76 $ |
 
 ## Metrics
 
@@ -79,6 +81,8 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0030-webfront-structured-data | ollama-cloud/minimax-m2.7 | 11 | 110 | 104 min | 13 min | 322980 | 29319 | 4904091 | 0.43 | 107 | 43209336 (70690) | 10.62 |
 | 0031-sopravolare-goals-claude | anthropic/claude-sonnet-5-5 | 11 | 205 | 27 min | 20 min | 413 | 166376 | 20616521 | 5.32 | 27 | 11218551 (15199) | 2.70 |
 | 0032-webfront-cookies-claude | anthropic/claude-sonnet-5-5 | 8 | 110 | 27 min | 11 min | 220 | 109057 | 8802531 | 2.90 | (shared with 0031) | | |
+| 0033-sopravolare-reminders-claude | anthropic/claude-sonnet-5-5 | 9 | 183 | 87 min | 56 min | 366 | 202247 | 23518990 | 5.80 | 76 | 37738630 (56674) | 9.11 |
+| 0034-webfront-structured-data-claude | anthropic/claude-sonnet-5-5 | 7 | 254 | 34 min | 31 min | 508 | 225138 | 27584910 | 6.76 | 41 | 19509946 (26333) | 4.65 |
 
 ## Findings
 
@@ -168,11 +172,13 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-080 | Bench | fixed in bench tools (pitfall) | A `.env` copied from `.env.example` carried a live error-tracker DSN, so baseline and puppet test runs could send events to the real service | 0029, user report |
 | F-081 | Skill | verified in run 0032 | Setup created AGENTS.md in a project that keeps its rules in CLAUDE.md; an agent that reads only AGENTS.md lost them and ran a forbidden build (twice) and a `git stash`. A new AGENTS.md now points to the rules file | 0030 turn 10; verified 0032 |
 | F-082 | Harness | recorded (pitfall) | `OPENCODE_DISABLE_CLAUDE_CODE=1` in turn.sh also hides the project's own CLAUDE.md | 0030 |
-| F-083 | Skill | fixed on branch feat/autopilot-plan | The setup skipped the pilot profile round when the user asked for one change, and yak-pilot used the default profile without asking | 0030 (MiniMax), 0032 (Sonnet) |
-| F-084 | Skill | fixed on branch feat/autopilot-plan | A new table and index went in without a gate; the plan said no contract changed. The plan now lists data changes, each a gate | 0031 |
-| F-085 | Skill | fixed on branch feat/autopilot-plan | A skill the plan marked yes did not load (spec in 0031, triage in 0032); a Loaded column is now filled only after the skill tool loads it | 0031, 0032 (Sonnet) |
+| F-083 | Skill | verified in runs 0033 and 0034 | The setup skipped the pilot profile round when the user asked for one change, and yak-pilot used the default profile without asking | 0030 (MiniMax), 0032 (Sonnet) |
+| F-084 | Skill | verified in runs 0033 and 0034 | A new table and index went in without a gate; the plan said no contract changed. The plan now lists data changes, each a gate | 0031 |
+| F-085 | Skill | verified in runs 0033 and 0034 | A skill the plan marked yes did not load (spec in 0031, triage in 0032); a Loaded column is now filled only after the skill tool loads it | 0031, 0032 (Sonnet) |
 | F-086 | Skill | watch | The conversation switched from the user's language (Spanish) to English mid-answer | 0029 (GLM) |
 | F-087 | Model | watch | GLM reran the full suites after each small change (16 runs) and spent the whole provider budget by phase 3; the user stopped it | 0029 |
 | F-088 | Bench | fixed in bench tools | A killed turn left the counter unchanged, so the next turn wrote over its files | 0029 |
 | F-089 | Skill | fixed on branch feat/autopilot-plan | The plan table copied the short example and left out red team, triage, reviewer guide and retrospective, which then never ran; the plan now has one row per route step | 0030 (MiniMax) |
 | F-090 | Model | watch | A setup answer (decision records off) never reached the settings file | 0030 (MiniMax) |
+| F-091 | Skill | watch | A feature that acts on real users after a deploy (a scheduled mail, on by default) was decided alone; the outward-action criterion names push, publish and merge only | 0033 |
+| F-092 | Skill | watch | The Loaded column of the plan was filled in the first phases only (every skill loaded) | 0033 |

@@ -47,6 +47,34 @@ The skills do nothing until the project has the YesYak block in AGENTS.md. Step 
 
 Alternative: clone this repository and run `./install.sh -t /path/to/project`. It links the skills and also writes a minimal YesYak block, `@AGENTS.md` in CLAUDE.md and `.scratchpad/` in `.gitignore`. Then the agent offers step 2 by itself. `./install.sh -h` lists the options.
 
+### Link one folder
+
+Keep one copy of YesYak on your machine and link its `skills/` folder into the project. Nothing is copied into the project, `git pull` in your copy updates every linked project, and two `rm` commands remove YesYak again.
+
+<p align="center"><img src="assets/symlink-install.svg" width="360" alt="Install by linking: download YesYak once, link its skills folder as .claude/skills and .agents/skills, and Claude Code, Codex and OpenCode see every skill. Remove the two links to remove it."></p>
+
+```bash
+git clone https://github.com/webreactiva/yesyak ~/yesyak    # once per machine
+cd /path/to/project
+mkdir -p .claude .agents
+ln -s ~/yesyak/skills .claude/skills                         # Claude Code and OpenCode
+ln -s ~/yesyak/skills .agents/skills                         # Codex and OpenCode
+printf '.claude/skills\n.agents/skills\n' >> .git/info/exclude
+```
+
+Then start a session and say "set up YesYak". The links only make the skills visible; the setup writes the YesYak block.
+
+| Agent | `.claude/skills` link | `.agents/skills` link | Both links |
+| --- | --- | --- | --- |
+| Claude Code | sees every skill | does not read `.agents` | sees every skill |
+| Codex | does not read `.claude` | sees every skill | sees every skill |
+| OpenCode | sees every skill | sees every skill | sees every skill, no duplicates |
+
+- Use it only when the project has no skills folder of its own. A link inside an existing folder (for example `.agents/skills/yesyak`) works for Codex and OpenCode, but Claude Code reads only one level and does not see it. In that case use `./install.sh`, which links each skill.
+- The links point to a path on your machine, so keep them out of git (the last command above). Each person makes their own links.
+- `check_yesyak.py` works through the links: it finds the project from the folder you run it in.
+- To remove YesYak: `rm .claude/skills .agents/skills` (no slash at the end, so only the links go). Your copy of YesYak stays.
+
 ## User journey
 
 1. **Install the skills** with `npx skills add webreactiva/yesyak` (see [Install](#install)).

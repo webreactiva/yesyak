@@ -44,6 +44,7 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0035](runs/0035-icecream-timing-pilot.md) | 2026-10-23 | v0.5.0 (f5605ee) | gruns/icecream · feature #186 (time of an `ic()` expression), yak-pilot, issue #4 | ollama-cloud/minimax-m2.7 | `ses_e98602411ffeL3gJOZithpbp3l` (work), 1 probe session | build + verification; red team, triage, PR, guide, retrospective never ran | 0/0/0 | 0.15 $ |
 | [0036](runs/0036-gohumanize-year-pilot.md) | 2026-10-23 | v0.5.0 (f5605ee) | dustin/go-humanize · bug #116 (a year of 360 days), yak-pilot, issue #4 | ollama-cloud/deepseek-v4.1-flash | `ses_e98602413ffeES07g1HTS2TaRe` (work), 1 probe session | fix route complete | 0/0/0 | 0.03 $ |
 | [0037](runs/0037-icecream-timing-pilot2.md) | 2026-10-23 | v0.5.0 + F-093 path fix | gruns/icecream · same task as 0035 | ollama-cloud/minimax-m2.7 | `ses_e984d1a1cffe86Hhv7TQy1v6Uq` (work), 1 probe session | build + verification + PR body; red team, triage, guide, retrospective never ran | 0/1/0 | 0.22 $ |
+| [0038](runs/0038-icecream-timing-glm.md) | 2026-10-23 | v0.5.1 | gruns/icecream · same task as 0035 and 0037 | ollama-cloud/glm-5.3-flash | `ses_e9839a734ffet5pbSwiHZTc1dW` (work), 1 probe session | 6 Retrospective (all phases) | 0/0/0 | 1.40 $ |
 
 ## Metrics
 
@@ -89,6 +90,7 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0035-icecream-timing-pilot | ollama-cloud/minimax-m2.7 | 10 | 59 | 16 min | 14 min | 107045 | 17455 | 1571383 | 0.15 | not measured | | |
 | 0036-gohumanize-year-pilot | ollama-cloud/deepseek-v4.1-flash | 7 | 56 | 6 min | 3 min | 53484 | 30068 | 2098460 | 0.03 | not measured | | |
 | 0037-icecream-timing-pilot2 | ollama-cloud/minimax-m2.7 | 7 | 76 | 14 min | 13 min | 157915 | 23327 | 2350861 | 0.22 | not measured | | |
+| 0038-icecream-timing-glm | ollama-cloud/glm-5.3-flash | 7 | 246 | 70 min | 69 min | 530632 | 202995 | 40537216 | 1.40 | not measured | | |
 
 ## Findings
 
@@ -184,10 +186,10 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-086 | Skill | watch | The conversation switched from the user's language (Spanish) to English mid-answer | 0029 (GLM) |
 | F-087 | Model | watch | GLM reran the full suites after each small change (16 runs) and spent the whole provider budget by phase 3; the user stopped it | 0029 |
 | F-088 | Bench | fixed in bench tools | A killed turn left the counter unchanged, so the next turn wrote over its files | 0029 |
-| F-089 | Skill | verified in run 0036 for the fix route; reopened for the feature route, fixed in v0.5.1 | The plan table copied the short example and left out red team, triage, reviewer guide and retrospective, which then never ran. v0.5.0 asked for one row per route step: deepseek listed every fix-route step (0036); MiniMax still left out the review steps on the feature route, also with the map read (0035, 0037). v0.5.1 makes the example table list every step of the feature route. Not run again: the user accepted it without one more MiniMax run | 0030, 0035, 0037 (MiniMax), 0036 (deepseek) |
+| F-089 | Skill | verified in run 0036 (fix route) and run 0038 (feature route, v0.5.1) | The plan table copied the short example and left out red team, triage, reviewer guide and retrospective, which then never ran. v0.5.0 asked for one row per route step: deepseek listed every fix-route step (0036); MiniMax still left out the review steps on the feature route, also with the map read (0035, 0037). v0.5.1 makes the example table list every step of the feature route; GLM 5.3 flash then planned all 20 steps and ran every required one (0038) | 0030, 0035, 0037 (MiniMax), 0036 (deepseek), 0038 (GLM flash) |
 | F-090 | Model | watch | A setup answer (decision records off) never reached the settings file | 0030 (MiniMax) |
 | F-091 | Model | no change | A feature that acts on real users after a deploy (a scheduled mail, on by default) was decided alone. The default on or off is covered by the gate criterion "no source decides it, and the options give users different results"; the effect on real users belongs to `production-readiness-review` (phase 7), outside the iteration. Reopen if seen again | 0033 |
-| F-092 | Model | confirmed | The Loaded column of the plan was filled in the first phases only (0033), or never (0035, 0036, 0037), although the skill says to fill it after each load and to check it at each phase end. No cheaper rule found | 0033, 0035, 0036, 0037 |
+| F-092 | Model | confirmed | The Loaded column of the plan was filled in the first phases only (0033), or never (0035, 0036, 0037, 0038), although the skill says to fill it after each load and to check it at each phase end. No cheaper rule found | 0033, 0035, 0036, 0037, 0038 |
 | F-093 | Skill | fixed in v0.5.1 | `yak-pilot` named the process map as "`ask-yak` (`references/process.md`)"; MiniMax read `yak-pilot/references/process.md`, the read failed, and the plan had only the example rows. The path is now `ask-yak/references/process.md`, as in the other skills | 0035 turn 7 |
 | F-094 | Skill | watch | The plan copied "Outward actions allowed: push the branch" from the example after the user said the PR stays local; 0035 then asked to push | 0035, 0037 (MiniMax) |
 | F-095 | Model | watch | The spec was written and committed, and the branch made, before the plan approval | 0037 (MiniMax) |

@@ -1,6 +1,6 @@
 ---
 name: yak-pilot
-description: The one entry point of YesYak. It takes any feature request or bug report in plain words, reads the project state and the user's profile, makes the plan of skills (which skills run, whether a spec and a plan are needed, which optional steps apply), and decides where a human must decide (human-in-the-loop gates) and why. After one approval it runs the plan alone and stops only at those gates. The user never has to know or name a skill. Use it for every feature request or bug report, and whenever the user says "do it", "autopilot", "run it alone but stop where you need me", "decide when you need me", or does not know which skill to use.
+description: The one entry point of YesYak, and the skill that drives every run after the setup. It takes any feature request or bug report in plain words, reads the project state and the user's profile, makes the plan of skills (which skills run, whether a spec and a plan are needed, which optional steps apply), and decides where a human must decide (human-in-the-loop gates) and why. After one approval it runs the plan alone and stops only at those gates. The user never has to know or name a skill. Use it for every feature request or bug report, and whenever the user says "do it", "autopilot", "run it alone but stop where you need me", "decide when you need me", or does not know which skill to use.
 ---
 
 # Yak pilot

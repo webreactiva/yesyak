@@ -1,6 +1,6 @@
 ---
 name: feature-delivery-pipeline
-description: Orchestrates the full feature workflow from a vague request to a reviewed pull request, with a checkpoint for the user after every phase. The phases are interview, acceptance spec, walking-skeleton plan, optional work items, step-by-step implementation, verification, optional browser testing, red team, triage and fixes, visual PR, reviewer guide and retrospective. Use it whenever the user asks for a new feature or a change in behavior, in any words ("can you add", "I want", "let me"), or wants a feature "end to end", "from spec to PR", "the full process".
+description: Orchestrates the full feature workflow from a vague request to a reviewed pull request, with a checkpoint for the user after every phase. The phases are interview, acceptance spec, walking-skeleton plan, optional work items, step-by-step implementation, verification, optional browser testing, red team, triage and fixes, visual PR, reviewer guide and retrospective. yak-pilot starts it for a feature request after the user approves the plan, and says which checkpoints are gates. Use it directly only when the user names it, asks for "the full process with a checkpoint after every phase", or yak-pilot is not installed.
 ---
 
 # Feature delivery pipeline

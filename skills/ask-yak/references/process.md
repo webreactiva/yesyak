@@ -73,10 +73,8 @@ On a conflict, name both signals, ask which one is right, and show no next step.
 | --- | --- |
 | "What now?", "where am I?" | `ask-yak` |
 | Change the process, first install in a project | `customize-yak` |
-| A feature request | `feature-delivery-pipeline` |
-| A bug report | `bug-intake` |
-| A run without questions | `unattended-run`, with one of the two above |
-| Any feature or bug, when you do not want to choose the skills | `yak-pilot`, which plans the skills and the stops, then runs one of the two above |
+| A feature request or a bug report | `yak-pilot`, which plans the skills and the stops, then runs `feature-delivery-pipeline` or `bug-intake` |
+| A run without questions | the observer preset of `yak-pilot`; `unattended-run` answers the questions |
 | A pause, or work that passes to someone else | `handoff-and-resume` |
 | One task only | the skill of that step |
 

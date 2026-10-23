@@ -2,7 +2,7 @@
 
 YesYak is tested on real projects. An internal skill of this repository (`.claude/skills/yak-bench/`, not installed by `npx skills`) drives an agent as a puppet through the process while Claude Code plays the human user. Every run is in [LOG.md](LOG.md), with one file per run in [runs/](runs/) and the skills each run loaded in [FLOWS.md](FLOWS.md).
 
-## Autopilot series: runs 0023 to 0034
+## Autopilot series: runs 0023 to 0037
 
 These runs test `yak-pilot` (issue #1): the user asks for the result, approves one plan, and answers only where the agent stops. The human never names a skill. Every stop where the run waited for the human is listed in the run file, in an "HIL stops" table.
 
@@ -20,15 +20,18 @@ These runs test `yak-pilot` (issue #1): the user asks for the result, approves o
 | [0032](runs/0032-webfront-cookies-claude.md) | Claude Code · claude-sonnet-5-5 | the user's Next.js app · cookie consent | default | 2 | 1 | 0 | 0 | 0 | 1 |
 | [0033](runs/0033-sopravolare-reminders-claude.md) | Claude Code · claude-sonnet-5-5 | the user's Laravel app · subscriber email | approver | 1 (with the schema gate) | 1 | 1 | 0 | 0 | 0 |
 | [0034](runs/0034-webfront-structured-data-claude.md) | Claude Code · claude-sonnet-5-5 | the user's Next.js app · same task as 0030 | approver | 1 | 1 | 0 | 0 | 0 | 0 |
+| [0035](runs/0035-icecream-timing-pilot.md) | OpenCode · minimax-m2.7 | icecream · ambiguous feature | approver | 1 | 1 | 1 | 1 | 0 | review steps left out of the plan |
+| [0036](runs/0036-gohumanize-year-pilot.md) | OpenCode · deepseek-v4.1-flash | go-humanize · clear bug, existing output | approver | 2 | 1 | 0 | 0 | 0 | 1 |
+| [0037](runs/0037-icecream-timing-pilot2.md) | OpenCode · minimax-m2.7 | icecream · same task as 0035 | approver | 1 | 0 | 1 | 0 | 0 | review steps left out of the plan |
 
 Plan gates count the plan approval. Profile stops come from "always ask" entries, for example "apply a retrospective guard". A missed gate is a decision the agent took alone that the reviewer would revert or that a gate criterion covers.
 
 What the series showed:
 
-- **The user names no skill.** In twelve runs the human named none; the pilot chose the route and the skills.
-- **Most runs need nothing after the plan.** Eight of twelve runs had no extra message after the plan approval; the others were a stall (fixed), a plan correction in the first version, and provider quotas.
+- **The user names no skill.** In fifteen runs the human named none; the pilot chose the route and the skills.
+- **Most runs need nothing after the plan.** Eleven of fifteen runs had no extra message after the plan approval; the others were a stall (fixed), a plan correction in the first version, and provider quotas.
 - **Gates land on real decisions**: a public API shape, output that users already get, metrics that drop with consent, a new table. Only one gate in the series had no criterion behind it.
-- **Strong models skip skills; the plan makes them visible.** Sonnet did the work of a skill by hand in two runs; a Loaded column in the plan now records each load. Weak models copy the shape of an example; the plan now lists every step of the route.
+- **Strong models skip skills; the plan makes them visible.** Sonnet did the work of a skill by hand in two runs; a Loaded column in the plan now records each load. Weak models copy the shape of an example: deepseek listed every fix-route step (0036), but MiniMax left out the review steps of the feature route twice (0035, 0037), so the example of the plan now lists every step.
 - **The profile learns.** A rule said in the chat went to the settings file and stopped the next change of that kind (0028).
 - **Model cost varies a lot.** GLM spent the whole provider budget by the build phase; MiniMax was cheap but left out the review phases; deepseek finished the process for cents; Sonnet gave the best plans and reviews.
 

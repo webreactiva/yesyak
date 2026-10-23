@@ -41,6 +41,9 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0032](runs/0032-webfront-cookies-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | web-reactiva-2244 webfront (user's app) · #27 cookie consent, yak-pilot, default profile | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 2.90 $ |
 | [0033](runs/0033-sopravolare-reminders-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | sopravolare (user's app) · weekly reminder mail for subscribers, yak-pilot, approver | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 5.80 $ |
 | [0034](runs/0034-webfront-structured-data-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | web-reactiva-2244 webfront (user's app) · #32 structured data, same task as 0030 | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 6.76 $ |
+| [0035](runs/0035-icecream-timing-pilot.md) | 2026-10-23 | v0.5.0 (f5605ee) | gruns/icecream · feature #186 (time of an `ic()` expression), yak-pilot, issue #4 | ollama-cloud/minimax-m2.7 | `ses_e98602411ffeL3gJOZithpbp3l` (work), 1 probe session | build + verification; red team, triage, PR, guide, retrospective never ran | 0/0/0 | 0.15 $ |
+| [0036](runs/0036-gohumanize-year-pilot.md) | 2026-10-23 | v0.5.0 (f5605ee) | dustin/go-humanize · bug #116 (a year of 360 days), yak-pilot, issue #4 | ollama-cloud/deepseek-v4.1-flash | `ses_e98602413ffeES07g1HTS2TaRe` (work), 1 probe session | fix route complete | 0/0/0 | 0.03 $ |
+| [0037](runs/0037-icecream-timing-pilot2.md) | 2026-10-23 | v0.5.0 + F-093 path fix | gruns/icecream · same task as 0035 | ollama-cloud/minimax-m2.7 | `ses_e984d1a1cffe86Hhv7TQy1v6Uq` (work), 1 probe session | build + verification + PR body; red team, triage, guide, retrospective never ran | 0/1/0 | 0.22 $ |
 
 ## Metrics
 
@@ -83,6 +86,9 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0032-webfront-cookies-claude | anthropic/claude-sonnet-5-5 | 8 | 110 | 27 min | 11 min | 220 | 109057 | 8802531 | 2.90 | (shared with 0031) | | |
 | 0033-sopravolare-reminders-claude | anthropic/claude-sonnet-5-5 | 9 | 183 | 87 min | 56 min | 366 | 202247 | 23518990 | 5.80 | 76 | 37738630 (56674) | 9.11 |
 | 0034-webfront-structured-data-claude | anthropic/claude-sonnet-5-5 | 7 | 254 | 34 min | 31 min | 508 | 225138 | 27584910 | 6.76 | 41 | 19509946 (26333) | 4.65 |
+| 0035-icecream-timing-pilot | ollama-cloud/minimax-m2.7 | 10 | 59 | 16 min | 14 min | 107045 | 17455 | 1571383 | 0.15 | not measured | | |
+| 0036-gohumanize-year-pilot | ollama-cloud/deepseek-v4.1-flash | 7 | 56 | 6 min | 3 min | 53484 | 30068 | 2098460 | 0.03 | not measured | | |
+| 0037-icecream-timing-pilot2 | ollama-cloud/minimax-m2.7 | 7 | 76 | 14 min | 13 min | 157915 | 23327 | 2350861 | 0.22 | not measured | | |
 
 ## Findings
 
@@ -172,13 +178,16 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-080 | Bench | fixed in bench tools (pitfall) | A `.env` copied from `.env.example` carried a live error-tracker DSN, so baseline and puppet test runs could send events to the real service | 0029, user report |
 | F-081 | Skill | verified in run 0032 | Setup created AGENTS.md in a project that keeps its rules in CLAUDE.md; an agent that reads only AGENTS.md lost them and ran a forbidden build (twice) and a `git stash`. A new AGENTS.md now points to the rules file | 0030 turn 10; verified 0032 |
 | F-082 | Harness | recorded (pitfall) | `OPENCODE_DISABLE_CLAUDE_CODE=1` in turn.sh also hides the project's own CLAUDE.md | 0030 |
-| F-083 | Skill | verified in runs 0033 and 0034 | The setup skipped the pilot profile round when the user asked for one change, and yak-pilot used the default profile without asking | 0030 (MiniMax), 0032 (Sonnet) |
+| F-083 | Skill | verified in runs 0033 and 0034 (Sonnet); setup half seen again in 0037 (MiniMax), the yak-pilot fallback asked it | The setup skipped the pilot profile round when the user asked for one change, and yak-pilot used the default profile without asking | 0030 (MiniMax), 0032 (Sonnet), 0037 (MiniMax) |
 | F-084 | Skill | verified in runs 0033 and 0034 | A new table and index went in without a gate; the plan said no contract changed. The plan now lists data changes, each a gate | 0031 |
-| F-085 | Skill | verified in runs 0033 and 0034 | A skill the plan marked yes did not load (spec in 0031, triage in 0032); a Loaded column is now filled only after the skill tool loads it | 0031, 0032 (Sonnet) |
+| F-085 | Skill | verified in runs 0033 and 0034 (Sonnet); seen again in 0036 (deepseek, `execute-plan-loop`) | A skill the plan marked yes did not load (spec in 0031, triage in 0032); a Loaded column is now filled only after the skill tool loads it | 0031, 0032 (Sonnet), 0036 (deepseek) |
 | F-086 | Skill | watch | The conversation switched from the user's language (Spanish) to English mid-answer | 0029 (GLM) |
 | F-087 | Model | watch | GLM reran the full suites after each small change (16 runs) and spent the whole provider budget by phase 3; the user stopped it | 0029 |
 | F-088 | Bench | fixed in bench tools | A killed turn left the counter unchanged, so the next turn wrote over its files | 0029 |
-| F-089 | Skill | fixed on branch feat/autopilot-plan | The plan table copied the short example and left out red team, triage, reviewer guide and retrospective, which then never ran; the plan now has one row per route step | 0030 (MiniMax) |
+| F-089 | Skill | verified in run 0036 for the fix route; reopened for the feature route, fixed in v0.5.1 | The plan table copied the short example and left out red team, triage, reviewer guide and retrospective, which then never ran. v0.5.0 asked for one row per route step: deepseek listed every fix-route step (0036); MiniMax still left out the review steps on the feature route, also with the map read (0035, 0037). v0.5.1 makes the example table list every step of the feature route. Not run again: the user accepted it without one more MiniMax run | 0030, 0035, 0037 (MiniMax), 0036 (deepseek) |
 | F-090 | Model | watch | A setup answer (decision records off) never reached the settings file | 0030 (MiniMax) |
 | F-091 | Skill | watch | A feature that acts on real users after a deploy (a scheduled mail, on by default) was decided alone; the outward-action criterion names push, publish and merge only | 0033 |
-| F-092 | Skill | watch | The Loaded column of the plan was filled in the first phases only (every skill loaded) | 0033 |
+| F-092 | Model | confirmed | The Loaded column of the plan was filled in the first phases only (0033), or never (0035, 0036, 0037), although the skill says to fill it after each load and to check it at each phase end. No cheaper rule found | 0033, 0035, 0036, 0037 |
+| F-093 | Skill | fixed in v0.5.1 | `yak-pilot` named the process map as "`ask-yak` (`references/process.md`)"; MiniMax read `yak-pilot/references/process.md`, the read failed, and the plan had only the example rows. The path is now `ask-yak/references/process.md`, as in the other skills | 0035 turn 7 |
+| F-094 | Skill | watch | The plan copied "Outward actions allowed: push the branch" from the example after the user said the PR stays local; 0035 then asked to push | 0035, 0037 (MiniMax) |
+| F-095 | Model | watch | The spec was written and committed, and the branch made, before the plan approval | 0037 (MiniMax) |

@@ -51,7 +51,7 @@ Alternative: clone this repository and run `./install.sh -t /path/to/project`. I
 
 Keep one copy of YesYak on your machine and link its `skills/` folder into the project. Nothing is copied into the project, `git pull` in your copy updates every linked project, and two `rm` commands remove YesYak again.
 
-<p align="center"><img src="assets/symlink-install.svg" width="360" alt="Install by linking: download YesYak once, link its skills folder as .claude/skills and .agents/skills, and Claude Code, Codex and OpenCode see every skill. Remove the two links to remove it."></p>
+<p align="center"><img src="assets/link-and-pilot.svg" width="360" alt="From install to pull request: link the skills folder, say set up YesYak, send /yak-pilot with the task and approve the plan once. The agent runs the six phases alone and stops only at gates. You review a local pull request."></p>
 
 ```bash
 git clone https://github.com/webreactiva/yesyak ~/yesyak    # once per machine

@@ -1,6 +1,8 @@
-<p align="center"><img src="assets/logo.webp" alt="YesYak logo" width="240"></p>
+<p align="center"><img src="assets/cover.png" alt="YesYak: agent skills that take a feature or a bug from a vague request to a reviewed pull request. Install with npx skills add webreactiva/yesyak."></p>
 
 # YesYak
+
+English · [Español](README.es.md)
 
 YesYak is a set of agent skills that takes a feature from a vague request, or a bug from a report, to a reviewed pull request. You ask for the result in your own words. YesYak chooses the skills, shows you a short plan, and then works alone: it writes the contract before the code, builds in small integrated steps, tries to break its own work, and ends with a retrospective that turns your corrections into guards. It stops for you only where a human must decide, and it says why.
 
@@ -103,7 +105,7 @@ Then start a session and say "set up YesYak". The links only make the skills vis
 7. **When you stop**, say "we stop here". `handoff-and-resume` writes a dated note in `docs/handoffs/`. In the next session, say "let's continue" and the agent checks the note against the repository before it goes on.
 8. **When the process does not fit your team**, ask `customize-yak` to change it ("we never test in a browser", "use my spec template"). It writes the change to `.agents/yesyak.json`; no skill is edited.
 
-<img width="1400" height="1350" alt="phases" src="https://github.com/user-attachments/assets/adbea095-92be-44bd-8600-e7296651a1d2" />
+<p align="center"><img src="assets/phases.svg" alt="The eight YesYak phases: starter kit, grill and sketch, write the contract, make it work, break it, sign your work, retrospective, and later."></p>
 
 ## When it asks you
 

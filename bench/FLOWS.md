@@ -2,7 +2,7 @@
 
 How each run went through the YesYak process, and which skills the puppet used, in order. Regenerate the skills column with `python3 .claude/skills/yak-bench/scripts/report.py flows .scratchpad/bench`. It reads the turns of the work session (not the isolation probe). A skill counts when the puppet loads it with the skill tool, or reads its `SKILL.md` by hand (marked `*`). The number is the turn of first use.
 
-Last update: run 0034, YesYak v0.4.5 + yak-pilot (branch).
+Last update: run 0038, YesYak v0.5.1.
 
 ## The runs
 
@@ -43,6 +43,10 @@ Last update: run 0034, YesYak v0.4.5 + yak-pilot (branch).
 | 0032 | Claude Code, Sonnet | feature on the user's app, yak-pilot | feature, plan + metrics + spec gates | 6 Retrospective | Found that the existing banner gated nothing; kept the project's build/jest ban; red team caught a button in a dead footer |
 | 0033 | Claude Code, Sonnet | feature on the user's app, yak-pilot | feature, plan with a schema gate | 6 Retrospective | Data change gated in the plan; every planned skill loaded; a mail on by default decided alone |
 | 0034 | Claude Code, Sonnet | same task as 0030 | feature, plan gate only | 6 Retrospective | Against MiniMax on the same task: 1 gate instead of 3, red team and retrospective run, project rules kept |
+| 0035 | OpenCode, minimax-m2.7 | feature, yak-pilot (issue #4) | feature, plan gate | verification | The process map path failed to resolve; a 3-row plan left out every review step, and verification passed a timer that measured the wrong interval |
+| 0036 | OpenCode, deepseek-v4.1-flash | bug, yak-pilot (issue #4) | fix, plan with 2 gates | complete | Every fix-route step in the plan; done in 6 minutes |
+| 0037 | OpenCode, minimax-m2.7 | same task as 0035, path fixed | feature, plan gate | PR body | The map was read, yet the plan still left out red team, triage, guide and retrospective; the example table is now complete |
+| 0038 | OpenCode, glm-5.3-flash | same task as 0035, v0.5.1 | feature, API gate + plan gate | 6 Retrospective | Every route step in the plan and in the run; saw the existing timer and the evaluation order; two red teams with real defects |
 
 ## Skills used, in order
 
@@ -83,6 +87,10 @@ Last update: run 0034, YesYak v0.4.5 + yak-pilot (branch).
 | 0032-webfront-cookies-claude | customize-yak (2) → yak-pilot (4) → feature-delivery-pipeline (6) → unattended-run (6) → simplified-technical-language (6) → scratchpad-working-files (6) → git-commit-organizer (6) → no-slop-code (6) → decision-record-log (6) → traffic-light-findings (6) → plain-visual-docs (6) → write-acceptance-spec (6) → walking-skeleton-plan (7) → execute-plan-loop (7) → verify-against-spec (7) → red-team-review (7) → write-visual-pr (7) → session-retrospective-rules (7) |
 | 0033-sopravolare-reminders-claude | customize-yak → yak-pilot → feature-delivery-pipeline → unattended-run → conventions → domain-language → write-acceptance-spec → red-team-review → walking-skeleton-plan → execute-plan-loop → verify-against-spec → triage-findings-list → write-visual-pr → pr-reviewer-guide → session-retrospective-rules |
 | 0034-webfront-structured-data-claude | customize-yak → yak-pilot → feature-delivery-pipeline → unattended-run → conventions → write-acceptance-spec → walking-skeleton-plan → execute-plan-loop → verify-against-spec → red-team-review → triage-findings-list → write-visual-pr → pr-reviewer-guide → session-retrospective-rules |
+| 0035-icecream-timing-pilot | customize-yak (2) → yak-pilot (7) → write-acceptance-spec (9) → execute-plan-loop (9) → git-commit-organizer (9) → verify-against-spec (9) |
+| 0036-gohumanize-year-pilot | customize-yak (2) → git-commit-organizer (4) → yak-pilot (5) → bug-intake (6) → unattended-run (6) → write-visual-pr (6) → session-retrospective-rules (6) |
+| 0037-icecream-timing-pilot2 | customize-yak (2) → yak-pilot (5) → write-acceptance-spec (6) → execute-plan-loop (7) → verify-against-spec (7) → write-visual-pr (7) |
+| 0038-icecream-timing-glm | customize-yak (2) → on-the-spot (2) → yak-pilot (5) → feature-delivery-pipeline (6) → unattended-run (6) → conventions (6) → domain-language (6) → write-acceptance-spec (6) → red-team-review (6) → walking-skeleton-plan (6) → execute-plan-loop (6) → verify-against-spec (6) → triage-findings-list (6) → write-visual-pr (6) → pr-reviewer-guide (6) → session-retrospective-rules (6) |
 
 ## The usual order
 
@@ -120,7 +128,7 @@ The convention skills (`simplified-technical-language`, `scratchpad-working-file
 | `agent-hook-guard` | 1: 0004 |
 | `ask-yak` | 3: 0001, 0002, 0011 |
 | `autopilot-plan` | 2: 0023, 0024 (renamed `yak-pilot`) |
-| `yak-pilot` | 10: 0025-0034 |
+| `yak-pilot` | 14: 0025-0038 |
 | `browser-acceptance-testing` | 0: none (off in every run on purpose) |
 | `bug-intake` | 5: 0001, 0002, 0005, 0012, 0013 |
 | `customize-yak` | 14: 0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0010, 0011, 0012, 0013, 0014 |

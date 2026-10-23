@@ -20,6 +20,8 @@ The skills follow the open SKILL.md format. Each skill works on its own, except 
 
 ## Quick start
 
+<p align="center"><img src="assets/link-and-pilot.svg" width="360" alt="From install to pull request: install the skills with npx skills add, say set up YesYak, send /yak-pilot with the task and approve the plan once. The agent runs the six phases alone and stops only at gates. You review a local pull request."></p>
+
 1. In the root of your project: `npx skills add webreactiva/yesyak`. Take all the skills.
 2. Start a new agent session and say "set up YesYak". Answer its questions once.
 3. Give the pilot the task: `/yak-pilot Let customers cancel an order before it ships` or `/yak-pilot Cancelling a shipped order returns a 500`. In an agent without slash commands, name it: "yak-pilot: …". It shows a short plan; approve it, then answer only where it stops for you. A plain request without the name usually starts it too (the YesYak block says so), but the name is the sure way.
@@ -51,7 +53,6 @@ Alternative: clone this repository and run `./install.sh -t /path/to/project`. I
 
 Keep one copy of YesYak on your machine and link its `skills/` folder into the project. Nothing is copied into the project, `git pull` in your copy updates every linked project, and two `rm` commands remove YesYak again.
 
-<p align="center"><img src="assets/link-and-pilot.svg" width="360" alt="From install to pull request: link the skills folder, say set up YesYak, send /yak-pilot with the task and approve the plan once. The agent runs the six phases alone and stops only at gates. You review a local pull request."></p>
 
 ```bash
 git clone https://github.com/webreactiva/yesyak ~/yesyak    # once per machine

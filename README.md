@@ -1,6 +1,8 @@
-<p align="center"><img src="assets/logo.webp" alt="YesYak logo" width="240"></p>
+<p align="center"><img src="assets/cover.png" alt="YesYak: agent skills that take a feature or a bug from a vague request to a reviewed pull request. Install with npx skills add webreactiva/yesyak."></p>
 
 # YesYak
+
+English · [Español](README.es.md)
 
 YesYak is a set of agent skills that takes a feature from a vague request, or a bug from a report, to a reviewed pull request. You ask for the result in your own words. YesYak chooses the skills, shows you a short plan, and then works alone: it writes the contract before the code, builds in small integrated steps, tries to break its own work, and ends with a retrospective that turns your corrections into guards. It stops for you only where a human must decide, and it says why.
 
@@ -19,6 +21,8 @@ https://github.com/user-attachments/assets/ff93a755-f03a-414a-b94b-6545d0f5622f
 The skills follow the open SKILL.md format. Each skill works on its own, except `customize-yak`, which needs `ask-yak` (its skill cards and its check script).
 
 ## Quick start
+
+<p align="center"><img src="assets/link-and-pilot.svg" width="360" alt="From install to pull request: install the skills with npx skills add, say set up YesYak, send /yak-pilot with the task and approve the plan once. The agent runs the six phases alone and stops only at gates. You review a local pull request."></p>
 
 1. In the root of your project: `npx skills add webreactiva/yesyak`. Take all the skills.
 2. Start a new agent session and say "set up YesYak". Answer its questions once.
@@ -47,6 +51,33 @@ The skills do nothing until the project has the YesYak block in AGENTS.md. Step 
 
 Alternative: clone this repository and run `./install.sh -t /path/to/project`. It links the skills and also writes a minimal YesYak block, `@AGENTS.md` in CLAUDE.md and `.scratchpad/` in `.gitignore`. Then the agent offers step 2 by itself. `./install.sh -h` lists the options.
 
+### Link one folder
+
+Keep one copy of YesYak on your machine and link its `skills/` folder into the project. Nothing is copied into the project, `git pull` in your copy updates every linked project, and two `rm` commands remove YesYak again.
+
+
+```bash
+git clone https://github.com/webreactiva/yesyak ~/yesyak    # once per machine
+cd /path/to/project
+mkdir -p .claude .agents
+ln -s ~/yesyak/skills .claude/skills                         # Claude Code and OpenCode
+ln -s ~/yesyak/skills .agents/skills                         # Codex and OpenCode
+printf '.claude/skills\n.agents/skills\n' >> .git/info/exclude
+```
+
+Then start a session and say "set up YesYak". The links only make the skills visible; the setup writes the YesYak block.
+
+| Agent | `.claude/skills` link | `.agents/skills` link | Both links |
+| --- | --- | --- | --- |
+| Claude Code | sees every skill | does not read `.agents` | sees every skill |
+| Codex | does not read `.claude` | sees every skill | sees every skill |
+| OpenCode | sees every skill | sees every skill | sees every skill, no duplicates |
+
+- Use it only when the project has no skills folder of its own. A link inside an existing folder (for example `.agents/skills/yesyak`) works for Codex and OpenCode, but Claude Code reads only one level and does not see it. In that case use `./install.sh`, which links each skill.
+- The links point to a path on your machine, so keep them out of git (the last command above). Each person makes their own links.
+- `check_yesyak.py` works through the links: it finds the project from the folder you run it in.
+- To remove YesYak: `rm .claude/skills .agents/skills` (no slash at the end, so only the links go). Your copy of YesYak stays.
+
 ## User journey
 
 1. **Install the skills** with `npx skills add webreactiva/yesyak` (see [Install](#install)).
@@ -74,7 +105,7 @@ Alternative: clone this repository and run `./install.sh -t /path/to/project`. I
 7. **When you stop**, say "we stop here". `handoff-and-resume` writes a dated note in `docs/handoffs/`. In the next session, say "let's continue" and the agent checks the note against the repository before it goes on.
 8. **When the process does not fit your team**, ask `customize-yak` to change it ("we never test in a browser", "use my spec template"). It writes the change to `.agents/yesyak.json`; no skill is edited.
 
-<img width="1400" height="1350" alt="phases" src="https://github.com/user-attachments/assets/adbea095-92be-44bd-8600-e7296651a1d2" />
+<p align="center"><img src="assets/phases.svg" alt="The eight YesYak phases: starter kit, grill and sketch, write the contract, make it work, break it, sign your work, retrospective, and later."></p>
 
 ## When it asks you
 

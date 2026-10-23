@@ -11,7 +11,7 @@ This skill plans and keeps the run on its plan. The phase skills do the work. `u
 
 ## 1. Read the request, the state and the profile
 
-1. Find the position with the state signals of `ask-yak` (`references/process.md`). If work for this slug has started, plan only the steps that are still to run.
+1. Read `ask-yak/references/process.md` in the skills folder: the process map, the fix route and the state signals. Find the position with the state signals. If work for this slug has started, plan only the steps that are still to run.
 2. Read the profile: the `pilot:` lines that `check_yesyak.py` prints. No `pilot:` line means no profile. Then the first message of the run asks the round of `customize-yak` ("Pilot profile") together with the blocking questions of section 2, and says that the run uses the default profile until the answer. `customize-yak` writes the answer.
 3. Choose the route: a feature request goes to `feature-delivery-pipeline`, a bug report to `bug-intake`.
 4. Read the code that the request touches, and give the "does it fit in one iteration?" verdict of the pipeline. A split is a gate: the user chooses the first delivery.
@@ -27,7 +27,7 @@ Ask all blocking questions in one round, in the format of `on-the-spot` ("How to
 
 ## 3. Make the plan of skills
 
-Start from the route and its process map. The plan table has one row for every step of the route, the required ones too (the example below shows only a few rows). For each step, decide if it runs, and write the skill that does it.
+Start from the route in `ask-yak/references/process.md`: the process map for a feature, the fix route for a bug. The plan table has one row for every step of the route, the required ones too. For each step, decide if it runs, and write the skill that does it.
 
 **Size the artifacts.** Unless the user or the profile asks for them:
 
@@ -101,9 +101,26 @@ Write the plan to `.scratchpad/<slug>/progress.md`, under `## Plan`, above the p
 
 | Step | Skill | Runs | Why | Loaded |
 | --- | --- | --- | --- | --- |
+| Branch | git-commit-organizer | yes | required | |
 | Interview | on-the-spot | yes, answered alone | two open points, none meets a criterion | |
-| Spec challenge | red-team-review | yes | refunds touch money | |
 | Prototype | prototype-options | no | no user interface | — |
+| Domain language | domain-language | yes | required | |
+| Spec | write-acceptance-spec | yes, full | new behavior, a refund contract | |
+| Spec challenge | red-team-review | yes | refunds touch money | |
+| Plan | walking-skeleton-plan | yes, full | more than one way to build it | |
+| Work items | work-items-breakdown | no | no task list | — |
+| Build | execute-plan-loop | yes | required | |
+| Verification | verify-against-spec | yes | required | |
+| Browser testing | browser-acceptance-testing | no | switched off in the settings | — |
+| Red team | red-team-review | yes | required | |
+| Agent hook | agent-hook-guard | no | no repeated mistake to guard | — |
+| Triage | triage-findings-list | yes | required | |
+| Fixes | execute-plan-loop (change-list mode) | yes | required | |
+| Pull request | write-visual-pr | yes, local | required | |
+| Reviewer guide | pr-reviewer-guide | yes | required | |
+| Walkthrough | feature-walkthrough | no | not asked | — |
+| Retrospective | session-retrospective-rules | yes | required | |
+| Handoff | handoff-and-resume | no | the work does not pause | — |
 
 | Gate | Where | Decision | Rule |
 | --- | --- | --- | --- |

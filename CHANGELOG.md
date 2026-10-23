@@ -12,7 +12,7 @@ From issue #1 and benchmark runs 0023 to 0034 (OpenCode with deepseek, GLM and M
 - `customize-yak`: a new AGENTS.md points to the file that holds the project's rules (for example CLAUDE.md), so an agent that reads only AGENTS.md keeps them.
 - `feature-delivery-pipeline`, `bug-intake` and `unattended-run` no longer compete with `yak-pilot` for a plain request: the pilot starts them.
 - README: the pilot first, a "When it asks you" section, the inner skills under "Under the hood"; the detailed benchmark results moved to `bench/RESULTS.md`.
-- Benchmark: autopilot runs, an "HIL stops" table in every run file, `remote`-free clones on a branch, killed turns never overwritten, new pitfalls (a `.env` with live telemetry, the OpenCode flag that hides CLAUDE.md, provider quotas, editing a turn script during a turn).
+- Benchmark: autopilot runs, an "HIL stops" table in every run file, clones that start on a branch, killed turns never overwritten, new pitfalls (a `.env` with live telemetry, the OpenCode flag that hides CLAUDE.md, provider quotas, editing a turn script during a turn).
 
 Contract changes for projects that use YesYak: the YesYak block line now reads "A feature request or a bug report starts `yak-pilot`, whatever the size." Run `customize-yak` again ("clean up the YesYak block") to update it and to add a pilot profile. Settings files may now hold a `pilot` key.
 

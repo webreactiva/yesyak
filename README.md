@@ -4,7 +4,7 @@
 
 YesYak is a set of agent skills that takes a feature from a vague request, or a bug from a report, to a reviewed pull request. You ask for the result in your own words. YesYak chooses the skills, shows you a short plan, and then works alone: it writes the contract before the code, builds in small integrated steps, tries to break its own work, and ends with a retrospective that turns your corrections into guards. It stops for you only where a human must decide, and it says why.
 
-You do not need to learn the skills. One entry point, `yak-pilot`, knows them.
+You do not need to learn the skills. After the setup, one skill drives every run: `yak-pilot`. The other skills are its parts. You can still call one alone, but YesYak only makes sense as a whole when the pilot leads.
 
 
 
@@ -125,7 +125,11 @@ flowchart LR
 
 A user skill with the same name as a project skill can shadow it. If the skill tool prints a base directory that is neither in the project's skills folder nor the target of a symlink there, read the project `SKILL.md` directly (`feature-delivery-pipeline` checks this). If it happens often, rename your own skill, not the YesYak one, because settings files use the YesYak names.
 
-## Entry points
+## Under the hood
+
+You only need the [quick start](#quick-start). This part is for people who change YesYak or call one skill alone.
+
+### Entry points
 
 ```mermaid
 flowchart TD
@@ -150,7 +154,7 @@ flowchart TD
 | A pause, or work that passes to someone else | `handoff-and-resume` (writes `docs/handoffs/`, and resumes from it) |
 | One task only | the phase skill for it, for example `write-visual-pr` or `red-team-review` |
 
-## Owner skills
+### Owner skills
 
 Each topic has one owner skill. It keeps the full rule, even when the project's AGENTS.md repeats it, because other projects may not have that AGENTS.md. When the project's AGENTS.md says something different, the project wins. Other skills name the owner instead of copying its rules.
 

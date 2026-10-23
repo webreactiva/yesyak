@@ -22,10 +22,18 @@ import models  # noqa: E402
 TOKEN_KEYS = ("input", "output", "cache_read", "cache_write")
 
 
+def parse(line):
+    # A transcript can end with a line cut while it was written; skip it instead of failing the whole report.
+    try:
+        return json.loads(line) if line.startswith("{") else {}
+    except json.JSONDecodeError:
+        return {}
+
+
 def events(path):
     for line in Path(path).read_text().splitlines():
         if line.startswith("{"):
-            yield json.loads(line)
+            yield parse(line)
 
 
 def summarize_claude(path):
@@ -126,7 +134,7 @@ def claude_transcript(repo, session_id):
 def claude_session_metrics(transcript, run_dir, data):
     """session_metrics for a Claude Code transcript; the agent time comes from the turns' result events."""
     steps, tokens, cost = driver_usage(transcript, 0, float("inf"), data)
-    entries = [json.loads(l) for l in Path(transcript).read_text().splitlines() if l.startswith("{")]
+    entries = [parse(l) for l in Path(transcript).read_text().splitlines() if l.startswith("{")]
     times = [datetime.fromisoformat(e["timestamp"].replace("Z", "+00:00")).timestamp() * 1000 for e in entries if "timestamp" in e]
     turns = sum(e.get("type") == "user" and isinstance((e.get("message") or {}).get("content"), str) for e in entries)
     sid = Path(transcript).stem.removeprefix("session-")
@@ -143,7 +151,7 @@ def driver_usage(transcript, start_ms, end_ms, data):
     transcript = Path(transcript)
     for f in [transcript, *transcript.with_suffix("").glob("subagents/*.jsonl")]:
         for line in f.read_text().splitlines():
-            e = json.loads(line) if line.startswith("{") else {}
+            e = parse(line)
             msg = e.get("message") or {}
             if e.get("type") != "assistant" or msg.get("id") in seen or not msg.get("usage"):
                 continue
@@ -229,6 +237,8 @@ def flows(bench_dir):
         start = min(work)
         seen = {}
         for path in sorted((run_dir / "turns").glob("*.jsonl")):
+            if not path.stem.isdigit():  # a killed turn kept aside, for example 08-killed
+                continue
             n = int(path.stem)
             if n < start:
                 continue

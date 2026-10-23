@@ -25,7 +25,7 @@ bug-intake (triage, then contract and reproduction) → branch fix/<slug> → ex
 → write-visual-pr (short) → session-retrospective-rules
 ```
 
-Conventions that every phase loads: `simplified-technical-language`, `scratchpad-working-files`, `git-commit-organizer`, `no-slop-code`, `decision-record-log`, `traffic-light-findings`, `plain-visual-docs`. Modes: `unattended-run` (no questions), `ask-yak` (where am I), `customize-yak` (change the process).
+Conventions that every phase loads: `simplified-technical-language`, `scratchpad-working-files`, `git-commit-organizer`, `no-slop-code`, `decision-record-log`, `traffic-light-findings`, `plain-visual-docs`. Entry: `yak-pilot` plans the skills and the stops for any feature or bug. Modes: `unattended-run` (no questions), `ask-yak` (where am I), `customize-yak` (change the process).
 
 ## State signals
 
@@ -73,9 +73,8 @@ On a conflict, name both signals, ask which one is right, and show no next step.
 | --- | --- |
 | "What now?", "where am I?" | `ask-yak` |
 | Change the process, first install in a project | `customize-yak` |
-| A feature request | `feature-delivery-pipeline` |
-| A bug report | `bug-intake` |
-| A run without questions | `unattended-run`, with one of the two above |
+| A feature request or a bug report | `yak-pilot`, which plans the skills and the stops, then runs `feature-delivery-pipeline` or `bug-intake` |
+| A run without questions | the observer preset of `yak-pilot`; `unattended-run` answers the questions |
 | A pause, or work that passes to someone else | `handoff-and-resume` |
 | One task only | the skill of that step |
 
@@ -235,6 +234,13 @@ Each card says when to use the skill, what it makes, what comes next, the sectio
 - Makes: `.scratchpad/<slug>/bug-report.md`, a failing test
 - Next: the fix route
 - Replaceable: none
+- Off: not allowed
+
+### yak-pilot
+- When: any feature request or bug report; the user does not choose the skills
+- Makes: the `## Plan` section of `.scratchpad/<slug>/progress.md`
+- Next: `feature-delivery-pipeline` or `bug-intake`, with `unattended-run`
+- Replaceable: Gate criteria, Presets
 - Off: not allowed
 
 ### unattended-run

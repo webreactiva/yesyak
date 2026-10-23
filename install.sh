@@ -83,7 +83,7 @@ read -r -d '' MIN_BLOCK <<'EOF' || true
 ## YesYak
 
 - At the start of a session and after a compaction, run `python3` with the `scripts/check_yesyak.py` of the `ask-yak` skill, from the project root. If it exits with 0, apply each `active:` line it prints when you use that skill: `add` adds the instruction, `replace` uses the instruction in place of the named section, `off` skips the skill unless the user asks for it by name. If it fails or cannot run, tell the user and use the skills as written. When you brief a subagent, include the `active:` lines of the skills it uses.
-- A feature request starts `feature-delivery-pipeline` and a bug report starts `bug-intake`, whatever the size. Ask the user before you skip a phase.
+- A feature request or a bug report starts `yak-pilot`, whatever the size. It plans the skills and the stops; ask the user before you leave out a step of its plan.
 - YesYak is installed but not set up: before the first task, offer `customize-yak` to detect the checks and conventions of this project.
 <!-- yesyak:end -->
 EOF

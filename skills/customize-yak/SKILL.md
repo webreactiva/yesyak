@@ -18,7 +18,7 @@ Read before you ask. Show what you detected in one table and do not ask for it a
 | Docs folders and their language | `docs/`, `docs/decisions/`, README; without docs, the language of AGENTS.md |
 | The commit convention | AGENTS.md or contributing docs first; otherwise the last 20 commit subjects (`git log --format=%s -20`) |
 | Whether the project keeps decision records | a decisions folder or ADR files; if there is none, ask once whether to keep them (`decision-record-log` can be `off`) |
-| Current adjustments | `.agents/yesyak.json` and `~/.agents/yesyak.json` |
+| Current adjustments and pilot profile | `.agents/yesyak.json` and `~/.agents/yesyak.json` |
 | The YesYak block | AGENTS.md, between `<!-- yesyak:start -->` and `<!-- yesyak:end -->` |
 | Which file the agent reads | AGENTS.md, or the agent's own file (CLAUDE.md, GEMINI.md, `.github/copilot-instructions.md`) and whether it imports AGENTS.md |
 
@@ -26,7 +26,7 @@ Use commands that only check. A script that fixes files in place is not a check.
 
 Stop and ask if the markers are broken: a start without an end, two blocks, or a marker inside a code fence. Change no file until the user says how to fix it.
 
-If the agent reads its own file and that file does not import AGENTS.md (for example `@AGENTS.md` in CLAUDE.md), every preview adds the import, also in an audit. The preview also creates AGENTS.md if it is missing. Say why before the preview. If the agent cannot import files, put the block in its own file.
+If the agent reads its own file and that file does not import AGENTS.md (for example `@AGENTS.md` in CLAUDE.md), every preview adds the import, also in an audit. The preview also creates AGENTS.md if it is missing. Say why before the preview. A new AGENTS.md also points to the file that holds the project's rules, outside the block (for example "Project rules: read CLAUDE.md first"): an agent that reads only AGENTS.md would lose them, such as a command the project forbids. If the agent cannot import files, put the block in its own file.
 
 If a block exists and the user asks for no change ("audit", "clean up the YesYak block", or a run with nothing to change), go to section 5.
 
@@ -41,6 +41,16 @@ Ask with the `on-the-spot` rules: rounds of up to four questions, the recommende
    - `off`: skip the step. Offer it only when the card says "Off: allowed".
 3. For whom? The project (`.agents/yesyak.json`, in git, for the team; recommended) or only you (`~/.agents/yesyak.json`, never in the repository).
 
+### Pilot profile
+
+`yak-pilot` reads the `pilot` key to decide where a run stops for the user. A first install always asks this round, also when the user asked for one change only, and the preview always writes a `pilot` key, also with the default answers. Ask it again when `yak-pilot` finds no profile:
+
+1. How much do you want to take part? `approver` (recommended): approve the plan and the risky decisions. `collaborator`: decide at every phase. `observer`: only watch.
+2. What must the agent always ask you? Offer the default entries (push, publish or merge; open a browser; apply a retrospective guard) and let the user add or remove.
+3. Anything it must never do? For example deploy, or write outside the repository.
+
+Write the answers as plain sentences. A hard limit goes in the file, never only in the chat. A change that removes an `always ask` entry or moves to a preset with fewer gates widens what the agent does alone: write it only after a yes that names the change.
+
 ## 3. Preview, then write
 
 Show the change to each file as a diff. Write only after a yes. If the user says no, change nothing.
@@ -54,7 +64,8 @@ Settings file: read it first and keep every other entry as it is. A skill can ha
     { "mode": "replace", "section": "Template", "instructions": ["Use docs/templates/spec.md as the template."] },
     { "mode": "add", "instructions": ["Link the design file in the Summary."] }
   ],
-  "work-items-breakdown": { "mode": "off" }
+  "work-items-breakdown": { "mode": "off" },
+  "pilot": { "preset": "approver", "always_ask": ["push, publish or merge", "open a browser"], "never": ["deploy"] }
 }
 ```
 
@@ -66,7 +77,7 @@ AGENTS.md: write only between the markers. Every byte outside them stays the sam
 
 - At the start of a session and after a compaction, run `python3` with the `scripts/check_yesyak.py` of the `ask-yak` skill, from the project root. If it exits with 0, apply each `active:` line it prints when you use that skill: `add` adds the instruction, `replace` uses the instruction in place of the named section, `off` skips the skill unless the user asks for it by name. If it fails or cannot run, tell the user and use the skills as written. When you brief a subagent, include the `active:` lines of the skills it uses.
 - Adjusted skills: verify-against-spec (add), work-items-breakdown (off)
-- A feature request starts `feature-delivery-pipeline` and a bug report starts `bug-intake`, whatever the size. Ask the user before you skip a phase.
+- A feature request or a bug report starts `yak-pilot`, whatever the size. It plans the skills and the stops; ask the user before you leave out a step of its plan.
 - One branch per piece of work: `feat/<slug>` for a feature, `fix/<slug>` for a bug.
 - Temporary files, reports and scratch data go in `.scratchpad/<slug>/` (gitignored).
 - Documentation in <detected language>, written in simplified technical language.

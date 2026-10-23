@@ -2,6 +2,20 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.5.0 · 2026-10-23
+
+From issue #1 and benchmark runs 0023 to 0034 (OpenCode with deepseek, GLM and MiniMax; Claude Code with Sonnet; two public libraries and two production apps).
+
+- New skill `yak-pilot`, the one entry point after the setup. Give it the task (`/yak-pilot <task>`, or "yak-pilot: …"). It asks only the questions that block the run, makes the plan of skills (one row per step of the route, with a Loaded column), sizes the spec and the plan, lists every data change, and decides the human-in-the-loop gates with a fixed rule order: the profile, the gate criteria, the preset. After one approval it runs alone and stops only at a gate. A turn ends only at a gate or at the end point.
+- Pilot profile: a `pilot` key in `.agents/yesyak.json` or `~/.agents/yesyak.json` with a preset (`approver` by default, `collaborator`, `observer`) and `always_ask` and `never` entries. `customize-yak` asks for it on every first install; `check_yesyak.py` validates it and prints `pilot:` lines.
+- `session-retrospective-rules` has a gates review: it counts the answers per kind of gate and proposes profile changes; a change that gives the agent more freedom needs an explicit yes.
+- `customize-yak`: a new AGENTS.md points to the file that holds the project's rules (for example CLAUDE.md), so an agent that reads only AGENTS.md keeps them.
+- `feature-delivery-pipeline`, `bug-intake` and `unattended-run` no longer compete with `yak-pilot` for a plain request: the pilot starts them.
+- README: the pilot first, a "When it asks you" section, the inner skills under "Under the hood"; the detailed benchmark results moved to `bench/RESULTS.md`.
+- Benchmark: autopilot runs, an "HIL stops" table in every run file, clones that start on a branch, killed turns never overwritten, new pitfalls (a `.env` with live telemetry, the OpenCode flag that hides CLAUDE.md, provider quotas, editing a turn script during a turn).
+
+Contract changes for projects that use YesYak: the YesYak block line now reads "A feature request or a bug report starts `yak-pilot`, whatever the size." Run `customize-yak` again ("clean up the YesYak block") to update it and to add a pilot profile. Settings files may now hold a `pilot` key.
+
 ## 0.4.5 · 2026-10-19
 
 - The repository moved to the `webreactiva` organization. Install with `npx skills add webreactiva/yesyak`.

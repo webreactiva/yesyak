@@ -10,6 +10,8 @@ SKILLS_DIR = Path(__file__).resolve().parents[2]
 PROCESS_FILE = SKILLS_DIR / "ask-yak" / "references" / "process.md"
 MODES = {"add", "replace", "off"}
 FIELDS = {"mode", "section", "instructions", "why"}
+PRESETS = {"collaborator", "approver", "observer"}
+PILOT_LISTS = ("always_ask", "never")
 MAX_BYTES = 1_000_000
 BLOCK = re.compile(r"<!-- yesyak:start -->(.*?)<!-- yesyak:end -->", re.S)
 SKILL_NAME = r"[a-z0-9]+(?:-[a-z0-9]+)+"
@@ -109,9 +111,29 @@ def check_entry(skill, entry, card, path):
     return problems
 
 
-def check_settings(path, cards, problems):
+def check_pilot(pilot, path):
+    """The yak-pilot profile: a preset and two lists of plain-language entries."""
+    if not isinstance(pilot, dict):
+        return [f"invalid pilot profile: not an object ({path})"]
+    problems = [f"unknown field: pilot.{field} ({path})" for field in sorted(set(pilot) - {"preset", "why", *PILOT_LISTS})]
+    if "preset" in pilot and (not isinstance(pilot["preset"], str) or pilot["preset"] not in PRESETS):
+        problems.append(f"invalid preset: pilot.preset = {pilot['preset']!r}, use one of {', '.join(sorted(PRESETS))} ({path})")
+    for key in PILOT_LISTS:
+        value = pilot.get(key, [])
+        if not isinstance(value, list) or not all(isinstance(v, str) and v.strip() for v in value):
+            problems.append(f"invalid pilot.{key}: must be a list of non-empty strings ({path})")
+    return problems
+
+
+def check_settings(path, cards, problems, pilots=None):
     checked = {}
     for skill, value in load_settings(path, problems).items():
+        if skill == "pilot":
+            found = check_pilot(value, path)
+            problems.extend(found)
+            if pilots is not None and not found:
+                pilots.append(value)
+            continue
         if skill not in cards:
             problems.append(f"unknown skill: {skill} ({path})")
             continue
@@ -220,6 +242,18 @@ def active_lines(skill, entries, scope):
             yield f"active: {skill} {mode} ({scope}){section}: {instruction}"
 
 
+def pilot_lines(project_pilot, user_pilot):
+    """The project preset wins; the entries of both scopes apply."""
+    for scope, pilot in (("project", project_pilot), ("user", user_pilot)):
+        if pilot and "preset" in pilot:
+            yield f"pilot: preset {pilot['preset']} ({scope})"
+            break
+    for scope, pilot in (("project", project_pilot), ("user", user_pilot)):
+        for key in PILOT_LISTS:
+            for entry in (pilot or {}).get(key, []):
+                yield f"pilot: {key.replace('_', ' ')}: {entry} ({scope})"
+
+
 def main():
     parser = argparse.ArgumentParser(description="Check the YesYak settings files and print the adjustments to apply.")
     parser.add_argument("--dev", action="store_true", help="also check skill cards and the process map")
@@ -232,6 +266,7 @@ def main():
     project_file = args.project or root / ".agents" / "yesyak.json"
     user_file = args.user or Path.home() / ".agents" / "yesyak.json"
     problems, notes = [], []
+    project_pilot, user_pilot = [], []
     block = read_block(root, problems)
     project = {}
     for option, path in (("--project", args.project), ("--user", args.user)):
@@ -241,8 +276,8 @@ def main():
         if block is None:
             notes.append("project settings ignored: AGENTS.md has no YesYak block")
         else:
-            project = check_settings(project_file, cards, problems)
-    user = check_settings(user_file, cards, problems) if user_file.exists() or user_file.is_symlink() else {}
+            project = check_settings(project_file, cards, problems, project_pilot)
+    user = check_settings(user_file, cards, problems, user_pilot) if user_file.exists() or user_file.is_symlink() else {}
     if block is not None:
         check_adjusted_line(block, project, problems)
     if args.dev:
@@ -264,6 +299,8 @@ def main():
     for skill, entries in project.items():
         for line in active_lines(skill, entries, "project"):
             print(line)
+    for line in pilot_lines(next(iter(project_pilot), None), next(iter(user_pilot), None)):
+        print(line)
     return 0
 
 

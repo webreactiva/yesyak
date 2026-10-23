@@ -29,6 +29,18 @@ Each run drives a puppet agent (OpenCode) through the YesYak process on a small 
 | [0020](runs/0020-packbeat-wordcloud.md) | 2026-10-18 | v0.4.3 | packbeat · delivery 4 (Word cloud), one cut, then unattended | ollama-cloud/deepseek-v4.1-flash | `ses_eb3a10a1…` (session 1), `ses_eb3989d7…` (session 2), 1 probe session | 6 Retrospective (all phases, merge left to the user) | 0/0/0 | 0.45 $ |
 | [0021](runs/0021-linkify-parens.md) | 2026-10-18 | v0.4.3 | sindresorhus/linkify-urls · bug #28 (parentheses in URLs) | ollama-cloud/deepseek-v4.1-flash | `ses_eb343039…` (work), 1 probe session | fix route complete | 0/0/0 | 0.04 $ |
 | [0022](runs/0022-packbeat-ranking-claude.md) | 2026-10-18 | v0.4.3 | packbeat · delivery 5 (competition ranking), YesYak already set up, one cut | anthropic/claude-sonnet-5-5 (Claude Code) | `9c24f2d8…` (session 1), `302f0ab3…` (session 2), 1 probe session | 6 Retrospective (after a request) | 0/0/0 | 2.34 $ |
+| [0023](runs/0023-humanize-bytes-autopilot.md) | 2026-10-22 | v0.4.5 + autopilot-plan (branch) | python-humanize/humanize · bug #459 (fraction below the base), autopilot, clear | ollama-cloud/deepseek-v4.1-flash | `ses_e9aeea63affeaRLTsRW4HxgLJb` (work), 1 probe session | fix route complete, alone after one gate | 0/0/0 | 0.05 $ |
+| [0024](runs/0024-tabulate-colsep-autopilot.md) | 2026-10-22 | v0.4.5 + autopilot-plan (branch) | astanin/python-tabulate · feature #357 (column group separators), autopilot, ambiguous | ollama-cloud/deepseek-v4.1-flash | `ses_e9aeea63cffe2yFarjf0KRDf33` (work), 1 probe session | 6 Retrospective (all phases), alone after G-01 | 0/1/0 | 0.19 $ |
+| [0025](runs/0025-tabulate-rowalign-pilot.md) | 2026-10-22 | v0.4.5 + yak-pilot (branch) | astanin/python-tabulate · bug #434 (tuple `rowalign`), yak-pilot, observer | ollama-cloud/deepseek-v4.1-flash | `ses_` see run file | fix route complete, no stop | 0/0/0 | 0.06 $ |
+| [0026](runs/0026-tabulate-floatfmt-pilot.md) | 2026-10-22 | v0.4.5 + yak-pilot (branch) | astanin/python-tabulate · feature #297 (function for `floatfmt`), yak-pilot, approver | ollama-cloud/deepseek-v4.1-flash | see run file | 6 Retrospective (all phases) | 1/0/1 | 0.17 $ |
+| [0027](runs/0027-humanize-locale-pilot.md) | 2026-10-22 | v0.4.5 + yak-pilot (branch) | python-humanize/humanize · bug #460 (locale separator, hot path), yak-pilot, approver | ollama-cloud/deepseek-v4.1-flash | see run file | fix route complete | 0/0/0 | 0.10 $ |
+| [0028](runs/0028-tabulate-stralign-pilot2.md) | 2026-10-22 | v0.4.5 + yak-pilot (branch) | python-tabulate (0026 result) · bug #294 (`stralign=None`), second session after a profile change | ollama-cloud/deepseek-v4.1-flash | see run file | fix route complete | 0/0/0 | 0.06 $ |
+| [0029](runs/0029-sopravolare-notes.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | sopravolare (user's app) · private notes for subscribers, yak-pilot, approver | ollama-cloud/glm-5.3, then ollama-cloud/deepseek-v4.1-flash | see run file | 6 Retrospective (all phases) | 0/0/0 (2 harness resumes) | GLM part ≈ 8.72 $ |
+| [0030](runs/0030-webfront-structured-data.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | web-reactiva-2244 webfront (user's app) · #32 structured data, yak-pilot | ollama-cloud/minimax-m2.7 | see run file | build + verification; red team, triage, guide, retrospective never ran | 0/0/0 (1 harness resume) | 0.43 $ |
+| [0031](runs/0031-sopravolare-goals-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | sopravolare (user's app) · weekly learning goals for subscribers, yak-pilot, approver | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 5.32 $ |
+| [0032](runs/0032-webfront-cookies-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | web-reactiva-2244 webfront (user's app) · #27 cookie consent, yak-pilot, default profile | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 2.90 $ |
+| [0033](runs/0033-sopravolare-reminders-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | sopravolare (user's app) · weekly reminder mail for subscribers, yak-pilot, approver | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 5.80 $ |
+| [0034](runs/0034-webfront-structured-data-claude.md) | 2026-10-23 | v0.4.5 + yak-pilot (branch) | web-reactiva-2244 webfront (user's app) · #32 structured data, same task as 0030 | anthropic/claude-sonnet-5-5 (Claude Code) | see run file | 6 Retrospective (all phases) | 0/0/0 | 6.76 $ |
 
 ## Metrics
 
@@ -59,6 +71,18 @@ From `report.py metrics .scratchpad/bench <claude-transcript.jsonl>`. Puppet: Tu
 | 0020-packbeat-wordcloud | ollama-cloud/deepseek-v4.1-flash | 14 | 338 | 100 min | 99 min | 371889 | 294410 | 72004608 | 0.45 | 22 | 9122010 (7200) | 2.07 |
 | 0021-linkify-parens | ollama-cloud/deepseek-v4.1-flash | 7 | 49 | 5 min | 4 min | 44260 | 37943 | 2235392 | 0.04 | 4 | 1746179 (2327) | 0.43 |
 | 0022-packbeat-ranking-claude | anthropic/claude-sonnet-5-5 | 7 | 115 | 23 min | 22 min | 230 | 66651 | 9078200 | 2.34 | 8 | 3600033 (3421) | 0.83 |
+| 0023-humanize-bytes-autopilot | ollama-cloud/deepseek-v4.1-flash | 6 | 79 | 6 min | 5 min | 94153 | 37100 | 3780480 | 0.05 | 20 | 2558952 (11691) | 0.86 |
+| 0024-tabulate-colsep-autopilot | ollama-cloud/deepseek-v4.1-flash | 6 | 168 | 31 min | 28 min | 143628 | 151351 | 24732160 | 0.19 | 65 | 7735362 (48905) | 3.77 |
+| 0025-tabulate-rowalign-pilot | ollama-cloud/deepseek-v4.1-flash | 5 | 60 | 3 min | 3 min | 176075 | 33353 | 2860300 | 0.06 | 7 | 1690920 (5645) | 0.51 |
+| 0026-tabulate-floatfmt-pilot | ollama-cloud/deepseek-v4.1-flash | 9 | 140 | 37 min | 31 min | 326088 | 115442 | 17206616 | 0.17 | 30 | 7655226 (18340) | 2.07 |
+| 0027-humanize-locale-pilot | ollama-cloud/deepseek-v4.1-flash | 7 | 109 | 15 min | 9 min | 85013 | 97763 | 10276992 | 0.10 | 21 | 5257768 (14460) | 1.47 |
+| 0028-tabulate-stralign-pilot2 | ollama-cloud/deepseek-v4.1-flash | 4 | 85 | 5 min | 5 min | 113141 | 41786 | 5847296 | 0.06 | 17 | 4778027 (7808) | 1.18 |
+| 0029-sopravolare-notes | glm-5.3, then deepseek-v4.1-flash | 11 | 321 | 157 min | 96 min | 1013589 | 243856 | 76455296 | (mixed models) | 142 | 60392925 (95876) | 14.76 |
+| 0030-webfront-structured-data | ollama-cloud/minimax-m2.7 | 11 | 110 | 104 min | 13 min | 322980 | 29319 | 4904091 | 0.43 | 107 | 43209336 (70690) | 10.62 |
+| 0031-sopravolare-goals-claude | anthropic/claude-sonnet-5-5 | 11 | 205 | 27 min | 20 min | 413 | 166376 | 20616521 | 5.32 | 27 | 11218551 (15199) | 2.70 |
+| 0032-webfront-cookies-claude | anthropic/claude-sonnet-5-5 | 8 | 110 | 27 min | 11 min | 220 | 109057 | 8802531 | 2.90 | (shared with 0031) | | |
+| 0033-sopravolare-reminders-claude | anthropic/claude-sonnet-5-5 | 9 | 183 | 87 min | 56 min | 366 | 202247 | 23518990 | 5.80 | 76 | 37738630 (56674) | 9.11 |
+| 0034-webfront-structured-data-claude | anthropic/claude-sonnet-5-5 | 7 | 254 | 34 min | 31 min | 508 | 225138 | 27584910 | 6.76 | 41 | 19509946 (26333) | 4.65 |
 
 ## Findings
 
@@ -136,3 +160,25 @@ Status: `watch` (seen once), `confirmed`, `fixed in vX.Y.Z`, `verified in run NN
 | F-068 | Model | watch | A retrospective proposed a `pre-merge` git hook as a guard; git runs no hook on a fast-forward merge, so it could never fire | 0018 session 3 turn 13 |
 | F-069 | Skill | verified in run 0020 | A handoff listed "build, e2e, merge and tag" as next steps and left out phases 4-6; the unattended session took it as its end point and merged, with the built-in code review in place of verification and red team. Same gap as F-067 with another model. The user decided a stronger model may do this; the skills now carry every remaining phase in a handoff and in the end point of an unattended run | 0019 session 2 |
 | F-070 | Model | watch | An unattended run raised the e2e global timeout from 5 to 6 min with a reason in the commit but no logged decision; the project says not to weaken a test to pass a check | 0020 session 2 |
+| F-071 | Skill | fixed on branch feat/autopilot-plan | Autopilot plan called the phase 4 red team "optional" and skipped it without a gate; the criterion named only optional phases. Now any step that the process map does not put in brackets, left out, is a gate | 0024 turn 3; caught at the plan approval |
+| F-072 | Skill | verified in run 0027 | autopilot-plan asked to list the gates (user decisions) inside "Decisions taken without the user"; the PR body of 0023 had no gate line, 0024 had one. Now a "Gates" line before that section | 0023, 0024 |
+| F-073 | Skill | watch | No dynamic gate when an autopilot run changed existing output outside the request (a fix to flat tables); the same run deferred another visible change for that reason | 0024 Q-09 |
+| F-074 | Skill | verified in run 0026 (plan of skills) | Phase skills done by hand without loading them (write-acceptance-spec, walking-skeleton-plan, verify-against-spec, red-team-review, triage-findings-list); the reports exist and found real defects. Same pattern as F-056/F-057 with Sonnet. The plan of skills must name each skill and check that it was loaded | 0024 turns 4-6 |
+| F-075 | Bench | fixed in bench tools | Two runs started together raced to create the tmux session; one failed with `duplicate session` | 0023/0024 probe |
+| F-076 | Skill | fixed on branch feat/autopilot-plan | yak-pilot asked every preset to approve the plan; the presets table says observer stops only at profile rules | 0025 |
+| F-077 | Skill | fixed on branch feat/autopilot-plan | A yak-pilot run never loaded unattended-run, started red team subagents in the background and ended its turn twice to wait (F-065 pattern). A turn now ends only at a gate or the end point | 0026 turns 6-8 |
+| F-078 | Skill | watch | A profile change said in the chat was written before a preview (customize-yak: preview, then write after a yes); it narrowed autonomy and the words were explicit | 0028 turn 2 |
+| F-079 | Bench | fixed in bench tools | `prepare.sh` with a commit ref left a detached HEAD; the puppet noticed and branched off it | 0029 setup |
+| F-080 | Bench | fixed in bench tools (pitfall) | A `.env` copied from `.env.example` carried a live error-tracker DSN, so baseline and puppet test runs could send events to the real service | 0029, user report |
+| F-081 | Skill | verified in run 0032 | Setup created AGENTS.md in a project that keeps its rules in CLAUDE.md; an agent that reads only AGENTS.md lost them and ran a forbidden build (twice) and a `git stash`. A new AGENTS.md now points to the rules file | 0030 turn 10; verified 0032 |
+| F-082 | Harness | recorded (pitfall) | `OPENCODE_DISABLE_CLAUDE_CODE=1` in turn.sh also hides the project's own CLAUDE.md | 0030 |
+| F-083 | Skill | verified in runs 0033 and 0034 | The setup skipped the pilot profile round when the user asked for one change, and yak-pilot used the default profile without asking | 0030 (MiniMax), 0032 (Sonnet) |
+| F-084 | Skill | verified in runs 0033 and 0034 | A new table and index went in without a gate; the plan said no contract changed. The plan now lists data changes, each a gate | 0031 |
+| F-085 | Skill | verified in runs 0033 and 0034 | A skill the plan marked yes did not load (spec in 0031, triage in 0032); a Loaded column is now filled only after the skill tool loads it | 0031, 0032 (Sonnet) |
+| F-086 | Skill | watch | The conversation switched from the user's language (Spanish) to English mid-answer | 0029 (GLM) |
+| F-087 | Model | watch | GLM reran the full suites after each small change (16 runs) and spent the whole provider budget by phase 3; the user stopped it | 0029 |
+| F-088 | Bench | fixed in bench tools | A killed turn left the counter unchanged, so the next turn wrote over its files | 0029 |
+| F-089 | Skill | fixed on branch feat/autopilot-plan | The plan table copied the short example and left out red team, triage, reviewer guide and retrospective, which then never ran; the plan now has one row per route step | 0030 (MiniMax) |
+| F-090 | Model | watch | A setup answer (decision records off) never reached the settings file | 0030 (MiniMax) |
+| F-091 | Skill | watch | A feature that acts on real users after a deploy (a scheduled mail, on by default) was decided alone; the outward-action criterion names push, publish and merge only | 0033 |
+| F-092 | Skill | watch | The Loaded column of the plan was filled in the first phases only (every skill loaded) | 0033 |

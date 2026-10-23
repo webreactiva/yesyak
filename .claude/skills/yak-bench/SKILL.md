@@ -50,6 +50,10 @@ Each one cost a run. The scripts handle them; check them again when you change a
 | A pipe in front of a check hides its exit code; a session export through a pipe is cut | Read `PIPESTATUS` or the check alone; export to a file |
 | The project has its own AGENTS.md that needs a web page | Web tools allowed for both puppets |
 | A strong model is over the price cap | Only when the user asks, with `YAKBENCH_ALLOW_EXPENSIVE=1` |
+| A `.env` copied from `.env.example` sends telemetry (an error tracker DSN) from the clone to the real service | After `prepare.sh`, switch the telemetry variables off in the clone's `.env` before the first test run |
+| `OPENCODE_DISABLE_CLAUDE_CODE=1` hides the project's own CLAUDE.md, so the puppet misses its rules (for example a forbidden command) | Check the probe turn lists the project's rule files; if the rules live only in CLAUDE.md, record it and expect the setup to point AGENTS.md to them |
+| An edit to `turn.sh` or `turn-claude.sh` while a turn runs: bash reads the script in parts, so the running turn fails after the agent ends (no `run.json` update, no answer file) | Edit the turn scripts only when no turn runs; repair a broken turn with `report.py turn` and the counter in `run.json` |
+| A provider quota cuts a turn (for example a 5-hour limit) | The turn ends with a rate-limit error: record it as a harness interruption and resume later in the same session |
 
 ## 1. Read the log
 
@@ -95,13 +99,25 @@ Write every intervention in `notes.md`, with the turn number, the kind and your 
 | nudge | You told it something the skills should have told it |
 | correction | It did something wrong and you stopped it |
 | rescue | It was stuck and you unblocked it |
+| gate | An autopilot run stopped at a gate and you answered: expected |
 
 Nudges, corrections and rescues are findings. Stop at the end of the Retrospective phase, after the turn limit (default 30), or when the equivalent cost passes the budget the user set.
+
+### Autopilot runs
+
+An autopilot run tests `yak-pilot`: the user gets the work done without naming any skill. Replace step 3 above:
+
+1. Send the request the way the README says: `/yak-pilot <the task in plain words>`, or "yak-pilot: …" when the puppet has no slash commands. Name no other skill, phase or mode. Now and then send a plain request without the name, to measure whether the YesYak block alone starts the pilot. On the first run in a project, answer the profile round as a real user would; in a later session, change the profile in plain words (for example "always ask me before you change existing output").
+2. Answer its blocking questions and approve or correct the plan. After that, answer only at the gates it opens. Any other message is a nudge, a correction or a rescue, and it is a finding.
+3. Let the run go to its end point. Do not answer a status line.
+4. At the end, read the `## Plan` of `progress.md` and `unattended-decisions.md` as a reviewer. Mark each decision taken alone that you would revert (a missed gate) and each gate that no rule justifies (a gate too many). Compare the skills in the plan with the skills loaded (`report.py run`): a skill in the plan that never loaded is a finding.
+
+Cover these requirements before an autopilot finding is confirmed: a clear bug, an ambiguous feature, a risky change (a contract or security), and a second session in the same project after a profile change.
 
 ## 5. Score
 
 1. Run the tests yourself. Run `report.py run`.
-2. Write `bench/runs/<run-id>.md` (committed): the report, then a table per phase of the process map: reached or not, the artifacts, and whether each one does what its skill asks. Then the interventions, the findings and the cost.
+2. Write `bench/runs/<run-id>.md` (committed): the report, then a table per phase of the process map: reached or not, the artifacts, and whether each one does what its skill asks. Then the interventions, the findings and the cost. For an autopilot run, add a table: skills the user named besides yak-pilot (target 0), blocking questions, spec and plan sized as, planned gates, dynamic gates, decisions taken alone, missed gates, gates too many, approvals without a change per gate kind, skills planned but not loaded, extra messages after the plan approval, and profile changes proposed. Then an "HIL stops" table with one row per stop where the run waited for the human, also when you answered it: turn, where, kind (plan approval, planned gate, dynamic gate, profile rule, setup), the question, your answer.
 
 ## 6. Turn findings into changes
 

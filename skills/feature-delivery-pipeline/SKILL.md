@@ -1,6 +1,6 @@
 ---
 name: feature-delivery-pipeline
-description: Orchestrates the full feature workflow from a vague request to a reviewed pull request, with a checkpoint for the user after every phase. The phases are interview, acceptance spec, walking-skeleton plan, optional work items, step-by-step implementation, verification, optional browser testing, red team, triage and fixes, visual PR, reviewer guide and retrospective. Use it whenever the user asks for a new feature or a change in behavior, in any words ("can you add", "I want", "let me"), or wants a feature "end to end", "from spec to PR", "the full process".
+description: Orchestrates the full feature workflow from a vague request to a reviewed pull request, with a checkpoint for the user after every phase. The phases are interview, acceptance spec, walking-skeleton plan, optional work items, step-by-step implementation, verification, optional browser testing, red team, triage and fixes, visual PR, reviewer guide and retrospective. yak-pilot starts it for a feature request after the user approves the plan, and says which checkpoints are gates. Use it directly only when the user names it, asks for "the full process with a checkpoint after every phase", or yak-pilot is not installed.
 ---
 
 # Feature delivery pipeline
@@ -11,7 +11,7 @@ This skill runs the other skills in order. Each phase ends at a checkpoint: a sh
 
 Load these first and keep them active: `simplified-technical-language`, `scratchpad-working-files`, `git-commit-organizer`, `no-slop-code`, `decision-record-log`, `traffic-light-findings`, `plain-visual-docs`.
 
-If the user asks you to run without them ("do not ask me", "take the decisions yourself"), also load `unattended-run`. It turns every checkpoint below into a logged decision and a status line, and it says which actions still need the user.
+If the user asks you to run without them ("do not ask me", "take the decisions yourself"), also load `unattended-run`. It turns every checkpoint below into a logged decision and a status line, and it says which actions still need the user. When `yak-pilot` started the run, its plan says which checkpoints are gates; the others become logged decisions of `unattended-run`.
 
 ## Phases
 

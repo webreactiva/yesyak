@@ -32,7 +32,10 @@ python3 "$here/models.py" check "anthropic/$model"
 
 session=""
 [ $new = 0 ] && session=$(read_meta "d['sessions'][-1]['id'] if d['sessions'] else ''")
-n=$(printf '%02d' $(( $(read_meta "d['turns']") + 1 )))
+# A killed turn never updates the counter; take the higher of the counter and the files, so no turn is overwritten.
+last=$(ls "$run/turns" 2>/dev/null | sed -nE 's/^([0-9]+)-human\.md$/\1/p' | sort -n | tail -1)
+count=$(read_meta "d['turns']")
+n=$(printf '%02d' $(( (10#${last:-0} > count ? 10#${last:-0} : count) + 1 )))
 cp "$message" "$run/turns/$n-human.md"
 
 # Isolation: only the project's settings (no user skills, hooks, plugins or CLAUDE.md) and no MCP server.
@@ -47,7 +50,8 @@ else
   args+=(--session-id "$session")
 fi
 
-tmux has-session -t yak-bench 2>/dev/null || tmux new-session -d -s yak-bench -x 200 -y 50
+# Two runs started together race to create the session; the loser finds it made.
+tmux has-session -t yak-bench 2>/dev/null || tmux new-session -d -s yak-bench -x 200 -y 50 2>/dev/null || tmux has-session -t yak-bench
 window="$run_id-$n"
 done_file="$run/turns/$n.done"
 # The tmux server may come from the driver's Claude Code session; its variables (session id, messaging token)

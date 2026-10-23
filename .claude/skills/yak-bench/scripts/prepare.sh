@@ -22,6 +22,8 @@ git clone -q "$source" "$work"
 ln -s "$work" "$run/repo"
 cd "$work"
 [ -n "$ref" ] && git checkout -q "$ref"
+# A commit ref leaves a detached HEAD; a real checkout is on a branch.
+git symbolic-ref -q HEAD >/dev/null || git switch -q -C main
 git remote remove origin  # the agent must never reach the original repository
 
 # Frozen copy, not symlinks: an edit to YesYak during the run must not change the run.

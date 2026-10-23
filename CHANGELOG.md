@@ -2,6 +2,15 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.5.1 · 2026-10-23
+
+From issue #4 and benchmark runs 0035 to 0037 (OpenCode with MiniMax and deepseek; a Python library and a Go library).
+
+- `yak-pilot` names the process map with its full path, `ask-yak/references/process.md`, as the other skills do. A weak model looked for it inside `yak-pilot`, the read failed, and it planned without the route.
+- The example of the plan in `yak-pilot` lists every step of the feature route, the optional ones marked "no". A weak model copied the short example and left out red team, triage, reviewer guide and retrospective.
+
+No contract changes.
+
 ## 0.5.0 · 2026-10-23
 
 From issue #1 and benchmark runs 0023 to 0034 (OpenCode with deepseek, GLM and MiniMax; Claude Code with Sonnet; two public libraries and two production apps).

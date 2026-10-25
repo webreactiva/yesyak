@@ -1,4 +1,4 @@
-<p align="center"><img src="assets/cover.png" alt="YesYak: skills para agentes que llevan una feature o un bug de una petición vaga a una pull request revisada. Se instala con npx skills add webreactiva/yesyak."></p>
+<p align="center"><img src="assets/logo.webp" width="200" alt="YesYak"></p>
 
 # YesYak
 
@@ -53,7 +53,7 @@ Otras dos formas:
 
 Tras aprobar el plan, el agente recorre las fases solo y te enseña una línea de estado por fase. Puedes interrumpirlo cuando quieras. Con el preset `collaborator`, además se para al final de cada fase:
 
-<p align="center"><img src="assets/phases.svg" alt="Las ocho fases de YesYak: kit de inicio, preguntar y esbozar, escribir el contrato, hacer que funcione, romperlo, firmar el trabajo, retrospectiva y, más adelante, revisión para producción."></p>
+<p align="center"><img src="assets/phases.es.svg" alt="Las ocho fases de YesYak: kit de inicio, preguntar y esbozar, escribir el contrato, hacer que funcione, romperlo, firmar el trabajo, retrospectiva y, más adelante, revisión para producción."></p>
 
 - **Si paras**, di "we stop here" ("lo dejamos aquí"). `handoff-and-resume` escribe una nota en `docs/handoffs/`, y en la sesión siguiente "let's continue" retoma en el paso correcto.
 - **Si el proceso no encaja con tu equipo**, pídele a `customize-yak` el cambio ("aquí nunca probamos en un navegador"). Lo escribe en `.agents/yesyak.json`; ninguna skill se edita.

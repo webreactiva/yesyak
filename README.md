@@ -1,4 +1,4 @@
-<p align="center"><img src="assets/cover.png" alt="YesYak: agent skills that take a feature or a bug from a vague request to a reviewed pull request. Install with npx skills add webreactiva/yesyak."></p>
+<p align="center"><img src="assets/logo.webp" width="200" alt="YesYak"></p>
 
 # YesYak
 

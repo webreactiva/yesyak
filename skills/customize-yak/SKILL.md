@@ -51,6 +51,10 @@ Ask with the `on-the-spot` rules: rounds of up to four questions, the recommende
 
 Write the answers as plain sentences. A hard limit goes in the file, never only in the chat. A change that removes an `always ask` entry or moves to a preset with fewer gates widens what the agent does alone: write it only after a yes that names the change.
 
+### Plan check hook
+
+If the agent of the project has hooks, offer the plan check hook in the same round: the agent runs the plan check of `yak-pilot` at the end of each turn (or before a commit), and a skipped skill or a gate passed without an answer blocks the work. Recommend it. The config for each kind of agent is in `references/plan-check-hooks.md`; write it to the agent's config file of the project after a yes. If the agent has no hooks, say so and write nothing.
+
 ## 3. Preview, then write
 
 Show the change to each file as a diff. Write only after a yes. If the user says no, change nothing.

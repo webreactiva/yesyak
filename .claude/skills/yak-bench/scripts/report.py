@@ -7,8 +7,11 @@ report.py metrics <bench-dir> [claude-transcript.jsonl]
                                       one row per run from the saved exports: time, turns, steps, tokens, cost;
                                       with a transcript, also the driver's (Claude Code) usage in each run's time window
 report.py flows <bench-dir>           per run, the YesYak skills the work session used, in order, with the turn of first use
+report.py budget <run-dir>            exit 1 when the cost of the turns so far reached the budget: budget_usd in run.json,
+                                      else YAKBENCH_BUDGET_USD, else 10 $; 0 means no budget
 """
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -20,6 +23,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 import models  # noqa: E402
 
 TOKEN_KEYS = ("input", "output", "cache_read", "cache_write")
+# Above every complete run so far (the most expensive cost about 7 $), below a run that runs away.
+DEFAULT_BUDGET = 10.0
 
 
 def parse(line):
@@ -317,8 +322,37 @@ def run(run_dir):
         print("\n## Tool errors\n\n" + "\n".join(f"- {e}" for e in errors))
 
 
+def budget(run_dir):
+    """Stop a run before a new turn when its turns cost the budget. The agents price each step with its own model."""
+    run_dir = Path(run_dir)
+    meta = json.loads((run_dir / "run.json").read_text())
+    limit = float(meta.get("budget_usd", os.environ.get("YAKBENCH_BUDGET_USD", DEFAULT_BUDGET)))
+    sessions = sorted(meta["sessions"], key=lambda s: s["first_turn"])
+    data, spent, claude = models.catalog(), 0.0, {}
+    for path in (run_dir / "turns").glob("*.jsonl"):
+        if not path.stem.isdigit():
+            continue
+        # turn.sh records the model of each turn; older runs have only the model of each session.
+        model = meta.get("turn_models", {}).get(str(int(path.stem))) or next(
+            (s["model"] for s in reversed(sessions) if s["first_turn"] <= int(path.stem)), meta["model"])
+        for e in events(path):
+            if e.get("type") == "step_finish":
+                t = e["part"].get("tokens") or {}
+                used = {"input": t.get("input", 0), "output": t.get("output", 0) + t.get("reasoning", 0),
+                        "cache_read": t.get("cache", {}).get("read", 0), "cache_write": t.get("cache", {}).get("write", 0)}
+                # shortcut: the OpenCode stream drops the last step of a turn, so this is a little under the real cost.
+                spent += models.cost_of(model, used, data) or e["part"].get("cost") or 0
+            elif e.get("type") == "result" and "total_cost_usd" in e:
+                # Claude Code gives the cost of the whole session so far; keep the highest per session.
+                claude[e["session_id"]] = max(claude.get(e["session_id"], 0), e["total_cost_usd"])
+    spent += sum(claude.values())
+    if limit and spent >= limit:
+        sys.exit(f"budget reached: {spent:.2f} $ of {limit:.2f} $ for {meta['run_id']}; raise budget_usd in run.json only when the user asks")
+    print(f"budget: {spent:.2f} $ of {limit:.2f} $" if limit else f"budget: {spent:.2f} $, no limit")
+
+
 if __name__ == "__main__":
     {"turn": lambda: turn(sys.argv[2], sys.argv[3]), "run": lambda: run(sys.argv[2]),
      "metrics": lambda: metrics(sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else None),
-     "flows": lambda: flows(sys.argv[2])}.get(
+     "flows": lambda: flows(sys.argv[2]), "budget": lambda: budget(sys.argv[2])}.get(
         sys.argv[1] if len(sys.argv) > 1 else "", lambda: sys.exit(__doc__))()

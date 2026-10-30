@@ -115,13 +115,20 @@ def session_metrics(exported, model, data):
     messages = exported.get("messages", [])
     steps = [m for m in messages if m.get("type") == "assistant"]
     span = exported.get("info", {}).get("time", {})
+    # A session can switch models; price each step with its own model, the session model when a step does not say.
+    cost = 0.0
+    for m in steps:
+        t, own = m.get("tokens") or {}, m.get("model") or {}
+        used = {"input": t.get("input", 0), "output": t.get("output", 0) + t.get("reasoning", 0),
+                "cache_read": t.get("cache", {}).get("read", 0), "cache_write": t.get("cache", {}).get("write", 0)}
+        cost += models.cost_of(f"{own['providerID']}/{own['id']}" if own.get("id") else model, used, data) or 0
     return {
         "start": span.get("created", 0), "end": span.get("updated", 0),
         # Wall time includes the minutes the session waits for the human; agent time counts only model steps.
         "wall_s": (span.get("updated", 0) - span.get("created", 0)) / 1000,
         "agent_s": sum((m["time"].get("completed") or m["time"]["created"]) - m["time"]["created"] for m in steps) / 1000,
         "turns": sum(m.get("type") == "user" for m in messages), "steps": len(steps),
-        "tokens": tokens, "cost": models.cost_of(model, tokens, data) or 0,
+        "tokens": tokens, "cost": cost,
     }
 
 

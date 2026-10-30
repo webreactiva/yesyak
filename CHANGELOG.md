@@ -2,6 +2,17 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## Unreleased
+
+From issues #6 and #17 and the Loaded column of benchmark runs 0033 and 0034 (F-092).
+
+- New script `yak-pilot/scripts/check_plan.py`, with tests: it reads the plan of `progress.md`, the process map and `unattended-decisions.md`, and reports required steps missing from the plan, steps that ran with an empty Loaded cell, and gates passed without an answer of the user. `yak-pilot` runs it at each phase end and before the pull request text. On the runs 0033 and 0034 it finds the skipped loads that the model did not see.
+- `yak-pilot` runs each phase in a fresh subagent when the agent has subagents that can load skills; the main session keeps the plan and the gates.
+- `customize-yak` offers the plan check as an agent hook (end of turn, or before a commit), with configs for Claude Code, Codex and OpenCode in `references/plan-check-hooks.md`.
+- `on-the-spot` can be left out by `yak-pilot` when its first round answered every open question; the rule now says so.
+
+Contract changes for projects that use YesYak: the gate table of the plan has the columns Gate, Before, Decision, Rule, Answer (Where is gone). Plans written before this version give one "no Loaded column" or "no answer" line in the check.
+
 ## 0.5.1 · 2026-10-23
 
 From issue #4 and benchmark runs 0035 to 0037 (OpenCode with MiniMax and deepseek; a Python library and a Go library).

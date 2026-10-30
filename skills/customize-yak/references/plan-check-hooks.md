@@ -20,7 +20,7 @@ Claude Code, in `.claude/settings.json` (merge with the hooks that are there):
 }
 ```
 
-Codex, in `.codex/hooks.json` (the user must trust it with `/hooks`):
+Codex, in `.codex/hooks.json`. Codex runs a project hook only after the user trusts it: tell the user to open `codex` in the project and approve it in `/hooks`.
 
 ```json
 {
@@ -34,16 +34,26 @@ Codex, in `.codex/hooks.json` (the user must trust it with `/hooks`):
 
 ## An agent with a hook before a tool call (for example OpenCode)
 
-Block a commit or a push while the check fails. OpenCode, in `.opencode/plugins/yesyak-plan-check.js`:
+Block a commit or a push while the check fails. OpenCode 2, in `.opencode/plugins/yesyak-plan-check.js` (OpenCode 1 used another plugin shape):
 
 ```js
-export const YesYakPlanCheck = async ({ $, directory }) => ({
-  "tool.execute.before": async (input, output) => {
-    if (input.tool !== "bash" || !/\bgit\s+(commit|push)\b/.test(output.args.command ?? "")) return
-    const result = await $`python3 <skills>/yak-pilot/scripts/check_plan.py`.cwd(directory).nothrow().quiet()
-    if (result.exitCode !== 0) throw new Error(result.stderr.toString())
+import { spawnSync } from "node:child_process"
+import { fileURLToPath } from "node:url"
+
+// The project root, two folders above .opencode/plugins/.
+const root = fileURLToPath(new URL("../..", import.meta.url))
+
+export default {
+  id: "yesyak-plan-check",
+  async setup(ctx) {
+    ctx.tool.hook("execute.before", (event) => {
+      // git options can come before the subcommand, for example git -c user.name=x commit.
+      if (!["shell", "bash"].includes(event.tool) || !/\bgit\b.*\b(commit|push)\b/.test(event.input?.command ?? "")) return
+      const result = spawnSync("python3", ["<skills>/yak-pilot/scripts/check_plan.py"], { cwd: root, encoding: "utf8" })
+      if (result.status !== 0) throw new Error(result.stderr)
+    })
   },
-})
+}
 ```
 
 ## Check it

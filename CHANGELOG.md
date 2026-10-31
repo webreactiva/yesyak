@@ -2,7 +2,7 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
-## Unreleased
+## 0.6.0 · 2026-10-31
 
 From issues #6, #17 and #18: the Loaded column of benchmark runs 0033 and 0034 (F-092), and the enforced mode A/B series, runs 0039 to 0044 (`bench/series/0039-enforced-ab.md`). In that series the enforced mode missed no gate and ran the red team on every risky change; the control missed two gates; it cost 13 % more. A rule to run each phase in a fresh subagent was tried and dropped: no run followed it.
 

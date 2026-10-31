@@ -28,9 +28,12 @@ git remote remove origin  # the agent must never reach the original repository
 
 # Frozen copy, not symlinks: an edit to YesYak during the run must not change the run.
 # .agents/skills for OpenCode, .claude/skills for Claude Code (turn-claude.sh).
+# Only the files git tracks in YesYak's working tree: a branch switch can leave untracked files (for example a
+# __pycache__ folder) that the run must not see.
 mkdir -p .agents/skills .claude/skills
-cp -R "$yesyak"/skills/* .agents/skills/
-cp -R "$yesyak"/skills/* .claude/skills/
+for target in .agents .claude; do
+  git -C "$yesyak" ls-files -z skills | (cd "$yesyak" && xargs -0 tar -cf -) | tar -xf - -C "$target"
+done
 # No commit: a bench commit in the history misleads the detection of the project's commit convention.
 printf '.scratchpad/\n.agents/skills/\n.claude/skills/\n' >> .git/info/exclude
 

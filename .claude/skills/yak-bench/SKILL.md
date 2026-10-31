@@ -27,6 +27,7 @@ All in `scripts/`. Runs live in `.scratchpad/bench/<run-id>/` of this repository
 | `prepare.sh <run-id> <git-url> [ref]` | Clones the project without its remote, copies the skills, writes `run.json` with the YesYak version |
 | `turn.sh <run-id> <message-file> [--model m] [--new-session]` | Sends one human message in tmux session `yak-bench`, waits, prints the answer, keeps every session id in `run.json`. Starts one isolated, password-protected `opencode serve` per run, so background subagents survive between turns |
 | `turn-claude.sh <run-id> <message-file> [--model m] [--new-session]` | The same for Claude Code: `--setting-sources project` and `--strict-mcp-config` hide the user's skills, hooks, plugins, MCP servers and CLAUDE.md; HOME stays real for the sign-in. Its models are over the price cap: run it with `YAKBENCH_ALLOW_EXPENSIVE=1` only when the user asks |
+| `report.py budget <run-dir>` | Both turn scripts run it before each turn and stop when the turns so far cost the budget: `budget_usd` in `run.json`, else `YAKBENCH_BUDGET_USD`, else 10 $; 0 means no budget. Each turn is priced with its own model (`turn_models` in `run.json`) |
 | `report.py run <run-dir>` | Facts of the run: sessions, time, model steps, tokens, equivalent cost, skills loaded, commits, artifacts, tool errors. Saves each session export (the full transcript) in the run folder |
 | `report.py flows <bench-dir>` | Per run, the skills the work session used, in order, with the turn of first use. Feeds `bench/FLOWS.md` |
 | `archive.sh <run-id>` | Moves a scored run's clone into its run folder, so the next puppet cannot read it next to its own clone. Run it after the report |
@@ -101,7 +102,7 @@ Write every intervention in `notes.md`, with the turn number, the kind and your 
 | rescue | It was stuck and you unblocked it |
 | gate | An autopilot run stopped at a gate and you answered: expected |
 
-Nudges, corrections and rescues are findings. Stop at the end of the Retrospective phase, after the turn limit (default 30), or when the equivalent cost passes the budget the user set.
+Nudges, corrections and rescues are findings. Stop at the end of the Retrospective phase, after the turn limit (default 30), or when `report.py budget` stops a turn. Raise `budget_usd` only when the user asks. A model switch in the middle of a run is a harness interruption: record it, with the turn and the reason.
 
 ### Autopilot runs
 

@@ -32,6 +32,8 @@ read_meta() { python3 -c "import json,sys;d=json.load(open('$meta'));print(eval(
 [ -z "$model" ] && { echo "no model: pass --model on the first turn" >&2; exit 2; }
 python3 "$here/models.py" check "$model"
 
+python3 "$here/report.py" budget "$run" >&2
+
 session=""
 [ $new = 0 ] && session=$(read_meta "d['sessions'][-1]['id'] if d['sessions'] else ''")
 # A killed turn never updates the counter; take the higher of the counter and the files, so no turn is overwritten.
@@ -99,6 +101,7 @@ if sid and not any(s["id"] == sid for s in d["sessions"]):
     d["sessions"].append({"id": sid, "model": model, "first_turn": d["turns"] + 1})
 d["model"] = model
 d["turns"] += 1
+d.setdefault("turn_models", {})[str(d["turns"])] = model
 d.setdefault("exit_codes", []).append(int(code))
 json.dump(d, open(meta_path, "w"), indent=2)
 EOF

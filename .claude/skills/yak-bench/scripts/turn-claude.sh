@@ -30,6 +30,8 @@ read_meta() { python3 -c "import json,sys;d=json.load(open('$meta'));print(eval(
 [ -z "$model" ] && { echo "no model: pass --model on the first turn" >&2; exit 2; }
 python3 "$here/models.py" check "anthropic/$model"
 
+python3 "$here/report.py" budget "$run" >&2
+
 session=""
 [ $new = 0 ] && session=$(read_meta "d['sessions'][-1]['id'] if d['sessions'] else ''")
 # A killed turn never updates the counter; take the higher of the counter and the files, so no turn is overwritten.

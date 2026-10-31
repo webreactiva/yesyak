@@ -54,7 +54,7 @@ All figures are from 2026-10-17 and 2026-10-18, versions v0.1.0 to v0.4.3.
 | Findings | 70: skill, model, agent and benchmark defects |
 | Releases | 16 tags, v0.1.0 to v0.4.3 |
 | Puppet time | 503 minutes of model work, 3,331 model steps, 282 human turns |
-| Puppet cost | 24.26 $ for all runs |
+| Puppet cost | 23.04 $ for all runs |
 | Driver cost | 54.58 $ for Claude Code (Opus) as the human, in the time of the runs |
 
 Costs are the equivalent at the prices of the [models.dev API](https://models.dev/api.json). The Claude Code runs used a subscription. The driver cost does not include the time spent writing the skills.
@@ -82,13 +82,13 @@ xychart-beta horizontal
 
 | Model | Agent | Runs | Turns | Model steps | Model time | Output tokens | Cache read | Cost $ | $ per run |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| deepseek-v4.1-flash | OpenCode | 10 | 133 | 1,977 | 324 min | 1,661k | 287.6M | 4.05 | 0.41 |
+| deepseek-v4.1-flash | OpenCode | 10 | 133 | 1,977 | 324 min | 1,661k | 287.6M | 2.83 | 0.28 |
 | claude-sonnet-5-5 | Claude Code | 8 | 74 | 538 | 84 min | 346k | 39.3M | 10.48 | 1.31 |
 | gpt-6-luna | OpenCode | 2 | 45 | 517 | 39 min | 224k | 56.5M | 0.78 | 0.39 |
 | glm-5.3 | OpenCode | 1 | 15 | 140 | 32 min | 158k | 17.6M | 5.63 | 5.63 |
 | gpt-5.6-sol | OpenCode | 1 | 2 | 56 | 16 min | 35k | 4.5M | 3.03 | 3.03 |
 | minimax-m2.7 | OpenCode | 1 | 13 | 103 | 8 min | 28k | 3.7M | 0.29 | 0.29 |
-| **All** | | **23** | **282** | **3,331** | **503 min** | **2,453k** | **409.3M** | **24.26** | **1.05** |
+| **All** | | **23** | **282** | **3,331** | **503 min** | **2,453k** | **409.3M** | **23.04** | **1.00** |
 
 </details>
 
@@ -137,7 +137,7 @@ Runs 0018 to 0020 and 0022 were on a large web app, with several sessions each.
 | 0015 | Claude Code · claude-sonnet-5-5 | gomodifytags (Go) · feature, no setup | code on main, no process | 0 / 0 / 0 | 1 min | 0.12 |
 | 0016 | Claude Code · claude-sonnet-5-5 | gomodifytags · as 0015, new install | all phases | 0 / 1 / 0 | 9 min | 1.07 |
 | 0017 | OpenCode · deepseek-v4.1-flash | MCU-Countdown (Python, Docker) · feature, work items, walkthrough, production readiness | all phases + production review | 0 / 0 / 0 | 33 min | 0.32 |
-| 0018 | OpenCode · deepseek-v4.1-flash, minimax-m2.7 | a large web app · 2 of 5 deliveries, 4 sessions, 3 forced cuts, one unattended | 2 deliveries, all phases | 0 / 2 / 1 | 131 min | 2.58 |
+| 0018 | OpenCode · deepseek-v4.1-flash, minimax-m2.7 | a large web app · 2 of 5 deliveries, 4 sessions, 3 forced cuts, one unattended | 2 deliveries, all phases | 0 / 2 / 1 | 131 min | 1.36 |
 | 0019 | Claude Code · claude-sonnet-5-5 | the same app · delivery 3, one cut, then unattended | built and merged, review phases replaced by a code review | 0 / 0 / 0 | 36 min | 3.85 |
 | 0020 | OpenCode · deepseek-v4.1-flash | the same app · delivery 4, one cut, then unattended | all phases, merge left to the user | 0 / 0 / 0 | 99 min | 0.45 |
 | 0021 | OpenCode · deepseek-v4.1-flash | linkify-urls (JavaScript) · bug | fix route | 0 / 0 / 0 | 4 min | 0.04 |

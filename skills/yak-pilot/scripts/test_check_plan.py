@@ -48,7 +48,7 @@ class CheckPlan(unittest.TestCase):
         (folder / "unattended-decisions.md").write_text(log)
         if ended:
             (folder / "retrospective.md").write_text("")
-        return check_plan.check(folder / "progress.md")
+        return check_plan.check(folder / "progress.md")[0]
 
     def test_complete_run_passes(self):
         log = "### Q-03 Phase 2 · plan approval\n- Chosen: add the column\n- Chosen by: user\n"
@@ -58,13 +58,26 @@ class CheckPlan(unittest.TestCase):
         self.assertEqual(self.run_check(plan(3)), [])
 
     def test_gate_without_answer_after_its_step_started(self):
-        problems = self.run_check(plan(6))
+        problems = self.run_check(plan(7))
         self.assertTrue(any("gate G-01 has no answer" in p for p in problems), problems)
 
     def test_gate_answer_not_chosen_by_user(self):
         log = "### Q-03 Phase 2 · plan approval\n- Chosen: add the column\n"
-        problems = self.run_check(plan(6, "Q-03"), log)
+        problems = self.run_check(plan(7, "Q-03"), log)
         self.assertTrue(any("no 'Chosen by: user'" in p for p in problems), problems)
+
+    def test_before_step_loaded_while_planning_is_not_a_passed_gate(self):
+        # Build (row 5) has loaded, nothing after it: the gate before Build is still open.
+        self.assertEqual(self.run_check(plan(5)), [])
+
+    def test_older_plan_gives_notes_not_problems(self):
+        folder = Path(tempfile.mkdtemp())
+        old = plan(len(ROWS)).replace(" | Answer |", " |").replace(" | --- | --- | --- | --- | --- |\n| G-01", " | --- | --- | --- | --- |\n| G-01")
+        (folder / "progress.md").write_text(old.replace("| Loaded |", "|").replace(" | yes |\n", " |\n"))
+        (folder / "retrospective.md").write_text("")
+        problems, notes = check_plan.check(folder / "progress.md")
+        self.assertEqual(problems, [])
+        self.assertEqual(len(notes), 2, notes)
 
     def test_skipped_load_before_a_later_load(self):
         text = plan(len(ROWS), "Q-03").replace("| Red team | red-team-review | yes | required | yes |", "| Red team | red-team-review | yes | required | |")
@@ -79,7 +92,7 @@ class CheckPlan(unittest.TestCase):
 
     def test_hook_exit_codes(self):
         folder = Path(tempfile.mkdtemp())
-        (folder / "progress.md").write_text(plan(6))
+        (folder / "progress.md").write_text(plan(7))
         run = lambda stdin: subprocess.run([sys.executable, str(SCRIPT), str(folder), "--hook"], input=stdin, capture_output=True, text=True).returncode
         self.assertEqual(run("{}"), 2)
         self.assertEqual(run(json.dumps({"stop_hook_active": True})), 0)

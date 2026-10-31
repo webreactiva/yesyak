@@ -11,7 +11,7 @@ From issues #6 and #17 and the Loaded column of benchmark runs 0033 and 0034 (F-
 - `customize-yak` offers the plan check as an agent hook (end of turn, or before a commit), with configs for Claude Code, Codex and OpenCode in `references/plan-check-hooks.md`.
 - `on-the-spot` can be left out by `yak-pilot` when its first round answered every open question; the rule now says so.
 
-Contract changes for projects that use YesYak: the gate table of the plan has the columns Gate, Before, Decision, Rule, Answer (Where is gone). Plans written before this version give one "no Loaded column" or "no answer" line in the check.
+Contract changes for projects that use YesYak: the gate table of the plan has the columns Gate, Before, Decision, Rule, Answer (Where is gone). A plan written before this version (no Loaded or no Answer column) passes the check with a note, so a run that was in progress during the update is not blocked.
 
 ## 0.5.1 · 2026-10-23
 

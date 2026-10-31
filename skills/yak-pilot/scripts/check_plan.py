@@ -56,7 +56,7 @@ def check(progress):
     folder = progress.parent
     text = progress.read_text(encoding="utf-8")
     if "## Plan" not in text:
-        return [f"{progress}: no '## Plan' section"]
+        return [f"{progress}: no '## Plan' section"], []
     plan = re.split(r"^## ", text.split("## Plan", 1)[1], maxsplit=1, flags=re.M)[0]
     route = "bug-intake" if re.search(r"^- Route:.*bug-intake", plan, re.M) else "feature-delivery-pipeline"
     found = tables(plan)
@@ -65,7 +65,7 @@ def check(progress):
     log_path = folder / "unattended-decisions.md"
     log = log_path.read_text(encoding="utf-8") if log_path.exists() else ""
     ended = (folder / "retrospective.md").exists()
-    problems = []
+    problems, notes = [], []
 
     required = required_steps(route)
     planned = {s: row for row in steps for s in skills_in(row.get("Skill", ""))}
@@ -77,22 +77,27 @@ def check(progress):
         elif row.get("Runs", "").lower().startswith("no") and skill not in gate_text:
             problems.append(f"required step {skill} is left out without a gate that names it")
 
+    # A plan written before the Loaded and Answer columns existed: say so once, and check only what it has.
     if steps and "Loaded" not in steps[0]:
-        problems.append("the step table has no Loaded column")
+        notes.append("the step table has no Loaded column (an older plan): loads not checked")
+    if gates and "Answer" not in gates[0]:
+        notes.append("the gate table has no Answer column (an older plan): gates not checked")
+        gates = []
     loaded = [row.get("Loaded", "") not in EMPTY for row in steps]
     for i, row in enumerate(steps):
         runs = row.get("Runs", "").lower().startswith("yes") and skills_in(row.get("Skill", ""))
         if runs and "Loaded" in row and not loaded[i] and (ended or any(loaded[i + 1:])):
             problems.append(f"step '{row.get('Step')}' ran with an empty Loaded cell: load {row.get('Skill')} and redo its checks, or log the skip")
 
-    started = {row.get("Step", "").lower(): any(loaded[i:]) for i, row in enumerate(steps)}
+    # A gate is passed when a step after its Before step has loaded: the Before skill itself can load while the plan is written.
+    started = {row.get("Step", "").lower(): any(loaded[i + 1:]) for i, row in enumerate(steps)}
     for gate in gates:
         name, answer = gate.get("Gate", "?"), gate.get("Answer", "")
         if not ended and not started.get(gate.get("Before", "").lower(), False):
             continue
         ids = re.findall(r"Q-\d+", answer)
         if not ids:
-            when = "at the end of the run" if ended else f"but the step '{gate.get('Before')}' after it has started"
+            when = "at the end of the run" if ended else f"but a step after '{gate.get('Before')}' has started"
             problems.append(f"gate {name} has no answer in its Answer cell, {when}")
             continue
         for qid in ids:
@@ -101,7 +106,7 @@ def check(progress):
                 problems.append(f"gate {name}: {qid} is not in unattended-decisions.md")
             elif not re.search(r"Chosen by:\s*user", entry.group(0)):
                 problems.append(f"gate {name}: {qid} has no 'Chosen by: user'")
-    return problems
+    return problems, notes
 
 
 def find_progress(arg):
@@ -130,7 +135,9 @@ def main():
     if not progress.is_file():
         print(f"plan check: {progress} not found", file=sys.stderr)
         return 1
-    problems = check(progress)
+    problems, notes = check(progress)
+    for n in notes:
+        print(f"plan check: note: {n}", file=out)
     if not problems:
         print(f"plan check: ok ({progress})", file=out)
         return 0

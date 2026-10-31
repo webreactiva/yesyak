@@ -2,6 +2,17 @@
 
 Versions follow semantic versioning. Before 1.0, a minor version can change a contract that settings files in other projects use (a skill name, a Replaceable heading, a phase number); its entry says so.
 
+## 0.6.0 · 2026-10-31
+
+From issues #6, #17 and #18: the Loaded column of benchmark runs 0033 and 0034 (F-092), and the enforced mode A/B series, runs 0039 to 0044 (`bench/series/0039-enforced-ab.md`). In that series the enforced mode missed no gate and ran the red team on every risky change; the control missed two gates; it cost 13 % more. A rule to run each phase in a fresh subagent was tried and dropped: no run followed it.
+
+- New script `yak-pilot/scripts/check_plan.py`, with tests: it reads the plan of `progress.md`, the process map and `unattended-decisions.md`, and reports required steps missing from the plan, steps that ran with an empty Loaded cell, and gates passed without an answer of the user. `yak-pilot` runs it at each phase end and before the pull request text. On the runs 0033 and 0034 it finds the skipped loads that the model did not see.
+- `customize-yak` offers the plan check as an agent hook (end of turn, or before a commit), with configs for Claude Code, Codex and OpenCode in `references/plan-check-hooks.md`.
+- `customize-yak` recommends the full default always ask list, writes each answer in the user's words, and commits a settings change on the default branch: a weak model shortened a never limit and dropped default entries from its recommendation (F-098), and a rule given on a fix branch was lost for the next piece of work (F-102).
+- `on-the-spot` can be left out by `yak-pilot` when its first round answered every open question; the rule now says so.
+
+Contract changes for projects that use YesYak: the gate table of the plan has the columns Gate, Before, Decision, Rule, Answer (Where is gone). A plan written before this version (no Loaded or no Answer column) passes the check with a note, so a run that was in progress during the update is not blocked.
+
 ## 0.5.1 · 2026-10-23
 
 From issue #4 and benchmark runs 0035 to 0037 (OpenCode with MiniMax and deepseek; a Python library and a Go library).

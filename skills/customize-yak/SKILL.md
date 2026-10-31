@@ -46,10 +46,14 @@ Ask with the `on-the-spot` rules: rounds of up to four questions, the recommende
 `yak-pilot` reads the `pilot` key to decide where a run stops for the user. A first install always asks this round, also when the user asked for one change only, and the preview always writes a `pilot` key, also with the default answers. Ask it again when `yak-pilot` finds no profile:
 
 1. How much do you want to take part? `approver` (recommended): approve the plan and the risky decisions. `collaborator`: decide at every phase. `observer`: only watch.
-2. What must the agent always ask you? Offer the default entries (push, publish or merge; open a browser; apply a retrospective guard) and let the user add or remove.
+2. What must the agent always ask you? Recommend the default entries (push, publish or merge; open a browser; apply a retrospective guard), all of them, and let the user add or remove.
 3. Anything it must never do? For example deploy, or write outside the repository.
 
-Write the answers as plain sentences. A hard limit goes in the file, never only in the chat. A change that removes an `always ask` entry or moves to a preset with fewer gates widens what the agent does alone: write it only after a yes that names the change.
+Write each answer in the user's words, as a plain sentence: do not shorten, merge or reword an entry. A hard limit goes in the file, never only in the chat. A change that removes an `always ask` entry or moves to a preset with fewer gates widens what the agent does alone: write it only after a yes that names the change.
+
+### Plan check hook
+
+If the agent of the project has hooks, offer the plan check hook in the same round: the agent runs the plan check of `yak-pilot` at the end of each turn (or before a commit), and a skipped skill or a gate passed without an answer blocks the work. Recommend it. The config for each kind of agent is in `references/plan-check-hooks.md`; write it to the agent's config file of the project after a yes. If the agent has no hooks, say so and write nothing.
 
 ## 3. Preview, then write
 
@@ -99,7 +103,7 @@ Write a file outside the repository only after a yes that the user types in this
 
 ## 4. Check and report
 
-Run `python3 <skills folder>/ask-yak/scripts/check_yesyak.py` from the project root. Fix what it reports before you finish. Commit the settings file and AGENTS.md in their own commit, apart from any feature work (`git-commit-organizer`). Report the files you changed, the commit and the active adjustments that the check prints.
+Run `python3 <skills folder>/ask-yak/scripts/check_yesyak.py` from the project root. Fix what it reports before you finish. Commit the settings file and AGENTS.md in their own commit on the default branch, apart from any feature work (`git-commit-organizer`). If another branch is checked out, switch to the default branch for this commit and back, unless the user says otherwise: a rule committed on a feature branch is lost for the next piece of work. Report the files you changed, the commit and the active adjustments that the check prints.
 
 ## 5. Audit
 

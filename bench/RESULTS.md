@@ -2,6 +2,21 @@
 
 YesYak is tested on real projects. An internal skill of this repository (`.claude/skills/yak-bench/`, not installed by `npx skills`) drives an agent as a puppet through the process while Claude Code plays the human user. Every run is in [LOG.md](LOG.md), with one file per run in [runs/](runs/) and the skills each run loaded in [FLOWS.md](FLOWS.md).
 
+## Enforced mode A/B series: runs 0039 to 0044
+
+Issue #18. Three pairs and one second session, the same task, model (deepseek-v4.1-flash) and answer policy in each pair: A with the skills of `main`, B with the enforced mode of `yak-pilot` (the plan check script, the gate table with Before and Answer, the plan check hook). Full log and every step: [series/0039-enforced-ab.md](series/0039-enforced-ab.md).
+
+| Measure | A (main) | B (enforced) |
+| --- | --- | --- |
+| Loaded column complete at the end | 1 of 3 runs | 3 of 3 |
+| Missed gates | 2 | 0 |
+| Red team on a risky change | skipped once | always |
+| Hook blocks (real gaps, fixed at once) | — | 2 |
+| Fresh subagent per phase | — | 0 of 3 |
+| Cost | 0.54 $ | 0.61 $ (+13 %) |
+
+Decision: the enforced mode becomes the default (PR #20); the subagent-per-phase rule is dropped.
+
 ## Autopilot series: runs 0023 to 0038
 
 These runs test `yak-pilot` (issue #1): the user asks for the result, approves one plan, and answers only where the agent stops. The human never names a skill. Every stop where the run waited for the human is listed in the run file, in an "HIL stops" table.

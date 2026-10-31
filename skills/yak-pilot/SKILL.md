@@ -51,7 +51,7 @@ Write the choice and its reason in the plan. A spec left out for a change that t
 | The user wants to understand the change before the merge | `feature-walkthrough` |
 | A deploy is near | `production-readiness-review` |
 
-A step that the process map does not put in brackets always runs. To leave one out is a gate.
+A step that the process map does not put in brackets always runs, except `on-the-spot` when section 2 answered every open question. To leave one out is a gate whose decision names the skill.
 
 ## Gate rules
 
@@ -122,13 +122,15 @@ Write the plan to `.scratchpad/<slug>/progress.md`, under `## Plan`, above the p
 | Retrospective | session-retrospective-rules | yes | required | |
 | Handoff | handoff-and-resume | no | the work does not pause | — |
 
-| Gate | Where | Decision | Rule |
-| --- | --- | --- | --- |
-| G-01 | spec approval | refund rule for a paid order | no source decides it |
-| G-02 | plan approval | new field in the orders table | contract: data schema |
+| Gate | Before | Decision | Rule | Answer |
+| --- | --- | --- | --- | --- |
+| G-01 | Plan | refund rule for a paid order | no source decides it | |
+| G-02 | Build | new field in the orders table | contract: data schema | |
 
 - Hands-off from: G-02
 ```
+
+In the gate table, Before names the step of the plan that cannot start until the gate has its answer. Answer stays empty until the user answers; then it holds the `Q-` id of that answer.
 
 Copy the start point, end point and outward actions to the top of `unattended-decisions.md`, where `unattended-run` expects them.
 
@@ -138,8 +140,9 @@ Show the user the plan in five lines or fewer: route, artifacts, number of gates
 
 Load the route skill and `unattended-run`, and start.
 
-- **Load each skill of the plan when its step comes**, with the skill tool. Do not do a step's work from memory: the skill holds checks that memory loses. Write "yes" in the Loaded column only after the skill tool loaded it. At each phase end, a step that ran with an empty Loaded cell means its skill was skipped: load it now and redo its checks, or log the skip as a `Q-` decision with the reason.
-- **At a gate**: stop. Show a short summary, the evidence (diff, test output), and the options, the recommended one first. Also offer "do not ask me this again". Wait. Log the answer as a `Q-` entry with "Chosen by: user", and the gate's status in the plan.
+- **Load each skill of the plan when its step comes**, with the skill tool. Do not do a step's work from memory: the skill holds checks that memory loses. Write "yes" in the Loaded column only after the skill tool loaded it.
+- **Check the plan at each phase end** and before the pull request text: run `yak-pilot/scripts/check_plan.py .scratchpad/<slug>/` from the skills folder. It reports required steps missing from the plan, steps that ran with an empty Loaded cell, and gates passed without an answer of the user. For each problem: load the skill now and redo its checks, ask the gate, or log the skip as a `Q-` decision with the reason. Do not go on while it fails. If the project has the plan check hook of `customize-yak`, the agent also runs it at the end of each turn.
+- **At a gate**: stop. Show a short summary, the evidence (diff, test output), and the options, the recommended one first. Also offer "do not ask me this again". Wait. Log the answer as a `Q-` entry with "Chosen by: user", and write its id in the Answer cell of the gate. Only an answer of the user fills that cell.
 - **Dynamic gate**: before `unattended-run` answers a question or takes an action alone, check it against the gate rules. If it matches, add a row `G-NN (dynamic)` to the plan, stop and ask. Do not guess to keep the run going.
 - **Between gates**: send the status line of `unattended-run` at each phase end, so the user can interrupt. A turn ends only at a gate or at the end point: wait for subagents, test runs and builds in the same turn (`unattended-run`, step 4).
 

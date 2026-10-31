@@ -123,7 +123,7 @@ Then start a session and say "set up YesYak". The links only make the skills vis
 
 Every other decision the agent takes alone, and logs with its reason in the pull request. Your profile lives in `.agents/yesyak.json` (`customize-yak` asks for it on the first setup). Say a rule in the chat, for example "always ask me before you change output that users already get", and it goes to the file. At the end of each run the retrospective counts your answers per kind of gate and proposes profile changes, for example to drop a gate you always approve. A change that gives the agent more freedom needs your explicit yes.
 
-**Checked, not only asked.** At each phase end `yak-pilot` runs a plan check script: a required step missing from the plan, a step done without loading its skill, or a gate passed without your answer stops the run. If your agent has hooks, `customize-yak` can install the check as a hook, so the agent runs it at the end of every turn and the model cannot skip it (examples for Claude Code, Codex and OpenCode). If your agent has subagents, each phase runs in a fresh one, and the main session keeps only the plan and the gates. Without hooks or subagents, the process is the same, and the check runs from the skill.
+**Checked, not only asked.** At each phase end `yak-pilot` runs a plan check script: a required step missing from the plan, a step done without loading its skill, or a gate passed without your answer stops the run. If your agent has hooks, `customize-yak` can install the check as a hook, so the agent runs it at the end of every turn and the model cannot skip it (examples for Claude Code, Codex and OpenCode). Without hooks, the process is the same, and the check runs from the skill.
 
 ## Use cases
 

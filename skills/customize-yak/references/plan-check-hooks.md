@@ -34,7 +34,7 @@ Codex, in `.codex/hooks.json`. Codex runs a project hook only after the user tru
 
 ## An agent with a hook before a tool call (for example OpenCode)
 
-Block a commit or a push while the check fails. OpenCode 2, in `.opencode/plugins/yesyak-plan-check.js` (OpenCode 1 used another plugin shape):
+Block a commit or a push while the check fails. OpenCode 2, in `.opencode/plugins/yesyak-plan-check.js` (OpenCode 1 used another plugin shape). OpenCode loads plugins when it starts: tell the user to restart it after you write the file.
 
 ```js
 import { spawnSync } from "node:child_process"

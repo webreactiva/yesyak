@@ -47,6 +47,8 @@ Last update: run 0038, YesYak v0.5.1.
 | 0036 | OpenCode, deepseek-v4.1-flash | bug, yak-pilot (issue #4) | fix, plan with 2 gates | complete | Every fix-route step in the plan; done in 6 minutes |
 | 0037 | OpenCode, minimax-m2.7 | same task as 0035, path fixed | feature, plan gate | PR body | The map was read, yet the plan still left out red team, triage, guide and retrospective; the example table is now complete |
 | 0038 | OpenCode, glm-5.3-flash | same task as 0035, v0.5.1 | feature, API gate + plan gate | 6 Retrospective | Every route step in the plan and in the run; saw the existing timer and the evaluation order; two red teams with real defects |
+| 0039 | OpenCode, deepseek-v4.1-flash | tenacity #644, skills of main (A of pair 1, enforced A/B) | feature, plan gate + spec gate | 6 Retrospective | Every skill loaded; the Loaded column stopped after the spec challenge |
+| 0040 | OpenCode, deepseek-v4.1-flash | same task, enforced mode (PR #20) (B of pair 1) | feature, plan gate + 3 answer gates | 6 Retrospective | Every skill loaded and recorded; plan check ok; no subagent per phase |
 
 ## Skills used, in order
 
@@ -91,6 +93,8 @@ Last update: run 0038, YesYak v0.5.1.
 | 0036-gohumanize-year-pilot | customize-yak (2) → git-commit-organizer (4) → yak-pilot (5) → bug-intake (6) → unattended-run (6) → write-visual-pr (6) → session-retrospective-rules (6) |
 | 0037-icecream-timing-pilot2 | customize-yak (2) → yak-pilot (5) → write-acceptance-spec (6) → execute-plan-loop (7) → verify-against-spec (7) → write-visual-pr (7) |
 | 0038-icecream-timing-glm | customize-yak (2) → on-the-spot (2) → yak-pilot (5) → feature-delivery-pipeline (6) → unattended-run (6) → conventions (6) → domain-language (6) → write-acceptance-spec (6) → red-team-review (6) → walking-skeleton-plan (6) → execute-plan-loop (6) → verify-against-spec (6) → triage-findings-list (6) → write-visual-pr (6) → pr-reviewer-guide (6) → session-retrospective-rules (6) |
+| 0039-tenacity-logging-a | customize-yak (2) → git-commit-organizer (4) → ask-yak* (4) → yak-pilot (5) → feature-delivery-pipeline (6) → unattended-run (7) → on-the-spot (7) → domain-language (7) → simplified-technical-language (7) → no-slop-code (7) → scratchpad-working-files (7) → write-acceptance-spec (7) → plain-visual-docs (7) → traffic-light-findings (7) → red-team-review (7) → walking-skeleton-plan (8) → execute-plan-loop (8) → verify-against-spec (8) → triage-findings-list (8) → write-visual-pr (8) → pr-reviewer-guide (8) → session-retrospective-rules (8) |
+| 0040-tenacity-logging-b | customize-yak (2) → yak-pilot (6) → scratchpad-working-files (7) → git-commit-organizer (7) → unattended-run (7) → feature-delivery-pipeline (8) → simplified-technical-language (8) → no-slop-code (8) → domain-language (8) → plain-visual-docs (8) → write-acceptance-spec (8) → red-team-review (8) → traffic-light-findings (8) → walking-skeleton-plan (8) → execute-plan-loop (8) → verify-against-spec (8) → triage-findings-list (8) → write-visual-pr (8) → pr-reviewer-guide (8) → session-retrospective-rules (8) |
 
 ## The usual order
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests of check_plan.py on sample plans. Run: python3 test_check_plan.py"""
+"""Tests of check_plan.py on sample plans. Run: python3 tests/test_check_plan.py"""
 
 import json
 import subprocess
@@ -8,10 +8,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent))
+SCRIPTS = Path(__file__).resolve().parent.parent / "skills" / "yak-pilot" / "scripts"
+sys.path.insert(0, str(SCRIPTS))
 import check_plan  # noqa: E402
 
-SCRIPT = Path(__file__).parent / "check_plan.py"
+SCRIPT = SCRIPTS / "check_plan.py"
 ROWS = [
     ("Domain language", "domain-language"), ("Spec", "write-acceptance-spec"), ("Spec challenge", "red-team-review"),
     ("Plan", "walking-skeleton-plan"), ("Build", "execute-plan-loop"), ("Verification", "verify-against-spec"),

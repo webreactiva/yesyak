@@ -13,7 +13,7 @@ YesYak must work for any developer, in any project, with any stack and any agent
 
 ## What this repository is
 
-YesYak is a set of agent skills (open SKILL.md format), not an application. There is no build and no test suite. Each skill is `skills/<name>/SKILL.md`, with optional `references/` and `scripts/`. Other projects use the skills through `install.sh`, which symlinks every skill folder into the project's `.claude/skills/` or `.agents/skills/`. An edit here reaches every linked project at once.
+YesYak is a set of agent skills (open SKILL.md format), not an application. There is no build. The only tests are in `tests/`, outside the skills, so `install.sh` never links them. Each skill is `skills/<name>/SKILL.md`, with optional `references/` and `scripts/`. Other projects use the skills through `install.sh`, which symlinks every skill folder into the project's `.claude/skills/` or `.agents/skills/`. An edit here reaches every linked project at once.
 
 ## Commands
 
@@ -21,6 +21,7 @@ YesYak is a set of agent skills (open SKILL.md format), not an application. Ther
 python3 skills/ask-yak/scripts/check_yesyak.py --dev   # run after every skill change; must exit 0
 ./install.sh -h                                          # install, list or remove the skills in another project
 python3 skills/feature-walkthrough/scripts/check_walkthrough.py <walkthrough.md> <commit>
+python3 tests/test_check_plan.py                         # run after a change to yak-pilot/scripts/check_plan.py
 ```
 
 `check_yesyak.py` finds the skills folder from its own resolved path, so it also works through the symlinks.

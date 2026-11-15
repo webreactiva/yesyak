@@ -24,6 +24,8 @@ Read before you ask. Show what you detected in one table and do not ask for it a
 
 Use commands that only check. A script that fixes files in place is not a check. Run the full check once on the default branch and write down the failures that are already there, so later steps compare against them. If a command chains several steps (for example `a && b`) and one step already fails, the steps after it never run. Run each step on its own.
 
+The skills folders are inside the project tree. If a check tool sweeps the whole tree (for example a test runner that collects every file, or a linter with no file list), it also checks the scripts of the skills. When a failure comes from a file in a skills folder, the preview excludes the skills folders in that tool's own config: installing YesYak must not make a check fail.
+
 Stop and ask if the markers are broken: a start without an end, two blocks, or a marker inside a code fence. Change no file until the user says how to fix it.
 
 If the agent reads its own file and that file does not import AGENTS.md (for example `@AGENTS.md` in CLAUDE.md), every preview adds the import, also in an audit. The preview also creates AGENTS.md if it is missing. Say why before the preview. A new AGENTS.md also points to the file that holds the project's rules, outside the block (for example "Project rules: read CLAUDE.md first"): an agent that reads only AGENTS.md would lose them, such as a command the project forbids. If the agent cannot import files, put the block in its own file.
@@ -49,7 +51,7 @@ Ask with the `on-the-spot` rules: rounds of up to four questions, the recommende
 2. What must the agent always ask you? Recommend the default entries (push, publish or merge; open a browser; apply a retrospective guard), all of them, and let the user add or remove.
 3. Anything it must never do? For example deploy, or write outside the repository.
 
-Write each answer in the user's words, as a plain sentence: do not shorten, merge or reword an entry. A hard limit goes in the file, never only in the chat. A change that removes an `always ask` entry or moves to a preset with fewer gates widens what the agent does alone: write it only after a yes that names the change.
+Write each answer in the user's words, as a plain sentence: do not shorten, merge or reword an entry. A change that removes an `always ask` entry or moves to a preset with fewer gates widens what the agent does alone: write it only after a yes that names the change.
 
 ### Plan check hook
 
@@ -82,6 +84,7 @@ AGENTS.md: write only between the markers. Every byte outside them stays the sam
 - At the start of a session and after a compaction, run `python3` with the `scripts/check_yesyak.py` of the `ask-yak` skill, from the project root. If it exits with 0, apply each `active:` line it prints when you use that skill: `add` adds the instruction, `replace` uses the instruction in place of the named section, `off` skips the skill unless the user asks for it by name. If it fails or cannot run, tell the user and use the skills as written. When you brief a subagent, include the `active:` lines of the skills it uses.
 - Adjusted skills: verify-against-spec (add), work-items-breakdown (off)
 - A feature request or a bug report starts `yak-pilot`, whatever the size. It plans the skills and the stops; ask the user before you leave out a step of its plan.
+- A rule about when to ask the user or what never to do goes to the pilot profile through `customize-yak`, not only to AGENTS.md or the chat.
 - One branch per piece of work: `feat/<slug>` for a feature, `fix/<slug>` for a bug.
 - Temporary files, reports and scratch data go in `.scratchpad/<slug>/` (gitignored).
 - Documentation in <detected language>, written in simplified technical language.
